@@ -1,1 +1,49 @@
-/* You can add global styles to this file, and also import other style files */
+@import url("https://fonts.googleapis.com/css2?family=Comfortaa&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body {
+  @apply w-screen h-screen m-0 p-0 box-border;
+  background-image: repeating-linear-gradient(
+      90deg,
+      hsla(78, 0%, 63%, 0.05) 0px,
+      hsla(78, 0%, 63%, 0.05) 1px,
+      transparent 1px,
+      transparent 104px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      hsla(78, 0%, 63%, 0.05) 0px,
+      hsla(78, 0%, 63%, 0.05) 1px,
+      transparent 1px,
+      transparent 104px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      rgba(0, 116, 168, 0.08) 0px,
+      rgba(0, 116, 168, 0.08) 1px,
+      transparent 1px,
+      transparent 26px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      rgba(0, 116, 168, 0.08) 0px,
+      rgba(0, 116, 168, 0.08) 1px,
+      transparent 1px,
+      transparent 26px
+    ),
+    linear-gradient(45deg, rgb(255, 255, 255), rgb(255, 255, 255));
+}
+
+app-root {
+  @apply w-full h-full flex overflow-x-hidden overflow-y-auto;
+}
+
+@layer components {
+  .card {
+    @apply w-fit h-fit p-4 bg-stone-50 rounded-md border-slate-200 shadow-md;
+  }
+}
