@@ -4,49 +4,51 @@
 @tailwind components;
 @tailwind utilities;
 
-html,
-body {
-  @apply w-screen h-screen m-0 p-0 box-border;
-  background-image: repeating-linear-gradient(
-      90deg,
-      hsla(78, 0%, 63%, 0.05) 0px,
-      hsla(78, 0%, 63%, 0.05) 1px,
-      transparent 1px,
-      transparent 104px
-    ),
-    repeating-linear-gradient(
-      0deg,
-      hsla(78, 0%, 63%, 0.05) 0px,
-      hsla(78, 0%, 63%, 0.05) 1px,
-      transparent 1px,
-      transparent 104px
-    ),
-    repeating-linear-gradient(
-      0deg,
-      rgba(0, 155, 226, 0.04) 0px,
-      rgba(0, 155, 226, 0.04) 1px,
-      transparent 1px,
-      transparent 26px
-    ),
-    repeating-linear-gradient(
-      90deg,
-      rgba(0, 155, 226, 0.04) 0px,
-      rgba(0, 154, 226, 0.04) 1px,
-      transparent 1px,
-      transparent 26px
-    ),
-    linear-gradient(45deg, rgb(255, 255, 255), rgb(255, 255, 255));
+@layer base {
+  html,
+  body {
+    @apply w-screen h-screen m-0 p-0 box-border;
+    background-image: repeating-linear-gradient(
+        90deg,
+        hsla(78, 0%, 63%, 0.05) 0px,
+        hsla(78, 0%, 63%, 0.05) 1px,
+        transparent 1px,
+        transparent 104px
+      ),
+      repeating-linear-gradient(
+        0deg,
+        hsla(78, 0%, 63%, 0.05) 0px,
+        hsla(78, 0%, 63%, 0.05) 1px,
+        transparent 1px,
+        transparent 104px
+      ),
+      repeating-linear-gradient(
+        0deg,
+        rgba(0, 155, 226, 0.04) 0px,
+        rgba(0, 155, 226, 0.04) 1px,
+        transparent 1px,
+        transparent 26px
+      ),
+      repeating-linear-gradient(
+        90deg,
+        rgba(0, 155, 226, 0.04) 0px,
+        rgba(0, 154, 226, 0.04) 1px,
+        transparent 1px,
+        transparent 26px
+      ),
+      linear-gradient(45deg, rgb(255, 255, 255), rgb(255, 255, 255));
+  }
+
+  a {
+    @apply relative text-blue-700 no-underline font-medium
+    before:absolute before:w-full before:h-1 before:rounded before:bg-blue-400 before:left-0 before:-bottom-0.5 
+    before:origin-left before:scale-x-0 before:transition before:duration-500 before:ease-in-out
+    hover:before:scale-x-100;
+  }
 }
 
 app-root {
   @apply w-full h-full flex overflow-x-hidden overflow-y-auto;
-}
-
-a {
-  @apply relative text-blue-700 no-underline font-medium
-  before:absolute before:w-full before:h-1 before:rounded before:bg-blue-600 before:left-0 before:-bottom-0.5 
-  before:origin-left before:scale-0 before:transition before:duration-300 before:ease-in-out
-  hover:before:scale-100;
 }
 
 @layer components {
@@ -76,5 +78,9 @@ a {
   .btn-success {
     @apply bg-lime-500 text-blue-50 text-base font-semibold px-5 py-2 rounded shadow-md shadow-lime-500/50
      hover:bg-lime-600 focus:outline-none active:translate-y-0.5 active:shadow-none;
+  }
+
+  .step {
+    @apply flex items-center justify-center pt-0.5 bg-blue-600 text-white text-base font-medium h-6 w-6 rounded-full;
   }
 }
