@@ -8,14 +8,17 @@
     />
     <h4 class="text-lg text-zinc-400 font-semibold mt-14">
       Fbook helps you always stay connected with your
-      <span
-        class="inline-block uppercase py-1 px-2 text-white font-semibold -skew-y-2 bg-gradient-to-r from-sky-300 to-blue-400"
-        >friends</span
-      >
+      <span class="relative mx-1">
+        <span
+          class="block absolute -inset-1 -skew-y-2 bg-gradient-to-r from-sky-300 to-blue-400"
+          aria-hidden="true"
+        ></span>
+        <span class="relative text-white">friends</span>
+      </span>
       around the world
     </h4>
   </div>
   <div class="flex items-center justify-center w-1/2 h-full">
-    <div class="card">Login information</div>
+    <router-outlet></router-outlet>
   </div>
 </div>

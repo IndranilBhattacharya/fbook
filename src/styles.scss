@@ -23,15 +23,15 @@ body {
     ),
     repeating-linear-gradient(
       0deg,
-      rgba(0, 116, 168, 0.08) 0px,
-      rgba(0, 116, 168, 0.08) 1px,
+      rgba(0, 155, 226, 0.04) 0px,
+      rgba(0, 155, 226, 0.04) 1px,
       transparent 1px,
       transparent 26px
     ),
     repeating-linear-gradient(
       90deg,
-      rgba(0, 116, 168, 0.08) 0px,
-      rgba(0, 116, 168, 0.08) 1px,
+      rgba(0, 155, 226, 0.04) 0px,
+      rgba(0, 154, 226, 0.04) 1px,
       transparent 1px,
       transparent 26px
     ),
@@ -42,8 +42,39 @@ app-root {
   @apply w-full h-full flex overflow-x-hidden overflow-y-auto;
 }
 
+a {
+  @apply relative text-blue-700 no-underline font-medium
+  before:absolute before:w-full before:h-1 before:rounded before:bg-blue-600 before:left-0 before:-bottom-0.5 
+  before:origin-left before:scale-0 before:transition before:duration-300 before:ease-in-out
+  hover:before:scale-100;
+}
+
 @layer components {
   .card {
-    @apply w-fit h-fit p-4 bg-stone-50 rounded-md border-slate-200 shadow-md;
+    @apply w-fit h-fit px-5 py-8 bg-slate-50 rounded-md border border-slate-200 shadow-md;
+  }
+
+  .text-input {
+    @apply mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400
+      focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
+      disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none;
+  }
+
+  .input-invalid {
+    @apply border-pink-500 text-pink-600 focus:border-pink-500 focus:ring-pink-500;
+  }
+
+  .invalid-msg {
+    @apply mt-2 text-pink-600 text-sm;
+  }
+
+  .btn-primary {
+    @apply bg-blue-500 text-blue-50 text-base font-semibold px-5 py-2 rounded shadow-md shadow-blue-500/50
+     hover:bg-blue-600 focus:outline-none active:translate-y-0.5 active:shadow-none;
+  }
+
+  .btn-success {
+    @apply bg-lime-500 text-blue-50 text-base font-semibold px-5 py-2 rounded shadow-md shadow-lime-500/50
+     hover:bg-lime-600 focus:outline-none active:translate-y-0.5 active:shadow-none;
   }
 }

@@ -1,1 +1,270 @@
-<p>register works!</p>
+<div class="card w-full">
+  <h2 class="text-zinc-400 font-semibold mb-6">
+    Register for <span class="font-extrabold text-sky-600">fbook</span>
+  </h2>
+  <form
+    class="flex flex-col gap-3"
+    (ngSubmit)="onRegister()"
+    [formGroup]="registrationGroup"
+  >
+    <div class="flex w-full gap-4">
+      <label class="block w-1/2">
+        <span class="block text-sm font-medium text-slate-700">First Name</span>
+        <input
+          type="email"
+          class="text-input"
+          formControlName="firstName"
+          [ngClass]="{
+            'input-invalid':
+              (isSubmitted || registrationGroupControls['firstName'].touched) &&
+              registrationGroupControls['firstName'].invalid
+          }"
+        />
+        <div
+          *ngIf="
+            (isSubmitted || registrationGroupControls['firstName'].touched) &&
+            registrationGroupControls['firstName'].invalid
+          "
+        >
+          <p
+            *ngIf="
+              registrationGroupControls['firstName'].errors &&
+              registrationGroupControls['firstName'].errors['required']
+            "
+            class="invalid-msg"
+          >
+            First Name is required
+          </p>
+          <p
+            *ngIf="
+              registrationGroupControls['firstName'].errors &&
+              registrationGroupControls['firstName'].errors['pattern']
+            "
+            class="invalid-msg"
+          >
+            Please provide a valid First Name
+          </p>
+        </div>
+      </label>
+      <label class="block w-1/2">
+        <span class="block text-sm font-medium text-slate-700">Last Name</span>
+        <input
+          type="email"
+          class="text-input"
+          formControlName="lastName"
+          [ngClass]="{
+            'input-invalid':
+              (isSubmitted || registrationGroupControls['lastName'].touched) &&
+              registrationGroupControls['lastName'].invalid
+          }"
+        />
+        <div
+          *ngIf="
+            (isSubmitted || registrationGroupControls['lastName'].touched) &&
+            registrationGroupControls['lastName'].invalid
+          "
+        >
+          <p
+            *ngIf="
+              registrationGroupControls['lastName'].errors &&
+              registrationGroupControls['lastName'].errors['required']
+            "
+            class="invalid-msg"
+          >
+            Last Name is required
+          </p>
+          <p
+            *ngIf="
+              registrationGroupControls['lastName'].errors &&
+              registrationGroupControls['lastName'].errors['pattern']
+            "
+            class="invalid-msg"
+          >
+            Please provide a valid Last Name
+          </p>
+        </div>
+      </label>
+    </div>
+    <label class="block">
+      <span class="block text-sm font-medium text-slate-700">Email</span>
+      <input
+        type="email"
+        class="text-input"
+        formControlName="email"
+        [ngClass]="{
+          'input-invalid':
+            (isSubmitted || registrationGroupControls['email'].touched) &&
+            registrationGroupControls['email'].invalid
+        }"
+      />
+      <div
+        *ngIf="
+          (isSubmitted || registrationGroupControls['email'].touched) &&
+          registrationGroupControls['email'].invalid
+        "
+      >
+        <p
+          *ngIf="
+            registrationGroupControls['email'].errors &&
+            registrationGroupControls['email'].errors['required']
+          "
+          class="invalid-msg"
+        >
+          Email is required
+        </p>
+        <p
+          *ngIf="
+            registrationGroupControls['email'].errors &&
+            registrationGroupControls['email'].errors['email']
+          "
+          class="invalid-msg"
+        >
+          Please provide a valid email address, e.g., john@example.com
+        </p>
+      </div>
+    </label>
+    <div class="flex w-full gap-4">
+      <label class="block w-1/2">
+        <span class="block text-sm font-medium text-slate-700"
+          >Date of birth</span
+        >
+        <input
+          type="date"
+          class="text-input"
+          formControlName="dob"
+          [ngClass]="{
+            'input-invalid':
+              (isSubmitted || registrationGroupControls['dob'].touched) &&
+              registrationGroupControls['dob'].invalid
+          }"
+        />
+        <div
+          *ngIf="
+            (isSubmitted || registrationGroupControls['dob'].touched) &&
+            registrationGroupControls['dob'].invalid
+          "
+        >
+          <p
+            *ngIf="
+              registrationGroupControls['dob'].errors &&
+              registrationGroupControls['dob'].errors['required']
+            "
+            class="invalid-msg"
+          >
+            Date of birth is required
+          </p>
+        </div>
+      </label>
+      <label class="block w-1/2">
+        <span class="block text-sm font-medium text-slate-700">Gender</span>
+        <div class="flex gap-4 w-full items-center py-2 mt-1">
+          <div class="flex items-center gap-1">
+            <input
+              type="radio"
+              class="mb-0.5"
+              formControlName="gender"
+              value="Male"
+              id="male"
+              [ngClass]="{
+                'input-invalid':
+                  (isSubmitted ||
+                    registrationGroupControls['gender'].touched) &&
+                  registrationGroupControls['gender'].invalid
+              }"
+            />
+            <label for="male">Male</label>
+          </div>
+          <div class="flex items-center gap-1">
+            <input
+              type="radio"
+              class="mb-0.5"
+              formControlName="gender"
+              value="Female"
+              id="female"
+              [ngClass]="{
+                'input-invalid':
+                  (isSubmitted ||
+                    registrationGroupControls['gender'].touched) &&
+                  registrationGroupControls['gender'].invalid
+              }"
+            />
+            <label for="female">Female</label>
+          </div>
+          <div class="flex items-center gap-1">
+            <input
+              type="radio"
+              class="mb-0.5"
+              formControlName="gender"
+              value="Other"
+              id="other_gender"
+              [ngClass]="{
+                'input-invalid':
+                  (isSubmitted ||
+                    registrationGroupControls['gender'].touched) &&
+                  registrationGroupControls['gender'].invalid
+              }"
+            />
+            <label for="other_gender">Others</label>
+          </div>
+        </div>
+        <div
+          *ngIf="
+            (isSubmitted || registrationGroupControls['gender'].touched) &&
+            registrationGroupControls['gender'].invalid
+          "
+        >
+          <p
+            *ngIf="
+              registrationGroupControls['gender'].errors &&
+              registrationGroupControls['gender'].errors['required']
+            "
+            class="invalid-msg"
+          >
+            Gender is required
+          </p>
+        </div>
+      </label>
+    </div>
+    <label class="block">
+      <span class="block text-sm font-medium text-slate-700">Password</span>
+      <input
+        type="password"
+        class="text-input"
+        formControlName="password"
+        [ngClass]="{
+          'input-invalid':
+            (isSubmitted || registrationGroupControls['password'].touched) &&
+            registrationGroupControls['password'].invalid
+        }"
+      />
+      <div
+        *ngIf="
+          (isSubmitted || registrationGroupControls['password'].touched) &&
+          registrationGroupControls['password'].invalid
+        "
+      >
+        <p
+          *ngIf="
+            registrationGroupControls['password'].errors &&
+            registrationGroupControls['password'].errors['required']
+          "
+          class="invalid-msg"
+        >
+          Password is required
+        </p>
+        <p
+          *ngIf="
+            registrationGroupControls['password'].errors &&
+            registrationGroupControls['password'].errors['minlength']
+          "
+          class="invalid-msg"
+        >
+          Password must be at least 6 characters
+        </p>
+      </div>
+    </label>
+    <div class="w-full flex flex-col justify-center items-center pt-3 pb-3">
+      <button class="btn-primary w-5/12">Sign Up</button>
+    </div>
+  </form>
+</div>

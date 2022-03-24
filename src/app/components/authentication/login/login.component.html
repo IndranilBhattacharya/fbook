@@ -1,1 +1,100 @@
-<p>login works!</p>
+<div class="card w-full">
+  <h2 class="text-zinc-400 font-semibold mb-6">
+    Welcome to <span class="font-extrabold text-sky-600">fbook</span>
+  </h2>
+  <form
+    class="flex flex-col gap-3"
+    (ngSubmit)="onAuthenticate()"
+    [formGroup]="authenticationGroup"
+  >
+    <label class="block">
+      <span class="block text-sm font-medium text-slate-700">Email</span>
+      <input
+        type="email"
+        class="text-input"
+        formControlName="email"
+        [ngClass]="{
+          'input-invalid':
+            (isSubmitted || authenticationGroupControls['email'].touched) &&
+            authenticationGroupControls['email'].invalid
+        }"
+      />
+      <div
+        *ngIf="
+          (isSubmitted || authenticationGroupControls['email'].touched) &&
+          authenticationGroupControls['email'].invalid
+        "
+      >
+        <p
+          *ngIf="
+            authenticationGroupControls['email'].errors &&
+            authenticationGroupControls['email'].errors['required']
+          "
+          class="invalid-msg"
+        >
+          Email is required
+        </p>
+        <p
+          *ngIf="
+            authenticationGroupControls['email'].errors &&
+            authenticationGroupControls['email'].errors['email']
+          "
+          class="invalid-msg"
+        >
+          Please provide a valid email address, e.g., john@example.com
+        </p>
+      </div>
+    </label>
+    <label class="block">
+      <span class="block text-sm font-medium text-slate-700">Password</span>
+      <input
+        type="password"
+        class="text-input"
+        formControlName="password"
+        [ngClass]="{
+          'input-invalid':
+            (isSubmitted || authenticationGroupControls['password'].touched) &&
+            authenticationGroupControls['password'].invalid
+        }"
+      />
+      <div
+        *ngIf="
+          (isSubmitted || authenticationGroupControls['password'].touched) &&
+          authenticationGroupControls['password'].invalid
+        "
+      >
+        <p
+          *ngIf="
+            authenticationGroupControls['password'].errors &&
+            authenticationGroupControls['password'].errors['required']
+          "
+          class="invalid-msg"
+        >
+          Password is required
+        </p>
+        <p
+          *ngIf="
+            authenticationGroupControls['password'].errors &&
+            authenticationGroupControls['password'].errors['minlength']
+          "
+          class="invalid-msg"
+        >
+          Password must be at least 6 characters
+        </p>
+      </div>
+    </label>
+    <div
+      class="w-full flex flex-col justify-center items-center divide-y divide-neutral-200"
+    >
+      <div class="w-full flex flex-col items-center pt-3 pb-3 gap-4">
+        <button class="btn-primary w-5/12">Log In</button>
+        <a href="">Forgotten password?</a>
+      </div>
+      <div class="w-full text-center pt-4">
+        <button type="button" (click)="onRegister()" class="btn-success w-5/12">
+          Register for fbook
+        </button>
+      </div>
+    </div>
+  </form>
+</div>
