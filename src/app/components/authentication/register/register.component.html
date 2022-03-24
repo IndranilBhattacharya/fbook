@@ -123,7 +123,7 @@
         </p>
       </div>
     </label>
-    <div class="flex w-full gap-4">
+    <div class="flex w-full gap-4 mt-10">
       <label class="block w-1/2">
         <span class="block text-sm font-medium text-slate-700"
           >Date of birth</span
@@ -157,7 +157,7 @@
       </label>
       <label class="block w-1/2">
         <span class="block text-sm font-medium text-slate-700">Gender</span>
-        <div class="flex gap-4 w-full items-center py-2 mt-1">
+        <div class="flex w-full items-center justify-between py-2 mt-1">
           <div class="flex items-center gap-1">
             <input
               type="radio"
@@ -195,7 +195,7 @@
               type="radio"
               class="mb-0.5"
               formControlName="gender"
-              value="Other"
+              value="NA"
               id="other_gender"
               [ngClass]="{
                 'input-invalid':
@@ -204,7 +204,7 @@
                   registrationGroupControls['gender'].invalid
               }"
             />
-            <label for="other_gender">Others</label>
+            <label for="other_gender" class="text-gray-400">Skip</label>
           </div>
         </div>
         <div
