@@ -1,15 +1,20 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { panIn } from 'src/app/animations/pan-in.animation';
+import { panOut } from 'src/app/animations/pan-out.animation';
 
 @Component({
   selector: 'app-reset-password',
   templateUrl: './reset-password.component.html',
   styleUrls: ['./reset-password.component.scss'],
+  animations: [panIn, panOut],
 })
 export class ResetPasswordComponent {
   isAlive: boolean = true;
-  isSubmitted: boolean = false;
+  is1stStepSubmitted: boolean = false;
+  is2ndStepSubmitted: boolean = false;
+  isVerified: boolean = false;
   verificationGroup: FormGroup = this.formBuilder.group({
     email: ['', [Validators.required, Validators.email]],
     dob: ['', Validators.required],
@@ -35,7 +40,12 @@ export class ResetPasswordComponent {
   }
 
   onVerify() {
-    this.isSubmitted = true;
+    this.is1stStepSubmitted = true;
+    this.isVerified = true;
+  }
+
+  onPasswordReset() {
+    this.is2ndStepSubmitted = true;
     //this.router.navigateByUrl('/auth/login');
   }
 }
