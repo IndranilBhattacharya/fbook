@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
@@ -15,10 +15,11 @@ import { AuthenticationService } from '../../../services/authentication.service'
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss'],
 })
-export class RegisterComponent implements OnDestroy {
+export class RegisterComponent implements OnInit, OnDestroy {
   isAlive: boolean = true;
   isSubmitted: boolean = false;
   showSpinner: boolean = false;
+  maxDob: Date = new Date();
 
   registrationGroup: FormGroup = this.formBuilder.group({
     firstName: ['', [Validators.required, Validators.pattern('[a-zA-Z]*')]],
@@ -37,12 +38,16 @@ export class RegisterComponent implements OnDestroy {
     private _authService: AuthenticationService
   ) {}
 
-  get registrationGroupControls() {
-    return this.registrationGroup.controls;
+  ngOnInit(): void {
+    this.maxDob.setFullYear(this.maxDob.getFullYear() - 18);
   }
 
   ngOnDestroy(): void {
     this.isAlive = false;
+  }
+
+  get registrationGroupControls() {
+    return this.registrationGroup.controls;
   }
 
   onRegister() {
