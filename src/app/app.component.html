@@ -1,1 +1,12 @@
 <router-outlet></router-outlet>
+<lib-toastify-toast-container
+  [position]="(toastposition$ | async) ?? 'top-right'"
+  [transition]="(toasttransition$ | async) ?? 'bounce'"
+  [autoClose]="(toastautoClose$ | async) ?? 4000"
+  [hideProgressBar]="(toasthideProgressBar$ | async) ?? false"
+  [newestOnTop]="(toastnewestOnTop$ | async) ?? false"
+  [closeOnClick]="(toastcloseOnClick$ | async) ?? true"
+  [pauseOnHover]="(toastpauseOnHover$ | async) ?? true"
+  [pauseOnVisibilityChange]="(toastpauseOnVisibilityChange$ | async) ?? true"
+  [iconLibrary]="(toasticonLibrary$ | async) ?? 'font-awesome'"
+></lib-toastify-toast-container>

@@ -264,7 +264,10 @@
       </div>
     </label>
     <div class="w-full flex flex-col justify-center items-center pt-3 pb-3">
-      <button class="btn-primary w-5/12">Sign Up</button>
+      <button class="btn-primary w-5/12">
+        <div class="spinner-light" *ngIf="showSpinner"></div>
+        Sign Up
+      </button>
     </div>
   </form>
 </div>

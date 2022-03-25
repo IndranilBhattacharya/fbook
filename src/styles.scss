@@ -71,16 +71,41 @@ app-root {
   }
 
   .btn-primary {
-    @apply bg-blue-500 text-blue-50 text-base font-semibold px-5 py-2 rounded shadow-md shadow-blue-500/50
+    @apply flex justify-center items-center bg-blue-500 text-blue-50 text-base font-semibold px-5 py-2 rounded shadow-md shadow-blue-500/50
      hover:bg-blue-600 focus:outline-none active:translate-y-0.5 active:shadow-none;
   }
 
   .btn-success {
-    @apply bg-lime-500 text-blue-50 text-base font-semibold px-5 py-2 rounded shadow-md shadow-lime-500/50
+    @apply flex justify-center items-center bg-lime-500 text-blue-50 text-base font-semibold px-5 py-2 rounded shadow-md shadow-lime-500/50
      hover:bg-lime-600 focus:outline-none active:translate-y-0.5 active:shadow-none;
   }
 
   .step {
     @apply flex items-center justify-center p-1 text-white text-base font-medium h-fit w-fit rounded-full shadow-md shadow-blue-400/30;
+  }
+
+  @mixin spinner-block {
+    @apply inline-block w-fit h-fit pb-1;
+  }
+
+  @mixin spinner-pseudo {
+    @apply content-[''] block w-6 h-6 mx-2 rounded-full animate-spin border-2 border-solid border-x-transparent;
+  }
+
+  .spinner-light {
+    @include spinner-block;
+    &::after {
+      @include spinner-pseudo;
+      @apply border-y-slate-200;
+    }
+  }
+
+  .spinner-dark {
+    @include spinner-block;
+
+    &::after {
+      @include spinner-pseudo;
+      @apply border-y-blue-500;
+    }
   }
 }

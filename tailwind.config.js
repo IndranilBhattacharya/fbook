@@ -15,6 +15,9 @@ module.exports = {
       fontFamily: {
         sans: ["Comfortaa", ...defaultTheme.fontFamily.sans],
       },
+      rotate: {
+        360: "360deg",
+      },
     },
   },
   plugins: [],

@@ -4,6 +4,10 @@ import { BrowserModule } from '@angular/platform-browser';
 import { RemixIconModule } from 'angular-remix-icon';
 import { iconsConfig } from './constants/icon.config';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HttpClientModule } from '@angular/common/http';
+import { AngularToastifyModule, ToastService } from 'angular-toastify';
+import { StoreModule } from '@ngrx/store';
+import { appReducer } from './core/app.reducers';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -27,11 +31,14 @@ import { EqualValidatorDirective } from './customs/equal-validator.directive';
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    HttpClientModule,
     AppRoutingModule,
     ReactiveFormsModule,
+    StoreModule.forRoot(appReducer),
     RemixIconModule.configure(iconsConfig),
+    AngularToastifyModule,
   ],
-  providers: [],
+  providers: [ToastService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
