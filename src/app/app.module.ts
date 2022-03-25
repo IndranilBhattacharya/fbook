@@ -17,6 +17,7 @@ import { RegisterComponent } from './components/authentication/register/register
 import { HomeComponent } from './components/home/home.component';
 import { ResetPasswordComponent } from './components/authentication/reset-password/reset-password.component';
 import { EqualValidatorDirective } from './customs/equal-validator.directive';
+import { DatePipe } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,7 @@ import { EqualValidatorDirective } from './customs/equal-validator.directive';
     RemixIconModule.configure(iconsConfig),
     AngularToastifyModule,
   ],
-  providers: [ToastService],
+  providers: [ToastService, DatePipe],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

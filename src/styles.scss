@@ -81,7 +81,7 @@ app-root {
   }
 
   .step {
-    @apply flex items-center justify-center p-1 text-white text-base font-medium h-fit w-fit rounded-full shadow-md shadow-blue-400/30;
+    @apply relative flex items-center justify-center p-1 text-white text-base font-medium h-fit w-fit rounded-full shadow-md shadow-blue-400/30;
   }
 
   @mixin spinner-block {

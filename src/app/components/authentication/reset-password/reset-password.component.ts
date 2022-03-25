@@ -1,8 +1,13 @@
+import { DatePipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { panIn } from 'src/app/animations/pan-in.animation';
-import { panOut } from 'src/app/animations/pan-out.animation';
+import { catchError, takeWhile } from 'rxjs';
+import { panIn } from '../../../animations/pan-in.animation';
+import { panOut } from '../../../animations/pan-out.animation';
+import { UserDetail } from '../../../interfaces/user-detail';
+import { AuthenticationService } from '../../../services/authentication.service';
+import { UserDataService } from '../../../services/user-data.service';
 
 @Component({
   selector: 'app-reset-password',
@@ -15,17 +20,35 @@ export class ResetPasswordComponent {
   is1stStepSubmitted: boolean = false;
   is2ndStepSubmitted: boolean = false;
   isVerified: boolean = false;
+  showVerificationSpinner: boolean = false;
+  showResetSpinner: boolean = false;
+  maxDob: Date = new Date();
+  userId: string = '';
+
   verificationGroup: FormGroup = this.formBuilder.group({
     email: ['', [Validators.required, Validators.email]],
     dob: ['', Validators.required],
   });
-
   passwordGroup: FormGroup = this.formBuilder.group({
     password: ['', [Validators.required, Validators.minLength(6)]],
     confirmPassword: ['', [Validators.required, Validators.minLength(6)]],
   });
 
-  constructor(private router: Router, private formBuilder: FormBuilder) {}
+  constructor(
+    private router: Router,
+    private datePipe: DatePipe,
+    private formBuilder: FormBuilder,
+    private _userDataService: UserDataService,
+    private _authService: AuthenticationService
+  ) {}
+
+  ngOnInit(): void {
+    this.maxDob.setFullYear(this.maxDob.getFullYear() - 18);
+  }
+
+  ngOnDestroy(): void {
+    this.isAlive = false;
+  }
 
   get verificationGroupControls() {
     return this.verificationGroup.controls;
@@ -35,17 +58,81 @@ export class ResetPasswordComponent {
     return this.passwordGroup.controls;
   }
 
-  ngOnDestroy(): void {
-    this.isAlive = false;
-  }
-
   onVerify() {
     this.is1stStepSubmitted = true;
-    this.isVerified = true;
+    if (this.verificationGroup.status === 'VALID') {
+      this.showVerificationSpinner = true;
+      this._userDataService
+        .getUserByEmail(this.verificationGroupControls['email'].value)
+        .pipe(
+          takeWhile(() => this.isAlive),
+          catchError((err) => {
+            this.showVerificationSpinner = false;
+            throw err;
+          })
+        )
+        .subscribe((userData: UserDetail) => {
+          if (!userData?.email) {
+            this.isVerified = false;
+            this.showVerificationSpinner = false;
+            this.verificationGroupControls['email'].setErrors({
+              invalidEmail: true,
+            });
+          } else if (
+            this.verificationGroupControls['dob'].value ===
+            this.datePipe.transform(userData.dob, 'yyyy-MM-dd')
+          ) {
+            this.isVerified = true;
+            this.userId = userData.id;
+            const email = userData.email;
+            const password = userData.password;
+            this._authService
+              .authenticate({ email, password })
+              .pipe(
+                takeWhile(() => this.isAlive),
+                catchError((err) => {
+                  this.isVerified = false;
+                  this.showVerificationSpinner = false;
+                  throw err;
+                })
+              )
+              .subscribe((userInformation) => {
+                this.isVerified = true;
+                this.showVerificationSpinner = false;
+                localStorage.setItem('auth', userInformation.token);
+              });
+          } else {
+            this.isVerified = false;
+            this.showVerificationSpinner = false;
+            this.verificationGroupControls['dob'].setErrors({
+              invalidDob: true,
+            });
+          }
+        });
+    }
   }
 
   onPasswordReset() {
     this.is2ndStepSubmitted = true;
+    if (this.passwordGroup.status === 'VALID' && this.userId) {
+      this.showResetSpinner = true;
+      this._authService
+        .resetPassword(
+          this.userId,
+          this.passwordGroupControls['password'].value
+        )
+        .pipe(
+          takeWhile(() => this.isAlive),
+          catchError((err) => {
+            this.showResetSpinner = false;
+            throw err;
+          })
+        )
+        .subscribe((response) => {
+          this.showResetSpinner = false;
+          console.log();
+        });
+    }
     //this.router.navigateByUrl('/auth/login');
   }
 }

@@ -3,11 +3,11 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { ToastService } from 'angular-toastify';
-import { takeWhile } from 'rxjs';
-import { position } from 'src/app/core/actions/toast.actions';
-import { AppState } from 'src/app/interfaces/app-state';
-import { RegisterUser } from 'src/app/interfaces/register-user';
-import { ResponseMsg } from 'src/app/interfaces/response-msg';
+import { catchError, takeWhile } from 'rxjs';
+import { position } from '../../../core/actions/toast.actions';
+import { AppState } from '../../../interfaces/app-state';
+import { RegisterUser } from '../../../interfaces/register-user';
+import { ResponseMsg } from '../../../interfaces/response-msg';
 import { AuthenticationService } from '../../../services/authentication.service';
 
 @Component({
@@ -56,7 +56,13 @@ export class RegisterComponent implements OnInit, OnDestroy {
       this.showSpinner = true;
       this._authService
         .register(this.registrationGroup.value as RegisterUser)
-        .pipe(takeWhile(() => this.isAlive))
+        .pipe(
+          takeWhile(() => this.isAlive),
+          catchError((err) => {
+            this.showSpinner = false;
+            throw err;
+          })
+        )
         .subscribe((resMsg: ResponseMsg) => {
           this.showSpinner = false;
           if (resMsg.message?.includes('success')) {
