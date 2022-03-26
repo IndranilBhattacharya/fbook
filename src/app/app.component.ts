@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { LocalStorage } from 'ngx-webstorage';
+import { Observable, takeWhile } from 'rxjs';
+import { updateUserData } from './core/actions/auth.actions';
 import {
   toastautoClose,
   toastcloseOnClick,
@@ -13,13 +15,18 @@ import {
   toasttransition,
 } from './core/selectors/toast-param.selector';
 import { AppState } from './interfaces/app-state';
+import { UserDataService } from './services/user-data.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy {
+  @LocalStorage()
+  userId!: string;
+
+  isAlive: boolean = true;
   toastposition$!: Observable<
     'top-left' | 'top-right' | 'bottom-right' | 'bottom-left'
   >;
@@ -32,9 +39,21 @@ export class AppComponent implements OnInit {
   toastpauseOnVisibilityChange$!: Observable<boolean>;
   toasticonLibrary$!: Observable<'material' | 'font-awesome' | 'none'>;
 
-  constructor(private store: Store<AppState>) {}
+  constructor(
+    private store: Store<AppState>,
+    private _userDataService: UserDataService
+  ) {}
 
   ngOnInit(): void {
+    this.fetchToastConfig();
+    this.fetchUserDetail();
+  }
+
+  ngOnDestroy(): void {
+    this.isAlive = false;
+  }
+
+  fetchToastConfig() {
     this.toastposition$ = this.store.select(toastposition);
     this.toasttransition$ = this.store.select(toasttransition);
     this.toastautoClose$ = this.store.select(toastautoClose);
@@ -46,5 +65,14 @@ export class AppComponent implements OnInit {
       toastpauseOnVisibilityChange
     );
     this.toasticonLibrary$ = this.store.select(toasticonLibrary);
+  }
+
+  fetchUserDetail() {
+    this._userDataService
+      .getUserById(this.userId)
+      .pipe(takeWhile(() => this.isAlive))
+      .subscribe((userDetail) =>
+        this.store.dispatch(updateUserData({ val: userDetail }))
+      );
   }
 }

@@ -54,6 +54,7 @@ export class LoginComponent implements OnDestroy {
           this.showAuthSpinner = false;
           if (userInformation?.token) {
             this._localStorageService.store('authToken', userInformation.token);
+            this._localStorageService.store('userId', userInformation._id);
             this.router.navigateByUrl('/');
           } else {
             this.showInvalidToast();
