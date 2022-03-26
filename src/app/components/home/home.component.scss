@@ -3,5 +3,17 @@
 }
 
 .p-info {
-  padding-left: calc((100% - 268px) / 2) !important;
+  padding-left: calc((100% - 56px) / 2) !important;
+}
+
+@media (min-width: 768px) {
+  .p-info {
+    padding-left: calc((100% - 136px) / 2) !important;
+  }
+}
+
+@media (min-width: 1280px) {
+  .p-info {
+    padding-left: calc((100% - 268px) / 2) !important;
+  }
 }
