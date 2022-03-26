@@ -87,7 +87,10 @@
       class="w-full flex flex-col justify-center items-center divide-y divide-neutral-200"
     >
       <div class="w-full flex flex-col items-center pt-3 pb-3 gap-4">
-        <button class="btn-primary w-5/12">Log In</button>
+        <button class="btn-primary w-5/12">
+          <div class="spinner-light" *ngIf="showAuthSpinner"></div>
+          Log In
+        </button>
         <a href="#" routerLink="/auth/reset-password">Forgotten password?</a>
       </div>
       <div class="w-full flex justify-center pt-4">

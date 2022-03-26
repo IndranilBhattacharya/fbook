@@ -32,7 +32,6 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
   constructor(
     private router: Router,
-    private store: Store<AppState>,
     private formBuilder: FormBuilder,
     private _toastService: ToastService,
     private _authService: AuthenticationService
@@ -66,7 +65,6 @@ export class RegisterComponent implements OnInit, OnDestroy {
         .subscribe((resMsg: ResponseMsg) => {
           this.showSpinner = false;
           if (resMsg.message?.includes('success')) {
-            this.store.dispatch(position({ val: 'top-right' }));
             this._toastService.default('User registered successfully! 🥳');
             this.router.navigateByUrl('/auth/login');
           }

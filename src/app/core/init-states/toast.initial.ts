@@ -1,7 +1,7 @@
 import { ToastParam } from 'src/app/interfaces/toast-param';
 
 export const defaultToast = {
-  position: 'bottom-right',
+  position: 'top-right',
   transition: 'bounce',
   autoClose: 4000,
   hideProgressBar: false,
