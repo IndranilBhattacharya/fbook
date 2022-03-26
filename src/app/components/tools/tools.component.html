@@ -12,6 +12,18 @@
   <a
     href="#"
     class="group nav-link"
+    routerLink="/my-posts"
+    routerLinkActive="active-link"
+  >
+    <rmx-icon
+      class="inline-block group-hover:hidden"
+      name="home-line"
+    ></rmx-icon>
+    <span class="hidden group-hover:inline-block">Home</span>
+  </a>
+  <a
+    href="#"
+    class="group nav-link"
     routerLink="/my-friends"
     routerLinkActive="active-link"
   >
@@ -45,6 +57,7 @@
     ></rmx-icon>
     <span class="hidden group-hover:inline-block">Settings</span>
   </a>
+  <div class="w-full"></div>
   <button class="logout" (click)="onLogOut()">
     <rmx-icon name="logout-circle-r-line"></rmx-icon>
   </button>

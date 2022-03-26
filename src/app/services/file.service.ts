@@ -1,9 +1,33 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { map, of, Subject } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class FileService {
+  constructor(private readonly _http: HttpClient) {}
 
-  constructor() { }
+  getUserProfileImg(photoId: string) {
+    const url = `${environment.serviceUrl}files/${photoId}`;
+    return this._http.get(url, { responseType: 'blob' }).pipe(
+      map((imgBlob) => {
+        return of(() => {
+          const sub = new Subject();
+          const obs$ = sub.asObservable();
+          const reader = new FileReader();
+          reader.addEventListener(
+            'load',
+            () => {
+              sub.next(reader.result);
+            },
+            false
+          );
+          reader.readAsDataURL(imgBlob);
+          return obs$;
+        });
+      })
+    );
+  }
 }

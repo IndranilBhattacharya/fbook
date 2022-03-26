@@ -1,24 +1,33 @@
-<div class="flex w-screen h-screen">
-  <div class="flex flex-col items-start pt-8 pl-8 w-1/2 h-full">
-    <h2 class="text-4xl font-extrabold text-sky-600">fbook</h2>
-    <img
-      src="../../../assets/images/connected_world.svg"
-      class="w-full h-3/6 mt-24"
-      alt=""
-    />
-    <h4 class="text-lg text-zinc-400 font-semibold mt-14">
-      Fbook helps you always stay connected with your
-      <span class="relative mx-1">
-        <span
-          class="block absolute -inset-1 -skew-y-2 bg-gradient-to-r from-sky-300 to-blue-400"
-          aria-hidden="true"
-        ></span>
-        <span class="relative text-white">friends</span>
-      </span>
-      around the world
-    </h4>
-  </div>
-  <div class="flex items-center justify-center w-1/2 h-full">
-    <router-outlet></router-outlet>
+<div class="flex flex-col w-screen h-screen">
+  <h2
+    class="pt-6 text-4xl font-extrabold text-sky-600 w-full flex justify-center xl:hidden"
+  >
+    fbook
+  </h2>
+  <div class="flex w-full h-full">
+    <div
+      class="hidden items-start pt-8 pl-8 w-0 xl:w-1/2 xl:flex xl:flex-col h-full"
+    >
+      <h2 class="text-4xl font-extrabold text-sky-600">fbook</h2>
+      <img
+        src="../../../assets/images/connected_world.svg"
+        class="w-full h-3/6 mt-24"
+        alt=""
+      />
+      <h4 class="text-lg text-zinc-400 font-semibold mt-14">
+        Fbook helps you always stay connected with your
+        <span class="relative mx-1">
+          <span
+            class="block absolute -inset-1 -skew-y-2 bg-gradient-to-r from-sky-300 to-blue-400"
+            aria-hidden="true"
+          ></span>
+          <span class="relative text-white">friends</span>
+        </span>
+        around the world
+      </h4>
+    </div>
+    <div class="flex items-center justify-center w-full xl:w-1/2 h-full">
+      <router-outlet></router-outlet>
+    </div>
   </div>
 </div>

@@ -1,4 +1,5 @@
 import {
+  RiHomeLine,
   RiSearch2Line,
   RiRestartLine,
   RiArrowRightLine,
@@ -9,6 +10,7 @@ import {
 } from 'angular-remix-icon';
 
 export const iconsConfig = {
+  RiHomeLine,
   RiSearch2Line,
   RiRestartLine,
   RiArrowRightLine,
