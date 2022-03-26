@@ -7,6 +7,8 @@ import {
   RiOrganizationChart,
   RiSettingsFill,
   RiLogoutCircleRLine,
+  RiQuillPenLine,
+  RiContactsBook2Line,
 } from 'angular-remix-icon';
 
 export const iconsConfig = {
@@ -18,4 +20,6 @@ export const iconsConfig = {
   RiOrganizationChart,
   RiSettingsFill,
   RiLogoutCircleRLine,
+  RiQuillPenLine,
+  RiContactsBook2Line,
 };

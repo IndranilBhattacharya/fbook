@@ -1,10 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { SafeUrl } from '@angular/platform-browser';
 import { Store } from '@ngrx/store';
-import { Subscription, takeWhile } from 'rxjs';
-import { AppState } from '../../interfaces/app-state';
+import { Observable, takeWhile } from 'rxjs';
 import { FileService } from '../../services/file.service';
-import { UserDataService } from '../../services/user-data.service';
+import { PostService } from '../../services/post.service';
+import { AppState } from '../../interfaces/app-state';
+import { FriendService } from '../../services/friend.service';
 
 @Component({
   selector: 'app-home',
@@ -13,22 +13,30 @@ import { UserDataService } from '../../services/user-data.service';
 })
 export class HomeComponent implements OnInit, OnDestroy {
   isAlive: boolean = true;
-  authDetail$!: Subscription;
+  postNum$!: Observable<number>;
+  friendsNum$!: Observable<number>;
   userProfileImgUrl: string = '';
 
   constructor(
     private store: Store<AppState>,
-    private _userDataService: UserDataService,
-    private _fileService: FileService
+    private _fileService: FileService,
+    private _postService: PostService,
+    private _friendService: FriendService
   ) {}
 
   ngOnInit(): void {
-    this.authDetail$ = this.store
+    this.store
       .select('auth')
       .pipe(takeWhile(() => this.isAlive))
       .subscribe((userDetail) => {
         if (userDetail?.photoId) {
           this.fetchUserProfileImg(userDetail.photoId);
+        }
+        if (userDetail?._id) {
+          this.postNum$ = this._postService.getMyNumOfPosts(userDetail._id);
+          this.friendsNum$ = this._friendService.getMyNumOfFriends(
+            userDetail._id
+          );
         }
       });
   }
@@ -41,8 +49,8 @@ export class HomeComponent implements OnInit, OnDestroy {
         imgUrl$.pipe(takeWhile(() => this.isAlive)).subscribe((loader) => {
           loader()
             .pipe(takeWhile(() => this.isAlive))
-            .subscribe((data) => {
-              this.userProfileImgUrl = data as string;
+            .subscribe((objUrl) => {
+              this.userProfileImgUrl = objUrl;
             });
         });
       });
@@ -50,6 +58,5 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.isAlive = false;
-    this.authDetail$.unsubscribe();
   }
 }
