@@ -1,3 +1,4 @@
+import { Location } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { LocalStorage } from 'ngx-webstorage';
@@ -41,7 +42,8 @@ export class AppComponent implements OnInit, OnDestroy {
 
   constructor(
     private store: Store<AppState>,
-    private _userDataService: UserDataService
+    private _userDataService: UserDataService,
+    public location: Location
   ) {}
 
   ngOnInit(): void {

@@ -20,6 +20,11 @@ import { ResetPasswordComponent } from './components/authentication/reset-passwo
 import { EqualValidatorDirective } from './customs/equal-validator.directive';
 import { DatePipe } from '@angular/common';
 import { AuthenticationInterceptor } from './middlewares/authentication.interceptor';
+import { ToolsComponent } from './components/tools/tools.component';
+import { MyPostsComponent } from './components/my-posts/my-posts.component';
+import { MyFriendsComponent } from './components/my-friends/my-friends.component';
+import { MyNetworksComponent } from './components/my-networks/my-networks.component';
+import { SettingsComponent } from './components/settings/settings.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +35,11 @@ import { AuthenticationInterceptor } from './middlewares/authentication.intercep
     HomeComponent,
     ResetPasswordComponent,
     EqualValidatorDirective,
+    ToolsComponent,
+    MyPostsComponent,
+    MyFriendsComponent,
+    MyNetworksComponent,
+    SettingsComponent,
   ],
   imports: [
     BrowserModule,

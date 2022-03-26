@@ -1,0 +1,51 @@
+<div
+  class="w-screen h-full flex gap-8 px-20 text-sm font-bold items-center text-slate-400 bg-slate-50/50 backdrop-blur-sm ring-2 ring-slate-900/10"
+>
+  <div
+    class="text-3xl font-extrabold text-sky-600 cursor-pointer"
+    title="Fbook • Home"
+    (click)="onHomeClick()"
+  >
+    fbook
+  </div>
+  <div class="w-full"></div>
+  <a
+    href="#"
+    class="group nav-link"
+    routerLink="/my-friends"
+    routerLinkActive="active-link"
+  >
+    <rmx-icon
+      class="inline-block group-hover:hidden"
+      name="user-4-fill"
+    ></rmx-icon>
+    <span class="hidden group-hover:inline-block">Friends</span>
+  </a>
+  <a
+    href="#"
+    class="group nav-link"
+    routerLink="/my-networks"
+    routerLinkActive="active-link"
+  >
+    <rmx-icon
+      class="inline-block group-hover:hidden"
+      name="organization-chart"
+    ></rmx-icon>
+    <span class="hidden group-hover:inline-block">Network</span>
+  </a>
+  <a
+    href="#"
+    class="group nav-link"
+    routerLink="/settings"
+    routerLinkActive="active-link"
+  >
+    <rmx-icon
+      class="inline-block group-hover:hidden"
+      name="settings-fill"
+    ></rmx-icon>
+    <span class="hidden group-hover:inline-block">Settings</span>
+  </a>
+  <button class="logout" (click)="onLogOut()">
+    <rmx-icon name="logout-circle-r-line"></rmx-icon>
+  </button>
+</div>

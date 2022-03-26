@@ -51,7 +51,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
   onRegister() {
     this.isSubmitted = true;
-    if (this.registrationGroup.status === 'VALID') {
+    if (this.registrationGroup.status === 'VALID' && !this.showSpinner) {
       this.showSpinner = true;
       this._authService
         .register(this.registrationGroup.value as RegisterUser)

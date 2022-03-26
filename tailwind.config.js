@@ -18,6 +18,9 @@ module.exports = {
       rotate: {
         360: "360deg",
       },
+      scale: {
+        107: "1.07",
+      },
     },
   },
   plugins: [],

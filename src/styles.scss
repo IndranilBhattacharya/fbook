@@ -39,16 +39,31 @@
       linear-gradient(45deg, rgb(255, 255, 255), rgb(255, 255, 255));
   }
 
-  a {
+  @mixin default-link {
     @apply relative text-blue-700 no-underline font-medium
     before:absolute before:w-full before:h-1 before:rounded before:bg-blue-400 before:left-0 before:-bottom-0.5 
     before:origin-left before:scale-x-0 before:transition before:duration-500 before:ease-in-out
     hover:before:scale-x-100;
   }
+
+  a {
+    &.link {
+      @include default-link;
+    }
+
+    &.nav-link {
+      @include default-link;
+      @apply text-inherit;
+    }
+
+    &.active-link {
+      @apply bg-sky-100 text-sky-600 px-3 py-3 scale-107 rounded-xl font-bold;
+    }
+  }
 }
 
 app-root {
-  @apply w-full h-full flex overflow-x-hidden overflow-y-auto;
+  @apply w-full h-full flex flex-col overflow-x-hidden overflow-y-auto;
 }
 
 @layer components {

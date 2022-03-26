@@ -98,7 +98,11 @@ export class ResetPasswordComponent {
 
   onPasswordReset() {
     this.is2ndStepSubmitted = true;
-    if (this.passwordGroup.status === 'VALID' && this.userId) {
+    if (
+      this.passwordGroup.status === 'VALID' &&
+      this.userId &&
+      !this.showResetSpinner
+    ) {
       this.showResetSpinner = true;
       this._authService
         .resetPassword(

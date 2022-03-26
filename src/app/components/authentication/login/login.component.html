@@ -91,7 +91,9 @@
           <div class="spinner-light" *ngIf="showAuthSpinner"></div>
           Log In
         </button>
-        <a href="#" routerLink="/auth/reset-password">Forgotten password?</a>
+        <a href="#" class="link" routerLink="/auth/reset-password"
+          >Forgotten password?</a
+        >
       </div>
       <div class="w-full flex justify-center pt-4">
         <button type="button" (click)="onRegister()" class="btn-success w-5/12">

@@ -1,0 +1,12 @@
+.logout {
+  @apply relative text-inherit;
+
+  &::after {
+    @apply absolute content-['Logout'] hidden w-max -left-full -bottom-full -translate-x-1/2 translate-y-3/4 px-4 py-2 bg-slate-50 text-slate-700 
+    border border-slate-300 rounded-lg shadow-md;
+  }
+
+  &:hover {
+    @apply text-sky-600 after:block;
+  }
+}

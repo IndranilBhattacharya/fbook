@@ -38,7 +38,7 @@ export class LoginComponent implements OnDestroy {
 
   onAuthenticate() {
     this.isSubmitted = true;
-    if (this.authenticationGroup.status === 'VALID') {
+    if (this.authenticationGroup.status === 'VALID' && !this.showAuthSpinner) {
       this.showAuthSpinner = true;
       this._authService
         .authenticate(this.authenticationGroup.value)
