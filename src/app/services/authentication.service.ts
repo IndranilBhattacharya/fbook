@@ -25,6 +25,6 @@ export class AuthenticationService {
 
   resetPassword(userId: string, password: string): Observable<{}> {
     const url = `${environment.serviceUrl}users/${userId}`;
-    return this._http.post<{}>(url, { password });
+    return this._http.put<{}>(url, { password });
   }
 }

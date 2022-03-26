@@ -2,6 +2,7 @@ import { DatePipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ToastService } from 'angular-toastify';
 import { catchError, takeWhile } from 'rxjs';
 import { panIn } from '../../../animations/pan-in.animation';
 import { panOut } from '../../../animations/pan-out.animation';
@@ -38,6 +39,7 @@ export class ResetPasswordComponent {
     private router: Router,
     private datePipe: DatePipe,
     private formBuilder: FormBuilder,
+    private _toastService: ToastService,
     private _userDataService: UserDataService,
     private _authService: AuthenticationService
   ) {}
@@ -72,9 +74,9 @@ export class ResetPasswordComponent {
           })
         )
         .subscribe((userData: UserDetail) => {
+          this.showVerificationSpinner = false;
           if (!userData?.email) {
             this.isVerified = false;
-            this.showVerificationSpinner = false;
             this.verificationGroupControls['email'].setErrors({
               invalidEmail: true,
             });
@@ -84,26 +86,8 @@ export class ResetPasswordComponent {
           ) {
             this.isVerified = true;
             this.userId = userData.id;
-            const email = userData.email;
-            const password = userData.password;
-            this._authService
-              .authenticate({ email, password })
-              .pipe(
-                takeWhile(() => this.isAlive),
-                catchError((err) => {
-                  this.isVerified = false;
-                  this.showVerificationSpinner = false;
-                  throw err;
-                })
-              )
-              .subscribe((userInformation) => {
-                this.isVerified = true;
-                this.showVerificationSpinner = false;
-                localStorage.setItem('auth', userInformation.token);
-              });
           } else {
             this.isVerified = false;
-            this.showVerificationSpinner = false;
             this.verificationGroupControls['dob'].setErrors({
               invalidDob: true,
             });
@@ -128,11 +112,11 @@ export class ResetPasswordComponent {
             throw err;
           })
         )
-        .subscribe((response) => {
+        .subscribe(() => {
           this.showResetSpinner = false;
-          console.log();
+          this._toastService.success('Password reset successfully! 👍');
+          this.router.navigateByUrl('/auth/login');
         });
     }
-    //this.router.navigateByUrl('/auth/login');
   }
 }

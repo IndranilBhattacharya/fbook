@@ -2,6 +2,7 @@ import { Component, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastService } from 'angular-toastify';
+import { LocalStorageService } from 'ngx-webstorage';
 import { catchError, takeWhile } from 'rxjs';
 import { AuthenticationService } from '../../../services/authentication.service';
 
@@ -21,8 +22,9 @@ export class LoginComponent implements OnDestroy {
 
   constructor(
     private router: Router,
-    private _toastService: ToastService,
     private formBuilder: FormBuilder,
+    private _toastService: ToastService,
+    private _localStorageService: LocalStorageService,
     private _authService: AuthenticationService
   ) {}
 
@@ -51,12 +53,13 @@ export class LoginComponent implements OnDestroy {
         .subscribe((userInformation) => {
           this.showAuthSpinner = false;
           if (userInformation?.token) {
-            localStorage.setItem('auth', userInformation.token);
+            this._localStorageService.store('authToken', userInformation.token);
             this.router.navigateByUrl('/');
           } else {
             this.showInvalidToast();
           }
         });
+      setInterval(() => (this.showAuthSpinner = false), 5000);
     }
   }
 

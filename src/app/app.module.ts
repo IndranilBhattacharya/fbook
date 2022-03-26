@@ -4,10 +4,11 @@ import { BrowserModule } from '@angular/platform-browser';
 import { RemixIconModule } from 'angular-remix-icon';
 import { iconsConfig } from './constants/icon.config';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AngularToastifyModule, ToastService } from 'angular-toastify';
 import { StoreModule } from '@ngrx/store';
 import { appReducer } from './core/app.reducers';
+import { NgxWebstorageModule } from 'ngx-webstorage';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -18,6 +19,7 @@ import { HomeComponent } from './components/home/home.component';
 import { ResetPasswordComponent } from './components/authentication/reset-password/reset-password.component';
 import { EqualValidatorDirective } from './customs/equal-validator.directive';
 import { DatePipe } from '@angular/common';
+import { AuthenticationInterceptor } from './middlewares/authentication.interceptor';
 
 @NgModule({
   declarations: [
@@ -36,10 +38,19 @@ import { DatePipe } from '@angular/common';
     AppRoutingModule,
     ReactiveFormsModule,
     StoreModule.forRoot(appReducer),
+    NgxWebstorageModule.forRoot(),
     RemixIconModule.configure(iconsConfig),
     AngularToastifyModule,
   ],
-  providers: [ToastService, DatePipe],
+  providers: [
+    ToastService,
+    DatePipe,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthenticationInterceptor,
+      multi: true,
+    },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
