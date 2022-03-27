@@ -2,7 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable, of, Subject } from 'rxjs';
 import { environment } from '../../environments/environment';
-import { ResponseMsg } from '../interfaces/response-msg';
 
 @Injectable({
   providedIn: 'root',

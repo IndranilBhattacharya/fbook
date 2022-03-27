@@ -7,6 +7,7 @@ import { UserDetail } from '../../interfaces/user-detail';
 import {
   numOfFriends,
   numOfPosts,
+  photoId,
 } from '../../core/selectors/user-info.selector';
 
 @Component({
@@ -29,20 +30,25 @@ export class HomeComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.userInfo$ = this.store.select('auth');
     this.fetchUserInfo();
+    this.observeUserPhoto();
   }
 
   fetchUserInfo() {
     this.userInfo$
       .pipe(takeWhile(() => this.isAlive))
       .subscribe((userDetail) => {
-        if (userDetail?.photoId) {
-          this.fetchUserProfileImg(userDetail.photoId);
-        }
         if (userDetail?._id) {
           this.postNum$ = this.store.select(numOfPosts);
           this.friendsNum$ = this.store.select(numOfFriends);
         }
       });
+  }
+
+  observeUserPhoto() {
+    this.store
+      .select(photoId)
+      .pipe(takeWhile(() => this.isAlive))
+      .subscribe((id) => id && this.fetchUserProfileImg(id));
   }
 
   fetchUserProfileImg(photoId: string) {

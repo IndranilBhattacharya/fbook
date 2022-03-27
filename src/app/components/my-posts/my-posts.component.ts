@@ -10,6 +10,7 @@ import { FormControl } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { ToastService } from 'angular-toastify';
 import { catchError, takeWhile } from 'rxjs';
+import { numOfPosts } from 'src/app/core/selectors/user-info.selector';
 import { AppState } from 'src/app/interfaces/app-state';
 import { Post } from 'src/app/interfaces/post';
 import { UserDetail } from 'src/app/interfaces/user-detail';
@@ -28,6 +29,7 @@ export class MyPostsComponent implements OnInit, OnDestroy {
   postImgBlob!: Blob | null;
   postImgUrl: string = '';
   authInfo!: UserDetail;
+  allPosts: Post[] = [];
   @ViewChild('postImg') postImgElement!: ElementRef;
 
   constructor(
@@ -42,7 +44,15 @@ export class MyPostsComponent implements OnInit, OnDestroy {
     this.store
       .select('auth')
       .pipe(takeWhile(() => this.isAlive))
-      .subscribe((userData) => (this.authInfo = userData));
+      .subscribe((userData) => {
+        this.authInfo = { ...userData };
+      });
+    this.store
+      .select(numOfPosts)
+      .pipe(takeWhile(() => this.isAlive))
+      .subscribe((numPosts) => {
+        numPosts ?? this.fetchAllPosts();
+      });
   }
 
   ngOnDestroy(): void {
@@ -84,6 +94,13 @@ export class MyPostsComponent implements OnInit, OnDestroy {
     }
   }
 
+  fetchAllPosts() {
+    this._postService
+      .getAllPosts()
+      .pipe(takeWhile(() => this.isAlive))
+      .subscribe((posts) => (this.allPosts = posts));
+  }
+
   publishPost(photoId: string) {
     const postPayload = {
       post: this.post.value,
@@ -108,6 +125,7 @@ export class MyPostsComponent implements OnInit, OnDestroy {
         this.post.reset();
         if (msg.message?.includes('success')) {
           this.toastService.default('Message sent to the world ✨');
+          this.fetchAllPosts();
         }
       });
   }

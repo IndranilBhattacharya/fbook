@@ -1,16 +1,16 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { UserDetail } from 'src/app/interfaces/user-detail';
 
-const getToastState = createFeatureSelector<UserDetail>('auth');
+const getAuthState = createFeatureSelector<UserDetail>('auth');
 
-export const photoId = createSelector(getToastState, (state) => state.photoId);
+export const photoId = createSelector(getAuthState, (state) => state.photoId);
 
 export const numOfPosts = createSelector(
-  getToastState,
+  getAuthState,
   (state) => state.numOfPosts
 );
 
 export const numOfFriends = createSelector(
-  getToastState,
+  getAuthState,
   (state) => state.numOfFriends
 );

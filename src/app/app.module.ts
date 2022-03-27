@@ -7,6 +7,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AngularToastifyModule, ToastService } from 'angular-toastify';
 import { StoreModule } from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { appReducer } from './core/app.reducers';
 import { NgxWebstorageModule } from 'ngx-webstorage';
 import { QuillModule } from 'ngx-quill';
@@ -27,6 +28,8 @@ import { MyPostsComponent } from './components/my-posts/my-posts.component';
 import { MyFriendsComponent } from './components/my-friends/my-friends.component';
 import { MyNetworksComponent } from './components/my-networks/my-networks.component';
 import { SettingsComponent } from './components/settings/settings.component';
+import { PostDetailComponent } from './components/my-posts/post-detail/post-detail.component';
+import { environment } from 'src/environments/environment';
 
 @NgModule({
   declarations: [
@@ -42,6 +45,7 @@ import { SettingsComponent } from './components/settings/settings.component';
     MyFriendsComponent,
     MyNetworksComponent,
     SettingsComponent,
+    PostDetailComponent,
   ],
   imports: [
     BrowserModule,
@@ -51,6 +55,7 @@ import { SettingsComponent } from './components/settings/settings.component';
     ReactiveFormsModule,
     AngularToastifyModule,
     StoreModule.forRoot(appReducer),
+    StoreDevtoolsModule.instrument({ logOnly: environment.production }),
     NgxWebstorageModule.forRoot(),
     RemixIconModule.configure(iconsConfig),
     QuillModule.forRoot(quillConfiguration),
