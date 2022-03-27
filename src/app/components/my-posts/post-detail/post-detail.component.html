@@ -1,5 +1,8 @@
-<div class="card flex flex-col items-center w-full">
-  <div class="w-full flex flex-col justify-start items-start">
+<div class="card flex items-start w-full">
+  <div
+    class="flex flex-col justify-start items-start"
+    [ngClass]="postImgUrl && postImgUrl !== 'no_image' ? 'w-3/4' : 'w-10/12'"
+  >
     <div
       class="w-full font-bold text-xs md:text-base xl:text-lg truncate text-slate-700 px-[15px]"
     >
@@ -22,4 +25,14 @@
     >
     </quill-editor>
   </div>
+  <img
+    *ngIf="postImgUrl && postImgUrl !== 'no_image'"
+    [src]="postImgUrl"
+    class="w-1/4 h-full object-cover rounded-md shadow-xl"
+    alt=""
+  />
+  <div
+    *ngIf="postImgUrl === 'no_image'"
+    class="p-[12.5%] rounded-md animate-pulse bg-slate-200 shadow"
+  ></div>
 </div>

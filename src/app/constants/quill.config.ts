@@ -4,6 +4,7 @@ export const quillConfiguration = {
       ['bold', 'italic', 'underline', 'strike'],
       ['blockquote'],
       [{ list: 'bullet' }],
+      [{ header: [1, 2, 3, 4, false] }],
       [{ color: [] }, { background: [] }],
       ['clean'],
     ],

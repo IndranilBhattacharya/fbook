@@ -76,12 +76,7 @@ export class MyPostsComponent implements OnInit, OnDestroy {
             })
           )
           .subscribe((photoId) => {
-            this.postImgUrl = '';
-            this.renderer.setProperty(
-              this.postImgElement.nativeElement,
-              'value',
-              ''
-            );
+            this.removePostImg();
             this.publishPost(photoId);
           });
       } else {
@@ -146,5 +141,10 @@ export class MyPostsComponent implements OnInit, OnDestroy {
         reader.readAsDataURL(file);
       }
     }
+  }
+
+  removePostImg() {
+    this.postImgUrl = '';
+    this.renderer.setProperty(this.postImgElement.nativeElement, 'value', '');
   }
 }
