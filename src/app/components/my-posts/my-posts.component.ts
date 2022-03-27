@@ -13,6 +13,7 @@ import { catchError, takeWhile } from 'rxjs';
 import { AppState } from 'src/app/interfaces/app-state';
 import { Post } from 'src/app/interfaces/post';
 import { UserDetail } from 'src/app/interfaces/user-detail';
+import { AuthenticationService } from 'src/app/services/authentication.service';
 import { FileService } from 'src/app/services/file.service';
 import { PostService } from '../../services/post.service';
 
@@ -35,6 +36,7 @@ export class MyPostsComponent implements OnInit, OnDestroy {
     private renderer: Renderer2,
     private toastService: ToastService,
     private store: Store<AppState>,
+    private _authService: AuthenticationService,
     private _fileService: FileService,
     private _postService: PostService
   ) {}
@@ -120,6 +122,7 @@ export class MyPostsComponent implements OnInit, OnDestroy {
         if (msg.message?.includes('success')) {
           this.toastService.default('Message sent to the world ✨');
           this.fetchAllPosts();
+          this._authService.updateUserPosts(this.authInfo._id);
         }
       });
   }

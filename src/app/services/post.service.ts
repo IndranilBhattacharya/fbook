@@ -13,7 +13,9 @@ export class PostService {
 
   getAllPosts(): Observable<Post[]> {
     const url = `${environment.serviceUrl}posts`;
-    return this._http.get<Post[]>(url);
+    return this._http
+      .get<Post[]>(url)
+      .pipe(map((posts) => posts.sort((a, b) => sortByDate(a, b))));
   }
 
   getMyNumOfPosts(id: string): Observable<number> {
@@ -25,6 +27,15 @@ export class PostService {
 
   createPost(payload: Post): Observable<ResponseMsg> {
     const url = `${environment.serviceUrl}posts/createpost`;
-    return this._http.post<ResponseMsg>(url, payload);
+    return this._http.post<ResponseMsg>(url, {
+      ...payload,
+      profession: 'user',
+    });
   }
 }
+
+const sortByDate = (a: Post, b: Post) => {
+  return (
+    new Date(b?.createdDate).getTime() - new Date(a?.createdDate).getTime()
+  );
+};

@@ -1,3 +1,9 @@
+.card-post-creation {
+  @apply fixed top-20;
+  left: 28.125%;
+  width: 68.75%;
+}
+
 .post-img-label {
   @apply relative inline-block cursor-pointer p-2
   rounded-full border-0

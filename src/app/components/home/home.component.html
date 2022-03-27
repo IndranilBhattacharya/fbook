@@ -42,15 +42,15 @@
         *ngIf="!(userInfo$ | async)?.email"
       ></div>
     </div>
-    <div class="w-full flex p-info">
-      <span class="flex items-center text-sky-600 text-lg font-bold pr-2.5">{{
-        (postNum$ | async) || "O"
+    <div class="w-full flex items-center p-info text-sm">
+      <span class="block text-sky-600 font-bold pr-2.5">{{
+        (postNum$ | async) || 0
       }}</span
       >Posts
     </div>
-    <div class="w-full flex items-center p-info">
-      <span class="flex items-center text-sky-600 text-lg font-bold pr-2.5">{{
-        (friendsNum$ | async) || "O"
+    <div class="w-full flex items-center p-info text-sm">
+      <span class="block text-sky-600 font-bold pr-2.5">{{
+        (friendsNum$ | async) || 0
       }}</span
       >Friends
     </div>

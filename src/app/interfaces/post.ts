@@ -1,5 +1,5 @@
 export interface Post {
-  createdDate: Date;
+  createdDate: string;
   id: string;
   isActive: boolean;
   isAdmin: boolean;

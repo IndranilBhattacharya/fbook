@@ -30,6 +30,8 @@ import { MyNetworksComponent } from './components/my-networks/my-networks.compon
 import { SettingsComponent } from './components/settings/settings.component';
 import { PostDetailComponent } from './components/my-posts/post-detail/post-detail.component';
 import { environment } from 'src/environments/environment';
+import { TrimPipe } from './pipes/trim.pipe';
+import { TimeAgoPipe } from './pipes/time-ago.pipe';
 
 @NgModule({
   declarations: [
@@ -46,6 +48,8 @@ import { environment } from 'src/environments/environment';
     MyNetworksComponent,
     SettingsComponent,
     PostDetailComponent,
+    TrimPipe,
+    TimeAgoPipe,
   ],
   imports: [
     BrowserModule,

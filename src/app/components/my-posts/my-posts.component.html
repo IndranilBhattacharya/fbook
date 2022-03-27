@@ -1,5 +1,7 @@
 <div class="w-full h-full flex flex-col items-center pt-6">
-  <div class="card sticky top-0 flex flex-col items-center w-11/12 h-fit gap-3">
+  <div
+    class="card card-post-creation z-10 flex flex-col items-center h-fit gap-3"
+  >
     <quill-editor class="w-full" [formControl]="post"> </quill-editor>
     <img
       [src]="postImgUrl"
@@ -21,7 +23,7 @@
       </label>
       <button
         class="group btn-primary ml-auto"
-        [disabled]="!post.value || !authInfo?._id"
+        [disabled]="!(post.value | trim) || !authInfo?._id"
         (click)="onPost()"
       >
         <rmx-icon
@@ -33,5 +35,11 @@
         Post
       </button>
     </div>
+  </div>
+  <div class="flex flex-col items-center w-11/12 h-fit mt-[15rem] pb-10 gap-3">
+    <app-post-detail
+      *ngFor="let usersPost of allPosts"
+      [postData]="usersPost"
+    ></app-post-detail>
   </div>
 </div>
