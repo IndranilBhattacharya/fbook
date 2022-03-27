@@ -12,7 +12,37 @@
       *ngIf="!userProfileImgUrl"
       class="w-[56px] h-[56px] md:w-[136px] md:h-[136px] xl:w-[268px] xl:h-[268px] md:rounded xl:rounded-md rounded-full animate-pulse bg-slate-200 mb-6 shadow"
     ></div>
-    <div class="w-full flex items-center p-info">
+    <div
+      class="w-full flex flex-col flex-wrap overflow-clip items-start p-info mb-6"
+    >
+      <div
+        class="w-full font-bold text-xs md:text-base xl:text-lg truncate text-zinc-700"
+        *ngIf="(userInfo$ | async)?.firstName || (userInfo$ | async)?.lastName"
+      >
+        {{
+          ((userInfo$ | async)?.firstName | titlecase) +
+            " " +
+            ((userInfo$ | async)?.lastName | titlecase)
+        }}
+      </div>
+      <div
+        class="h-3 animate-pulse bg-slate-200 rounded w-9/12 mb-3"
+        *ngIf="
+          !((userInfo$ | async)?.firstName && (userInfo$ | async)?.lastName)
+        "
+      ></div>
+      <div
+        class="w-full text-[0.5rem] md:text-sm truncate text-slate-400"
+        *ngIf="(userInfo$ | async)?.email"
+      >
+        {{ (userInfo$ | async)?.email }}
+      </div>
+      <div
+        class="h-2 animate-pulse bg-slate-200 rounded w-7/12"
+        *ngIf="!(userInfo$ | async)?.email"
+      ></div>
+    </div>
+    <div class="w-full flex p-info">
       <rmx-icon
         name="quill-pen-line"
         class="text-slate-500 mr-3 xl:mr-5 !hidden md:!block"

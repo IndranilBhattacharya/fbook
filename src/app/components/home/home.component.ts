@@ -5,6 +5,7 @@ import { FileService } from '../../services/file.service';
 import { PostService } from '../../services/post.service';
 import { AppState } from '../../interfaces/app-state';
 import { FriendService } from '../../services/friend.service';
+import { UserDetail } from '../../interfaces/user-detail';
 
 @Component({
   selector: 'app-home',
@@ -13,6 +14,7 @@ import { FriendService } from '../../services/friend.service';
 })
 export class HomeComponent implements OnInit, OnDestroy {
   isAlive: boolean = true;
+  userInfo$!: Observable<UserDetail>;
   postNum$!: Observable<number>;
   friendsNum$!: Observable<number>;
   userProfileImgUrl: string = '';
@@ -25,8 +27,12 @@ export class HomeComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.store
-      .select('auth')
+    this.userInfo$ = this.store.select('auth');
+    this.fetchUserInfo();
+  }
+
+  fetchUserInfo() {
+    this.userInfo$
       .pipe(takeWhile(() => this.isAlive))
       .subscribe((userDetail) => {
         if (userDetail?.photoId) {
