@@ -20,6 +20,7 @@ import {
   toasttransition,
 } from './core/selectors/toast-param.selector';
 import { AppState } from './interfaces/app-state';
+import { AuthenticationService } from './services/authentication.service';
 import { FriendService } from './services/friend.service';
 import { PostService } from './services/post.service';
 import { UserDataService } from './services/user-data.service';
@@ -50,7 +51,7 @@ export class AppComponent implements OnInit, OnDestroy {
     public location: Location,
     private store: Store<AppState>,
     private _userDataService: UserDataService,
-    private _postService: PostService,
+    private _authService: AuthenticationService,
     private _friendService: FriendService
   ) {}
 
@@ -83,16 +84,8 @@ export class AppComponent implements OnInit, OnDestroy {
       .pipe(takeWhile(() => this.isAlive))
       .subscribe((userDetail) => {
         this.store.dispatch(updateUserData({ val: userDetail }));
-        this._postService
-          .getMyNumOfPosts(userDetail._id)
-          .pipe(takeWhile(() => this.isAlive))
-          .subscribe((val) => this.store.dispatch(updateUserNumPosts({ val })));
-        this._friendService
-          .getMyNumOfFriends(userDetail._id)
-          .pipe(takeWhile(() => this.isAlive))
-          .subscribe((val) =>
-            this.store.dispatch(updateUserNumFriends({ val }))
-          );
+        this._authService.updateUserPosts(userDetail._id);
+        this._authService.updateUserFriends(userDetail._id);
       });
   }
 }

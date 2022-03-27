@@ -60,6 +60,8 @@ export class LoginComponent implements OnDestroy {
             this._localStorageService.store('authToken', userInformation.token);
             this._localStorageService.store('userId', userInformation._id);
             this.store.dispatch(updateUserData({ val: userInformation }));
+            this._authService.updateUserPosts(userInformation._id);
+            this._authService.updateUserFriends(userInformation._id);
             this.router.navigateByUrl('/');
           } else {
             this.showInvalidToast();

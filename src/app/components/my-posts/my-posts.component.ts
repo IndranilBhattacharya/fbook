@@ -10,7 +10,6 @@ import { FormControl } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { ToastService } from 'angular-toastify';
 import { catchError, takeWhile } from 'rxjs';
-import { numOfPosts } from 'src/app/core/selectors/user-info.selector';
 import { AppState } from 'src/app/interfaces/app-state';
 import { Post } from 'src/app/interfaces/post';
 import { UserDetail } from 'src/app/interfaces/user-detail';
@@ -47,12 +46,7 @@ export class MyPostsComponent implements OnInit, OnDestroy {
       .subscribe((userData) => {
         this.authInfo = { ...userData };
       });
-    this.store
-      .select(numOfPosts)
-      .pipe(takeWhile(() => this.isAlive))
-      .subscribe((numPosts) => {
-        numPosts ?? this.fetchAllPosts();
-      });
+    this.fetchAllPosts();
   }
 
   ngOnDestroy(): void {
