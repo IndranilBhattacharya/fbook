@@ -3,7 +3,11 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { LocalStorage } from 'ngx-webstorage';
 import { Observable, takeWhile } from 'rxjs';
-import { updateUserData } from './core/actions/auth.actions';
+import {
+  updateUserData,
+  updateUserNumFriends,
+  updateUserNumPosts,
+} from './core/actions/auth.actions';
 import {
   toastautoClose,
   toastcloseOnClick,
@@ -16,6 +20,8 @@ import {
   toasttransition,
 } from './core/selectors/toast-param.selector';
 import { AppState } from './interfaces/app-state';
+import { FriendService } from './services/friend.service';
+import { PostService } from './services/post.service';
 import { UserDataService } from './services/user-data.service';
 
 @Component({
@@ -41,9 +47,11 @@ export class AppComponent implements OnInit, OnDestroy {
   toasticonLibrary$!: Observable<'material' | 'font-awesome' | 'none'>;
 
   constructor(
+    public location: Location,
     private store: Store<AppState>,
     private _userDataService: UserDataService,
-    public location: Location
+    private _postService: PostService,
+    private _friendService: FriendService
   ) {}
 
   ngOnInit(): void {
@@ -73,8 +81,18 @@ export class AppComponent implements OnInit, OnDestroy {
     this._userDataService
       .getUserById(this.userId)
       .pipe(takeWhile(() => this.isAlive))
-      .subscribe((userDetail) =>
-        this.store.dispatch(updateUserData({ val: userDetail }))
-      );
+      .subscribe((userDetail) => {
+        this.store.dispatch(updateUserData({ val: userDetail }));
+        this._postService
+          .getMyNumOfPosts(userDetail._id)
+          .pipe(takeWhile(() => this.isAlive))
+          .subscribe((val) => this.store.dispatch(updateUserNumPosts({ val })));
+        this._friendService
+          .getMyNumOfFriends(userDetail._id)
+          .pipe(takeWhile(() => this.isAlive))
+          .subscribe((val) =>
+            this.store.dispatch(updateUserNumFriends({ val }))
+          );
+      });
   }
 }

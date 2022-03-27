@@ -13,4 +13,6 @@ export interface UserDetail {
   __v: number;
   _id: string;
   token: string;
+  numOfPosts: number;
+  numOfFriends: number;
 }

@@ -6,6 +6,10 @@
   padding-left: calc((100% - 56px) / 2) !important;
 }
 
+::ng-deep app-my-posts {
+  @apply w-full h-full;
+}
+
 @media (min-width: 768px) {
   .p-info {
     padding-left: calc((100% - 136px) / 2) !important;

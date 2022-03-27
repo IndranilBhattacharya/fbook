@@ -1,0 +1,21 @@
+.post-img-label {
+  @apply relative inline-block cursor-pointer p-2
+  rounded-full border-0
+  text-sm font-semibold
+  bg-violet-50 text-violet-700
+  hover:bg-violet-100;
+
+  &::after {
+    @apply absolute content-['Photo'] hidden w-max right-0 bottom-0 translate-x-full -translate-y-full px-4 py-2 bg-slate-50 text-slate-700 
+    border border-slate-200 rounded shadow-sm;
+  }
+
+  &:hover {
+    @apply after:block;
+  }
+}
+
+.post-img-preview {
+  max-width: 60% !important;
+  max-height: 60% !important;
+}

@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { Post } from '../interfaces/post';
+import { ResponseMsg } from '../interfaces/response-msg';
 
 @Injectable({
   providedIn: 'root',
@@ -10,9 +11,9 @@ import { Post } from '../interfaces/post';
 export class PostService {
   constructor(private readonly _http: HttpClient) {}
 
-  getPosts(postId: string): Observable<Post> {
-    const url = `${environment.serviceUrl}posts/${postId}`;
-    return this._http.get<Post>(url);
+  getAllPosts(): Observable<Post[]> {
+    const url = `${environment.serviceUrl}posts`;
+    return this._http.get<Post[]>(url);
   }
 
   getMyNumOfPosts(id: string): Observable<number> {
@@ -20,5 +21,10 @@ export class PostService {
     return this._http
       .post<Post[]>(url, { id })
       .pipe(map((postList) => postList?.length));
+  }
+
+  createPost(payload: Post): Observable<ResponseMsg> {
+    const url = `${environment.serviceUrl}posts/createpost`;
+    return this._http.post<ResponseMsg>(url, payload);
   }
 }

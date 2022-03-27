@@ -2,10 +2,12 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, takeWhile } from 'rxjs';
 import { FileService } from '../../services/file.service';
-import { PostService } from '../../services/post.service';
 import { AppState } from '../../interfaces/app-state';
-import { FriendService } from '../../services/friend.service';
 import { UserDetail } from '../../interfaces/user-detail';
+import {
+  numOfFriends,
+  numOfPosts,
+} from '../../core/selectors/user-info.selector';
 
 @Component({
   selector: 'app-home',
@@ -21,9 +23,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   constructor(
     private store: Store<AppState>,
-    private _fileService: FileService,
-    private _postService: PostService,
-    private _friendService: FriendService
+    private _fileService: FileService
   ) {}
 
   ngOnInit(): void {
@@ -39,10 +39,8 @@ export class HomeComponent implements OnInit, OnDestroy {
           this.fetchUserProfileImg(userDetail.photoId);
         }
         if (userDetail?._id) {
-          this.postNum$ = this._postService.getMyNumOfPosts(userDetail._id);
-          this.friendsNum$ = this._friendService.getMyNumOfFriends(
-            userDetail._id
-          );
+          this.postNum$ = this.store.select(numOfPosts);
+          this.friendsNum$ = this.store.select(numOfFriends);
         }
       });
   }

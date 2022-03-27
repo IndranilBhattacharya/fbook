@@ -26,7 +26,7 @@
         }}
       </div>
       <div
-        class="h-3 animate-pulse bg-slate-200 rounded w-9/12 mb-3"
+        class="h-2 animate-pulse bg-slate-200 rounded w-9/12 mb-3"
         *ngIf="
           !((userInfo$ | async)?.firstName && (userInfo$ | async)?.lastName)
         "
@@ -43,27 +43,19 @@
       ></div>
     </div>
     <div class="w-full flex p-info">
-      <rmx-icon
-        name="quill-pen-line"
-        class="text-slate-500 mr-3 xl:mr-5 !hidden md:!block"
-      ></rmx-icon>
-      <span
-        class="flex items-center text-sky-600 text-lg font-bold pr-2.5 md:px-2.5"
-        >{{ (postNum$ | async) || "O" }}</span
+      <span class="flex items-center text-sky-600 text-lg font-bold pr-2.5">{{
+        (postNum$ | async) || "O"
+      }}</span
       >Posts
     </div>
     <div class="w-full flex items-center p-info">
-      <rmx-icon
-        name="contacts-book-2-line"
-        class="text-slate-500 mr-3 xl:mr-5 !hidden md:!block"
-      ></rmx-icon>
-      <span
-        class="flex items-center text-sky-600 text-lg font-bold pr-2.5 md:px-2.5"
-        >{{ (friendsNum$ | async) || "O" }}</span
+      <span class="flex items-center text-sky-600 text-lg font-bold pr-2.5">{{
+        (friendsNum$ | async) || "O"
+      }}</span
       >Friends
     </div>
   </div>
-  <div class="flex justify-center w-2/3 h-full router-content">
+  <div class="flex justify-center w-3/4 h-full router-content">
     <router-outlet></router-outlet>
   </div>
 </div>

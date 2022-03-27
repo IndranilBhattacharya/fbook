@@ -9,6 +9,8 @@ import { AngularToastifyModule, ToastService } from 'angular-toastify';
 import { StoreModule } from '@ngrx/store';
 import { appReducer } from './core/app.reducers';
 import { NgxWebstorageModule } from 'ngx-webstorage';
+import { QuillModule } from 'ngx-quill';
+import { quillConfiguration } from './constants/quill.config';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -47,10 +49,11 @@ import { SettingsComponent } from './components/settings/settings.component';
     HttpClientModule,
     AppRoutingModule,
     ReactiveFormsModule,
+    AngularToastifyModule,
     StoreModule.forRoot(appReducer),
     NgxWebstorageModule.forRoot(),
     RemixIconModule.configure(iconsConfig),
-    AngularToastifyModule,
+    QuillModule.forRoot(quillConfiguration),
   ],
   providers: [
     ToastService,

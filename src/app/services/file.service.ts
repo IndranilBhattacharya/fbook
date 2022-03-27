@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map, of, Subject } from 'rxjs';
+import { map, Observable, of, Subject } from 'rxjs';
 import { environment } from '../../environments/environment';
+import { ResponseMsg } from '../interfaces/response-msg';
 
 @Injectable({
   providedIn: 'root',
@@ -29,5 +30,12 @@ export class FileService {
         });
       })
     );
+  }
+
+  uploadPhoto(payload: FormData): Observable<string> {
+    const url = `${environment.serviceUrl}files/uploadfile`;
+    return this._http
+      .post<{ uploadId: string }>(url, payload)
+      .pipe(map((responseObj) => responseObj.uploadId));
   }
 }
