@@ -28,8 +28,8 @@ const timePassed = (...timeParams: number[]): string => {
     return `${hr} hours ${affix}`;
   } else {
     if (hr === 1) {
-      if (min > 1) {
-        return `${hr}h ${min}mins ${affix}`;
+      if (min > 60) {
+        return `${hr}h ${min % 60}mins ${affix}`;
       }
       return `1h ago`;
     } else if (min > 1) {

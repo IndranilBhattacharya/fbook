@@ -1,6 +1,6 @@
 .card-post-creation {
   @apply fixed top-20;
-  left: 28.125%;
+  left: calc(25% + 1rem);
   width: 68.75%;
 }
 
