@@ -4,19 +4,21 @@
     id="card_creation_elem"
   >
     <quill-editor class="w-full" [formControl]="post"> </quill-editor>
-    <img
-      [src]="postImgUrl"
-      class="rounded-md shadow-md post-img-preview"
-      alt=""
-      *ngIf="postImgUrl"
-    />
-    <button
-      *ngIf="postImgUrl"
-      (click)="removePostImg()"
-      class="flex justify-center items-center px-3 shadow bg-slate-50 text-pink-400 border border-pink-400 rounded-xl hover:text-pink-500 hover:border-pink-600 absolute right-1/2 bottom-0 translate-x-1/2 -translate-y-1/2"
-    >
-      Remove
-    </button>
+    <div class="relative group w-2/5 aspect-video" *ngIf="postImgUrl">
+      <img
+        [src]="postImgUrl"
+        class="rounded-md shadow-md w-full h-full"
+        alt=""
+      />
+      <button
+        *ngIf="postImgUrl"
+        (click)="removePostImg()"
+        class="hidden group-hover:flex group-focus:flex justify-center items-center rounded-full text-white bg-red-400 hover:bg-red-500 shadow-xl shadow-red-400/60 absolute right-1/2 bottom-0 translate-x-1/2 -translate-y-1/2"
+      >
+        <rmx-icon name="close-line"></rmx-icon>
+      </button>
+    </div>
+
     <div class="flex items-center w-full">
       <input
         type="file"

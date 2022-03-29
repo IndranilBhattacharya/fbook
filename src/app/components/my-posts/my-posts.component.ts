@@ -162,9 +162,9 @@ export class MyPostsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   onSelectPostImg(e: any) {
-    this.postImgBlob = null;
-    const file = e.target.files?.length > 0 && e.target.files[0];
+    const file = e?.target?.files?.length > 0 && e?.target?.files[0];
     if (file) {
+      this.postImgBlob = null;
       const fileName = file.name;
       const fileExtension = fileName.substring(fileName.lastIndexOf('.'));
       if (['.png', '.jpg', '.jpeg'].includes(fileExtension)) {

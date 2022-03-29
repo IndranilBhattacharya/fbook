@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { UserDetail } from '../interfaces/user-detail';
+import { UserIdPhotoId } from '../interfaces/user-id-photo-id';
 
 @Injectable({
   providedIn: 'root',
@@ -22,5 +23,10 @@ export class UserDataService {
       .pipe(
         map((users) => (users?.length > 0 ? users[0] : ({} as UserDetail)))
       );
+  }
+
+  updateUserPhotoId(payload: UserIdPhotoId): Observable<{}> {
+    const url = `${environment.serviceUrl}users/updateuserphotoId`;
+    return this._http.post<{}>(url, payload);
   }
 }

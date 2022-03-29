@@ -9,6 +9,8 @@ import {
   RiLogoutCircleRLine,
   RiLandscapeFill,
   RiSendPlaneLine,
+  RiCloseLine,
+  RiPencilLine,
 } from 'angular-remix-icon';
 
 export const iconsConfig = {
@@ -22,4 +24,6 @@ export const iconsConfig = {
   RiLogoutCircleRLine,
   RiLandscapeFill,
   RiSendPlaneLine,
+  RiCloseLine,
+  RiPencilLine,
 };
