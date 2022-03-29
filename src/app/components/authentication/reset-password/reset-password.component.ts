@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastService } from 'angular-toastify';
-import { catchError, takeWhile } from 'rxjs';
+import { catchError, Subject, takeUntil, takeWhile } from 'rxjs';
 import { panIn } from '../../../animations/pan-in.animation';
 import { panOut } from '../../../animations/pan-out.animation';
 import { UserDetail } from '../../../interfaces/user-detail';
@@ -17,7 +17,7 @@ import { UserDataService } from '../../../services/user-data.service';
   animations: [panIn, panOut],
 })
 export class ResetPasswordComponent {
-  isAlive: boolean = true;
+  isDestroyed = new Subject();
   is1stStepSubmitted: boolean = false;
   is2ndStepSubmitted: boolean = false;
   isVerified: boolean = false;
@@ -49,7 +49,7 @@ export class ResetPasswordComponent {
   }
 
   ngOnDestroy(): void {
-    this.isAlive = false;
+    this.isDestroyed.next(true);
   }
 
   get verificationGroupControls() {
@@ -67,7 +67,7 @@ export class ResetPasswordComponent {
       this._userDataService
         .getUserByEmail(this.verificationGroupControls['email'].value)
         .pipe(
-          takeWhile(() => this.isAlive),
+          takeUntil(this.isDestroyed),
           catchError((err) => {
             this.showVerificationSpinner = false;
             throw err;
@@ -110,7 +110,7 @@ export class ResetPasswordComponent {
           this.passwordGroupControls['password'].value
         )
         .pipe(
-          takeWhile(() => this.isAlive),
+          takeUntil(this.isDestroyed),
           catchError((err) => {
             this.showResetSpinner = false;
             throw err;

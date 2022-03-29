@@ -9,7 +9,7 @@ import {
 import { FormControl } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { ToastService } from 'angular-toastify';
-import { catchError, takeWhile } from 'rxjs';
+import { catchError, Subject, takeUntil } from 'rxjs';
 import { AppState } from 'src/app/interfaces/app-state';
 import { Post } from 'src/app/interfaces/post';
 import { UserDetail } from 'src/app/interfaces/user-detail';
@@ -23,7 +23,7 @@ import { PostService } from '../../services/post.service';
   styleUrls: ['./my-posts.component.scss'],
 })
 export class MyPostsComponent implements OnInit, OnDestroy {
-  isAlive: boolean = true;
+  isDestroyed = new Subject();
   showPostSpinner: boolean = false;
   showLoadPostSpinner: boolean = true;
   post: FormControl = new FormControl('');
@@ -46,7 +46,7 @@ export class MyPostsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.store
       .select('auth')
-      .pipe(takeWhile(() => this.isAlive))
+      .pipe(takeUntil(this.isDestroyed))
       .subscribe((userData) => {
         this.authInfo = { ...userData };
       });
@@ -54,7 +54,7 @@ export class MyPostsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.isAlive = false;
+    this.isDestroyed.next(true);
   }
 
   onPost() {
@@ -66,7 +66,7 @@ export class MyPostsComponent implements OnInit, OnDestroy {
         this._fileService
           .uploadPhoto(imgPayload)
           .pipe(
-            takeWhile(() => this.isAlive),
+            takeUntil(this.isDestroyed),
             catchError((err) => {
               this.showPostSpinner = false;
               this.postImgUrl = '';
@@ -91,7 +91,7 @@ export class MyPostsComponent implements OnInit, OnDestroy {
     this._postService
       .getAllPosts()
       .pipe(
-        takeWhile(() => this.isAlive),
+        takeUntil(this.isDestroyed),
         catchError((err) => {
           this.showLoadPostSpinner = false;
           throw err;
@@ -116,7 +116,7 @@ export class MyPostsComponent implements OnInit, OnDestroy {
     this._postService
       .createPost(postPayload)
       .pipe(
-        takeWhile(() => this.isAlive),
+        takeUntil(this.isDestroyed),
         catchError((err) => {
           this.showPostSpinner = false;
           throw err;

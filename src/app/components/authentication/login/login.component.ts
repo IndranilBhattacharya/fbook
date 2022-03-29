@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { ToastService } from 'angular-toastify';
 import { LocalStorageService } from 'ngx-webstorage';
-import { catchError, takeWhile } from 'rxjs';
+import { catchError, Subject, takeUntil } from 'rxjs';
 import { updateUserData } from 'src/app/core/actions/auth.actions';
 import { AppState } from 'src/app/interfaces/app-state';
 import { AuthenticationService } from '../../../services/authentication.service';
@@ -15,7 +15,7 @@ import { AuthenticationService } from '../../../services/authentication.service'
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnDestroy {
-  isAlive: boolean = true;
+  isDestroyed = new Subject();
   isSubmitted: boolean = false;
   showAuthSpinner: boolean = false;
   authenticationGroup: FormGroup = this.formBuilder.group({
@@ -37,7 +37,7 @@ export class LoginComponent implements OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.isAlive = false;
+    this.isDestroyed.next(true);
   }
 
   onAuthenticate() {
@@ -47,7 +47,7 @@ export class LoginComponent implements OnDestroy {
       this._authService
         .authenticate(this.authenticationGroup.value)
         .pipe(
-          takeWhile(() => this.isAlive),
+          takeUntil(this.isDestroyed),
           catchError((err) => {
             this.showAuthSpinner = false;
             this.showInvalidToast();

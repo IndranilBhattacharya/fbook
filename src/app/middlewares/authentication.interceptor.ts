@@ -6,7 +6,7 @@ import {
   HttpInterceptor,
   HttpErrorResponse,
 } from '@angular/common/http';
-import { catchError, filter, Observable, of, takeWhile } from 'rxjs';
+import { catchError, filter, Observable, of, Subject, takeUntil } from 'rxjs';
 import { LocalStorage } from 'ngx-webstorage';
 import { NavigationEnd, Router } from '@angular/router';
 
@@ -14,7 +14,7 @@ import { NavigationEnd, Router } from '@angular/router';
 export class AuthenticationInterceptor implements HttpInterceptor, OnDestroy {
   @LocalStorage()
   authToken!: string;
-  isAlive: boolean = true;
+  isDestroyed = new Subject();
   activeRoute: string = '';
 
   constructor(private router: Router) {
@@ -22,14 +22,14 @@ export class AuthenticationInterceptor implements HttpInterceptor, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.isAlive = false;
+    this.isDestroyed.next(true);
   }
 
   checkCurrentUrl() {
     this.router.events
       .pipe(
         filter((event) => event instanceof NavigationEnd),
-        takeWhile(() => this.isAlive)
+        takeUntil(this.isDestroyed)
       )
       .subscribe((e: any) => (this.activeRoute = e.url));
   }

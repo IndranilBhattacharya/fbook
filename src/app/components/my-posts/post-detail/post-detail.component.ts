@@ -1,6 +1,6 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { takeWhile } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 import { FileService } from '../../../services/file.service';
 import { Post } from '../../../interfaces/post';
 
@@ -10,7 +10,7 @@ import { Post } from '../../../interfaces/post';
   styleUrls: ['./post-detail.component.scss'],
 })
 export class PostDetailComponent implements OnInit, OnDestroy {
-  isAlive: boolean = true;
+  isDestroyed = new Subject();
   @Input('postData') postData!: Post;
   postText: FormControl = new FormControl('');
   postImgUrl: string = 'no_image';
@@ -28,17 +28,17 @@ export class PostDetailComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.isAlive = false;
+    this.isDestroyed.next(true);
   }
 
   fetchUserProfileImg(photoId: string) {
     this._fileService
       .getUserProfileImg(photoId)
-      .pipe(takeWhile(() => this.isAlive))
+      .pipe(takeUntil(this.isDestroyed))
       .subscribe((imgUrl$) => {
-        imgUrl$.pipe(takeWhile(() => this.isAlive)).subscribe((loader) => {
+        imgUrl$.pipe(takeUntil(this.isDestroyed)).subscribe((loader) => {
           loader()
-            .pipe(takeWhile(() => this.isAlive))
+            .pipe(takeUntil(this.isDestroyed))
             .subscribe((objUrl) => {
               this.postImgUrl = objUrl ?? '';
             });

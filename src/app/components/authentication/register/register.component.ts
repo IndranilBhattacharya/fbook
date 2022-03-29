@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { ToastService } from 'angular-toastify';
-import { catchError, takeWhile } from 'rxjs';
+import { catchError, Subject, takeUntil, takeWhile } from 'rxjs';
 import { position } from '../../../core/actions/toast.actions';
 import { AppState } from '../../../interfaces/app-state';
 import { RegisterUser } from '../../../interfaces/register-user';
@@ -16,7 +16,7 @@ import { AuthenticationService } from '../../../services/authentication.service'
   styleUrls: ['./register.component.scss'],
 })
 export class RegisterComponent implements OnInit, OnDestroy {
-  isAlive: boolean = true;
+  isDestroyed = new Subject();
   isSubmitted: boolean = false;
   showSpinner: boolean = false;
   maxDob: Date = new Date();
@@ -42,7 +42,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.isAlive = false;
+    this.isDestroyed.next(true);
   }
 
   get registrationGroupControls() {
@@ -56,7 +56,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
       this._authService
         .register(this.registrationGroup.value as RegisterUser)
         .pipe(
-          takeWhile(() => this.isAlive),
+          takeUntil(this.isDestroyed),
           catchError((err) => {
             this.showSpinner = false;
             throw err;

@@ -2,12 +2,8 @@ import { Location } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { LocalStorage } from 'ngx-webstorage';
-import { Observable, takeWhile } from 'rxjs';
-import {
-  updateUserData,
-  updateUserNumFriends,
-  updateUserNumPosts,
-} from './core/actions/auth.actions';
+import { Observable, Subject, takeUntil } from 'rxjs';
+import { updateUserData } from './core/actions/auth.actions';
 import {
   toastautoClose,
   toastcloseOnClick,
@@ -21,8 +17,6 @@ import {
 } from './core/selectors/toast-param.selector';
 import { AppState } from './interfaces/app-state';
 import { AuthenticationService } from './services/authentication.service';
-import { FriendService } from './services/friend.service';
-import { PostService } from './services/post.service';
 import { UserDataService } from './services/user-data.service';
 
 @Component({
@@ -34,7 +28,7 @@ export class AppComponent implements OnInit, OnDestroy {
   @LocalStorage()
   userId!: string;
 
-  isAlive: boolean = true;
+  isDestroyed = new Subject();
   toastposition$!: Observable<
     'top-left' | 'top-right' | 'bottom-right' | 'bottom-left'
   >;
@@ -51,8 +45,7 @@ export class AppComponent implements OnInit, OnDestroy {
     public location: Location,
     private store: Store<AppState>,
     private _userDataService: UserDataService,
-    private _authService: AuthenticationService,
-    private _friendService: FriendService
+    private _authService: AuthenticationService
   ) {}
 
   ngOnInit(): void {
@@ -61,7 +54,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.isAlive = false;
+    this.isDestroyed.next(true);
   }
 
   fetchToastConfig() {
@@ -81,7 +74,7 @@ export class AppComponent implements OnInit, OnDestroy {
   fetchUserDetail() {
     this._userDataService
       .getUserById(this.userId)
-      .pipe(takeWhile(() => this.isAlive))
+      .pipe(takeUntil(this.isDestroyed))
       .subscribe((userDetail) => {
         this.store.dispatch(updateUserData({ val: userDetail }));
         this._authService.updateUserPosts(userDetail._id);

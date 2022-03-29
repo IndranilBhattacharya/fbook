@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable, takeWhile } from 'rxjs';
+import { Observable, Subject, takeUntil } from 'rxjs';
 import { FileService } from '../../services/file.service';
 import { AppState } from '../../interfaces/app-state';
 import { UserDetail } from '../../interfaces/user-detail';
@@ -16,7 +16,7 @@ import {
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit, OnDestroy {
-  isAlive: boolean = true;
+  isDestroyed = new Subject();
   userInfo$!: Observable<UserDetail>;
   postNum$!: Observable<number>;
   friendsNum$!: Observable<number>;
@@ -34,31 +34,29 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   fetchUserInfo() {
-    this.userInfo$
-      .pipe(takeWhile(() => this.isAlive))
-      .subscribe((userDetail) => {
-        if (userDetail?._id) {
-          this.postNum$ = this.store.select(numOfPosts);
-          this.friendsNum$ = this.store.select(numOfFriends);
-        }
-      });
+    this.userInfo$.pipe(takeUntil(this.isDestroyed)).subscribe((userDetail) => {
+      if (userDetail?._id) {
+        this.postNum$ = this.store.select(numOfPosts);
+        this.friendsNum$ = this.store.select(numOfFriends);
+      }
+    });
   }
 
   observeUserPhoto() {
     this.store
       .select(photoId)
-      .pipe(takeWhile(() => this.isAlive))
+      .pipe(takeUntil(this.isDestroyed))
       .subscribe((id) => id && this.fetchUserProfileImg(id));
   }
 
   fetchUserProfileImg(photoId: string) {
     this._fileService
       .getUserProfileImg(photoId)
-      .pipe(takeWhile(() => this.isAlive))
+      .pipe(takeUntil(this.isDestroyed))
       .subscribe((imgUrl$) => {
-        imgUrl$.pipe(takeWhile(() => this.isAlive)).subscribe((loader) => {
+        imgUrl$.pipe(takeUntil(this.isDestroyed)).subscribe((loader) => {
           loader()
-            .pipe(takeWhile(() => this.isAlive))
+            .pipe(takeUntil(this.isDestroyed))
             .subscribe((objUrl) => {
               this.userProfileImgUrl = objUrl;
             });
@@ -67,6 +65,6 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.isAlive = false;
+    this.isDestroyed.next(true);
   }
 }
