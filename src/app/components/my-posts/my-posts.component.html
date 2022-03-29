@@ -43,6 +43,11 @@
       </button>
     </div>
   </div>
+  <div class="flex w-full gap-4 pt-[15rem] pb-6" *ngIf="showLoadPostSpinner">
+    <app-post-loading-placeholder
+      *ngFor="let usersPost of [0, 1]"
+    ></app-post-loading-placeholder>
+  </div>
   <div class="columns-md w-full pt-[15rem] pb-6">
     <app-post-detail
       *ngFor="let usersPost of allPosts"

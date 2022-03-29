@@ -32,6 +32,7 @@ import { PostDetailComponent } from './components/my-posts/post-detail/post-deta
 import { environment } from 'src/environments/environment';
 import { TrimPipe } from './pipes/trim.pipe';
 import { TimeAgoPipe } from './pipes/time-ago.pipe';
+import { PostLoadingPlaceholderComponent } from './components/my-posts/post-loading-placeholder/post-loading-placeholder.component';
 
 @NgModule({
   declarations: [
@@ -50,6 +51,7 @@ import { TimeAgoPipe } from './pipes/time-ago.pipe';
     PostDetailComponent,
     TrimPipe,
     TimeAgoPipe,
+    PostLoadingPlaceholderComponent,
   ],
   imports: [
     BrowserModule,

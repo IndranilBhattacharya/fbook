@@ -25,11 +25,13 @@ import { PostService } from '../../services/post.service';
 export class MyPostsComponent implements OnInit, OnDestroy {
   isAlive: boolean = true;
   showPostSpinner: boolean = false;
+  showLoadPostSpinner: boolean = true;
   post: FormControl = new FormControl('');
   postImgBlob!: Blob | null;
   postImgUrl: string = '';
   authInfo!: UserDetail;
   allPosts: Post[] = [];
+
   @ViewChild('postImg') postImgElement!: ElementRef;
 
   constructor(
@@ -88,8 +90,17 @@ export class MyPostsComponent implements OnInit, OnDestroy {
   fetchAllPosts() {
     this._postService
       .getAllPosts()
-      .pipe(takeWhile(() => this.isAlive))
-      .subscribe((posts) => (this.allPosts = posts));
+      .pipe(
+        takeWhile(() => this.isAlive),
+        catchError((err) => {
+          this.showLoadPostSpinner = false;
+          throw err;
+        })
+      )
+      .subscribe((posts) => {
+        this.allPosts = posts;
+        this.showLoadPostSpinner = false;
+      });
   }
 
   publishPost(photoId: string) {
