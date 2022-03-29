@@ -9,6 +9,10 @@ import {
 import { catchError, filter, Observable, of, Subject, takeUntil } from 'rxjs';
 import { LocalStorage } from 'ngx-webstorage';
 import { NavigationEnd, Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { AppState } from '../interfaces/app-state';
+import { updateUserData } from '../core/actions/auth.actions';
+import { UserDetail } from '../interfaces/user-detail';
 
 @Injectable()
 export class AuthenticationInterceptor implements HttpInterceptor, OnDestroy {
@@ -17,7 +21,7 @@ export class AuthenticationInterceptor implements HttpInterceptor, OnDestroy {
   isDestroyed = new Subject();
   activeRoute: string = '';
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private store: Store<AppState>) {
     this.checkCurrentUrl();
   }
 
@@ -49,6 +53,9 @@ export class AuthenticationInterceptor implements HttpInterceptor, OnDestroy {
       catchError((err) => {
         if (err instanceof HttpErrorResponse) {
           if (~~(err.status / 400) === 1) {
+            this.store.dispatch(
+              updateUserData({ val: { _id: 'unauthorized' } as UserDetail })
+            );
             this.router.navigateByUrl('/auth');
           }
         }

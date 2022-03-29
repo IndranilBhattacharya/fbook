@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { LocalStorage } from 'ngx-webstorage';
-import { Observable, Subject, takeUntil } from 'rxjs';
+import { catchError, Observable, Subject, takeUntil } from 'rxjs';
 import { updateUserData } from './core/actions/auth.actions';
 import { updateScrollTop } from './core/actions/root-scroll.actions';
 import {
@@ -35,6 +35,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
   @LocalStorage()
   userId!: string;
 
+  showAppLoadSpinner: boolean = true;
   isDestroyed = new Subject();
   toastposition$!: Observable<
     'top-left' | 'top-right' | 'bottom-right' | 'bottom-left'
@@ -59,6 +60,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit(): void {
     this.fetchToastConfig();
     this.fetchUserDetail();
+    this.observeInterceptor();
   }
 
   ngOnDestroy(): void {
@@ -101,9 +103,25 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
       .getUserById(this.userId)
       .pipe(takeUntil(this.isDestroyed))
       .subscribe((userDetail) => {
+        userDetail?._id && (this.showAppLoadSpinner = false);
         this.store.dispatch(updateUserData({ val: userDetail }));
         this._authService.updateUserPosts(userDetail._id);
         this._authService.updateUserFriends(userDetail._id);
+      });
+  }
+
+  observeInterceptor() {
+    this.store
+      .select('auth')
+      .pipe(
+        takeUntil(this.isDestroyed),
+        catchError((err) => {
+          this.showAppLoadSpinner = false;
+          throw err;
+        })
+      )
+      .subscribe((userDetail) => {
+        userDetail?._id === 'unauthorized' && (this.showAppLoadSpinner = false);
       });
   }
 }

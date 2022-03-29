@@ -1,16 +1,25 @@
 <div
+  class="w-screen h-screen flex items-center justify-center"
+  *ngIf="showAppLoadSpinner"
+>
+  <div class="spinner-dark scale-150"></div>
+</div>
+<div
+  *ngIf="!showAppLoadSpinner"
   class="w-screen fixed top-0 left-0 right-0 bg-transparent z-20"
   [ngClass]="location.path().includes('auth') ? 'hidden h-0' : 'h-16'"
 >
   <app-tools></app-tools>
 </div>
 <div
+  *ngIf="!showAppLoadSpinner"
   class="w-screen h-screen"
   [ngClass]="location.path().includes('auth') ? 'p-0' : 'pt-16'"
 >
   <router-outlet></router-outlet>
 </div>
 <lib-toastify-toast-container
+  *ngIf="!showAppLoadSpinner"
   [position]="(toastposition$ | async) ?? 'top-right'"
   [transition]="(toasttransition$ | async) ?? 'bounce'"
   [autoClose]="(toastautoClose$ | async) ?? 4000"
