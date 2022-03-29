@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   Component,
   ElementRef,
   OnDestroy,
@@ -22,7 +23,7 @@ import { PostService } from '../../services/post.service';
   templateUrl: './my-posts.component.html',
   styleUrls: ['./my-posts.component.scss'],
 })
-export class MyPostsComponent implements OnInit, OnDestroy {
+export class MyPostsComponent implements OnInit, AfterViewInit, OnDestroy {
   isDestroyed = new Subject();
   showPostSpinner: boolean = false;
   showLoadPostSpinner: boolean = true;
@@ -31,6 +32,8 @@ export class MyPostsComponent implements OnInit, OnDestroy {
   postImgUrl: string = '';
   authInfo!: UserDetail;
   allPosts: Post[] = [];
+  prevScrollTop: number = 0;
+  setPaddingTopOfPost: boolean = true;
 
   @ViewChild('postImg') postImgElement!: ElementRef;
 
@@ -51,6 +54,31 @@ export class MyPostsComponent implements OnInit, OnDestroy {
         this.authInfo = { ...userData };
       });
     this.fetchAllPosts();
+  }
+
+  ngAfterViewInit(): void {
+    const postCreationCardElem = this.renderer.selectRootElement(
+      document.getElementById('card_creation_elem'),
+      true
+    );
+
+    this.store
+      .select('rootScrollTop')
+      .pipe(takeUntil(this.isDestroyed))
+      .subscribe((scrollInfo) => {
+        if (scrollInfo.rootScrollTop > this.prevScrollTop) {
+          this.setPaddingTopOfPost = false;
+          this.renderer.removeClass(postCreationCardElem, 'dynamic-card-post');
+          this.renderer.removeClass(postCreationCardElem, 'slide-in-top');
+          this.renderer.addClass(postCreationCardElem, 'hidden');
+        } else {
+          this.setPaddingTopOfPost = true;
+          this.renderer.removeClass(postCreationCardElem, 'hidden');
+          this.renderer.addClass(postCreationCardElem, 'slide-in-top');
+          this.renderer.addClass(postCreationCardElem, 'dynamic-card-post');
+        }
+        this.prevScrollTop = scrollInfo.rootScrollTop;
+      });
   }
 
   ngOnDestroy(): void {

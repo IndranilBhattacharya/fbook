@@ -1,4 +1,4 @@
-.card-post-creation {
+.dynamic-card-post {
   @apply fixed top-20;
   left: calc(25vw + 1.5rem);
   width: calc(70vw - 1.5rem);
@@ -24,4 +24,19 @@
 .post-img-preview {
   max-width: 60% !important;
   max-height: 60% !important;
+}
+
+.slide-in-top {
+  animation: slide-in 0.45s ease-in-out forwards;
+}
+
+@keyframes slide-in {
+  0% {
+    transform: translateY(-100vw);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }

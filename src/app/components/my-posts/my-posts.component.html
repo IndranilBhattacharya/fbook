@@ -1,6 +1,7 @@
 <div class="w-full h-full flex flex-col pt-6">
   <div
-    class="card card-post-creation z-10 flex flex-col items-center h-fit gap-3"
+    class="card dynamic-card-post z-10 flex flex-col items-center h-fit gap-3 duration-700 ease-in-out"
+    id="card_creation_elem"
   >
     <quill-editor class="w-full" [formControl]="post"> </quill-editor>
     <img
@@ -43,12 +44,19 @@
       </button>
     </div>
   </div>
-  <div class="flex w-full gap-4 pt-[15rem] pb-6" *ngIf="showLoadPostSpinner">
+  <div
+    class="flex w-full gap-4 pb-6"
+    *ngIf="showLoadPostSpinner"
+    [ngClass]="setPaddingTopOfPost ? 'pt-[15rem]' : 'pt-6'"
+  >
     <app-post-loading-placeholder
       *ngFor="let usersPost of [0, 1]"
     ></app-post-loading-placeholder>
   </div>
-  <div class="columns-md w-full pt-[15rem] pb-6">
+  <div
+    class="columns-md w-full pb-6 duration-300 ease-in-out"
+    [ngClass]="setPaddingTopOfPost ? 'pt-[15rem]' : 'pt-6'"
+  >
     <app-post-detail
       *ngFor="let usersPost of allPosts"
       [postData]="usersPost"

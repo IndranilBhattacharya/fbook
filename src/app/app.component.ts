@@ -1,9 +1,16 @@
 import { Location } from '@angular/common';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  OnDestroy,
+  OnInit,
+  Renderer2,
+} from '@angular/core';
 import { Store } from '@ngrx/store';
 import { LocalStorage } from 'ngx-webstorage';
 import { Observable, Subject, takeUntil } from 'rxjs';
 import { updateUserData } from './core/actions/auth.actions';
+import { updateScrollTop } from './core/actions/root-scroll.actions';
 import {
   toastautoClose,
   toastcloseOnClick,
@@ -24,7 +31,7 @@ import { UserDataService } from './services/user-data.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent implements OnInit, OnDestroy {
+export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
   @LocalStorage()
   userId!: string;
 
@@ -42,6 +49,7 @@ export class AppComponent implements OnInit, OnDestroy {
   toasticonLibrary$!: Observable<'material' | 'font-awesome' | 'none'>;
 
   constructor(
+    private renderer: Renderer2,
     public location: Location,
     private store: Store<AppState>,
     private _userDataService: UserDataService,
@@ -55,6 +63,23 @@ export class AppComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.isDestroyed.next(true);
+  }
+
+  ngAfterViewInit(): void {
+    this.fetchScrollPosition();
+  }
+
+  fetchScrollPosition() {
+    const rootElemQuery = document.getElementsByTagName('app-root');
+    if (rootElemQuery?.length > 0) {
+      const renderedRoot = this.renderer.selectRootElement(
+        rootElemQuery[0],
+        true
+      );
+      this.renderer.listen(renderedRoot, 'scroll', (e) =>
+        this.store.dispatch(updateScrollTop({ val: e?.target?.scrollTop }))
+      );
+    }
   }
 
   fetchToastConfig() {
