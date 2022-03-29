@@ -1,22 +1,22 @@
-<div class="flex w-screen h-full">
+<div class="flex w-screen h-full px-[5vw]">
   <div
-    class="flex flex-col gap-2 text-slate-500 fixed left-0 top-16 bottom-0 pt-12 items-center w-1/4 h-full"
+    class="flex flex-col gap-2 text-slate-500 fixed left-[5vw] top-16 bottom-0 pt-12 items-center w-[20vw] h-full"
   >
     <img
       *ngIf="userProfileImgUrl"
       [src]="userProfileImgUrl"
-      class="w-[56px] h-[56px] md:w-[136px] md:h-[136px] xl:w-[268px] xl:h-[268px] rounded-full mb-6 shadow"
+      class="w-[20vw] h-[20vw] rounded-2xl mb-6 shadow-xl"
       alt=""
     />
     <div
       *ngIf="!userProfileImgUrl"
-      class="w-[56px] h-[56px] md:w-[136px] md:h-[136px] xl:w-[268px] xl:h-[268px] rounded-full animate-pulse bg-slate-200 mb-6 shadow"
+      class="w-[20vw] h-[20vw] rounded-2xl animate-pulse bg-slate-200 mb-4 shadow-xl"
     ></div>
     <div
       class="w-full flex flex-col flex-wrap overflow-clip items-start p-info mb-6"
     >
       <div
-        class="w-full font-bold text-xs md:text-base xl:text-lg truncate text-zinc-700"
+        class="w-full font-bold text-sm md:text-lg xl:text-2xl truncate text-zinc-700"
         *ngIf="(userInfo$ | async)?.firstName || (userInfo$ | async)?.lastName"
       >
         {{
@@ -55,7 +55,7 @@
       >Posts
     </div>
   </div>
-  <div class="flex w-3/4 h-full router-content">
+  <div class="flex w-[75vw] h-full ml-[20vw] pl-6">
     <router-outlet></router-outlet>
   </div>
 </div>

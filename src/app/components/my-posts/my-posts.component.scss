@@ -1,7 +1,7 @@
 .card-post-creation {
   @apply fixed top-20;
-  left: calc(25% + 1rem);
-  width: 68.75%;
+  left: calc(25vw + 1.5rem);
+  width: calc(70vw - 1.5rem);
 }
 
 .post-img-label {

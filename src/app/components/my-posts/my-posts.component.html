@@ -1,4 +1,4 @@
-<div class="w-full h-full flex flex-col pt-6 ml-4">
+<div class="w-full h-full flex flex-col pt-6">
   <div
     class="card card-post-creation z-10 flex flex-col items-center h-fit gap-3"
   >
@@ -43,7 +43,7 @@
       </button>
     </div>
   </div>
-  <div class="flex flex-col w-11/12 h-fit mt-[15rem] pb-10 gap-3">
+  <div class="columns-md w-full pt-[15rem] pb-6">
     <app-post-detail
       *ngFor="let usersPost of allPosts"
       [postData]="usersPost"

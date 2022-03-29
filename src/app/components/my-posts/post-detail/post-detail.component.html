@@ -1,15 +1,12 @@
-<div class="card flex items-start w-full">
-  <div
-    class="flex flex-col justify-start items-start"
-    [ngClass]="postImgUrl && postImgUrl !== 'no_image' ? 'w-3/4' : 'w-10/12'"
-  >
+<div class="card inline-grid w-full my-2">
+  <div class="flex flex-col w-full">
     <div
-      class="w-full font-bold text-xs md:text-base xl:text-lg truncate text-slate-700 px-[15px]"
+      class="w-full h-fit font-bold text-xs md:text-base xl:text-lg truncate text-slate-700 py-1 px-[15px]"
     >
       {{ postData?.userName | titlecase }}
     </div>
     <div
-      class="w-full text-[0.5rem] md:text-sm truncate text-slate-400 px-[15px]"
+      class="w-full h-fit text-[0.5rem] md:text-sm truncate text-slate-400 py-1 px-[15px]"
     >
       {{
         (postData?.profession || "User" | titlecase | trim) +
@@ -24,15 +21,15 @@
       [formControl]="postText"
     >
     </quill-editor>
+    <img
+      *ngIf="postImgUrl && postImgUrl !== 'no_image'"
+      [src]="postImgUrl"
+      class="w-full h-full object-cover rounded-md shadow-xl"
+      alt=""
+    />
+    <div
+      *ngIf="postImgUrl === 'no_image'"
+      class="w-full aspect-square rounded-md animate-pulse bg-slate-200 shadow"
+    ></div>
   </div>
-  <img
-    *ngIf="postImgUrl && postImgUrl !== 'no_image'"
-    [src]="postImgUrl"
-    class="w-1/4 h-full object-cover rounded-md shadow-xl"
-    alt=""
-  />
-  <div
-    *ngIf="postImgUrl === 'no_image'"
-    class="p-[12.5%] rounded-md animate-pulse bg-slate-200 shadow"
-  ></div>
 </div>
