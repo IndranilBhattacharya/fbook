@@ -52,14 +52,14 @@ export class AuthenticationInterceptor implements HttpInterceptor, OnDestroy {
     return next.handle(request).pipe(
       catchError((err) => {
         if (err instanceof HttpErrorResponse) {
-          this.store.dispatch(
-            updateUserData({ val: { _id: 'unauthorized' } as UserDetail })
-          );
           if (err.status === 401 || err.status === 403) {
+            this.store.dispatch(
+              updateUserData({ val: { _id: 'unauthorized' } as UserDetail })
+            );
             this.router.navigateByUrl('/auth');
           }
         }
-        return of(err);
+        throw err;
       })
     );
   }

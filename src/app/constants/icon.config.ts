@@ -11,6 +11,9 @@ import {
   RiSendPlaneLine,
   RiCloseLine,
   RiPencilLine,
+  RiUserAddLine,
+  RiMenFill,
+  RiWomenFill,
 } from 'angular-remix-icon';
 
 export const iconsConfig = {
@@ -26,4 +29,7 @@ export const iconsConfig = {
   RiSendPlaneLine,
   RiCloseLine,
   RiPencilLine,
+  RiUserAddLine,
+  RiMenFill,
+  RiWomenFill,
 };

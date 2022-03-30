@@ -1,9 +1,27 @@
 <div class="w-full h-full flex flex-col pt-6">
-  <div class="columns-md w-full pb-6 duration-300 ease-in-out">
+  <div
+    class="flex gap-2 w-full pb-6"
+    *ngIf="!lazyLoadedUsers || lazyLoadedUsers.length === 0"
+  >
+    <div class="card inline-grid w-full" *ngFor="let i of [0, 1]">
+      <div class="flex items-center w-full">
+        <div class="flex items-center w-full gap-5">
+          <div
+            class="w-10 md:w-14 xl:w-20 aspect-square rounded-full animate-pulse bg-slate-200 shadow"
+          ></div>
+          <div class="flex flex-col w-full">
+            <div
+              class="w-11/12 h-2 animate-pulse bg-slate-200 rounded my-2"
+            ></div>
+            <div class="w-5/12 h-2 animate-pulse bg-slate-200 rounded"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="columns-md w-full pb-6" *ngIf="lazyLoadedUsers.length > 0">
     <app-network-detail
-      *ngFor="
-        let user of lazyLoadedUsers | notFriendsYet: (authInfo$ | async)?._id
-      "
+      *ngFor="let user of lazyLoadedUsers | notFriendsYet: listOfFriends"
       (onFriendStatusChange)="onUpdateFriend($event)"
       [userInformation]="user"
     >

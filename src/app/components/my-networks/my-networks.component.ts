@@ -1,10 +1,13 @@
 import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable, Subject, takeUntil } from 'rxjs';
+import { Subject, takeUntil, throttleTime } from 'rxjs';
 import { AppState } from '../../interfaces/app-state';
 import { UserDetail } from '../../interfaces/user-detail';
 import { Friend } from '../../interfaces/friend';
 import { FriendService } from '../../services/friend.service';
+import { UserDataService } from '../../services/user-data.service';
+import { userId } from '../../core/selectors/user-info.selector';
+import { CreateFriend } from 'src/app/interfaces/create-friend';
 
 @Component({
   selector: 'app-my-networks',
@@ -13,20 +16,28 @@ import { FriendService } from '../../services/friend.service';
 })
 export class MyNetworksComponent implements OnInit, AfterViewInit, OnDestroy {
   isDestroyed = new Subject();
-  listOfAllUsers: Friend[] = [];
-  lazyLoadedUsers: Friend[] = [];
-  authInfo$!: Observable<UserDetail>;
+  listOfFriends: Friend[] = [];
+  listOfAllUsers: UserDetail[] = [];
+  lazyLoadedUsers: UserDetail[] = [];
+  loggedInUserId: string = '';
   prevScrollTop: number = 0;
   lastLoadIndex: number = 20;
 
   constructor(
     private store: Store<AppState>,
+    private _userData: UserDataService,
     private _friendService: FriendService
   ) {}
 
   ngOnInit(): void {
-    this.authInfo$ = this.store.select('auth');
-    this.fetchAllUsers();
+    this.store
+      .select(userId)
+      .pipe(takeUntil(this.isDestroyed))
+      .subscribe((_id) => {
+        this.loggedInUserId = _id;
+        this.fetchFriendsOfUser();
+        this.fetchAllUsers();
+      });
   }
 
   ngAfterViewInit(): void {
@@ -40,43 +51,71 @@ export class MyNetworksComponent implements OnInit, AfterViewInit, OnDestroy {
   observerRootScroll() {
     this.store
       .select('rootScrollTop')
-      .pipe(takeUntil(this.isDestroyed))
+      .pipe(takeUntil(this.isDestroyed), throttleTime(700))
       .subscribe((scrollInfo) => {
         if (
           scrollInfo.rootScrollTop > this.prevScrollTop &&
-          this.lastLoadIndex <= this.listOfAllUsers?.length
+          this.lastLoadIndex < this.listOfAllUsers?.length
         ) {
           const allUserArr = [...this.listOfAllUsers];
+          const allUserCount = allUserArr?.length;
           this.lazyLoadedUsers = [
             ...this.lazyLoadedUsers,
             ...allUserArr.splice(
               this.lastLoadIndex,
-              allUserArr?.length - this.lastLoadIndex > 10
-                ? 10
-                : allUserArr?.length
+              allUserCount - this.lastLoadIndex > 10 ? 10 : allUserCount
             ),
           ];
-          this.lastLoadIndex += 10;
+          this.lastLoadIndex =
+            allUserCount - this.lastLoadIndex > 10
+              ? this.lastLoadIndex + 10
+              : allUserCount;
+          this.prevScrollTop = scrollInfo.rootScrollTop;
         }
-        this.prevScrollTop = scrollInfo.rootScrollTop;
       });
   }
 
   fetchAllUsers() {
-    this._friendService
-      .getAllFriends('')
+    this._userData
+      .getAllUsers()
       .pipe(takeUntil(this.isDestroyed))
-      .subscribe((friendList) => {
-        this.listOfAllUsers = friendList;
+      .subscribe((userList) => {
+        this.listOfAllUsers = [
+          ...userList.filter((u) => u._id !== this.loggedInUserId),
+        ];
         this.lastLoadIndex = 20;
-        this.lazyLoadedUsers = this.listOfAllUsers.splice(
-          0,
-          this.lastLoadIndex
-        );
+        const tempAllUserList = [...this.listOfAllUsers];
+        this.lazyLoadedUsers = tempAllUserList.splice(0, this.lastLoadIndex);
       });
   }
 
-  onUpdateFriend(e: any) {
-    console.log(e);
+  fetchFriendsOfUser() {
+    this._friendService
+      .getAllFriends(this.loggedInUserId)
+      .pipe(takeUntil(this.isDestroyed))
+      .subscribe((friendList) => {
+        this.listOfFriends = [...friendList];
+      });
+  }
+
+  onUpdateFriend(e: { userInfo: UserDetail }) {
+    const createFriendPayload = {
+      userId: this.loggedInUserId,
+      friendId: e.userInfo._id,
+      status: 'Request Pending',
+    } as CreateFriend;
+    this._friendService
+      .sendFriendRequest(createFriendPayload)
+      .pipe(takeUntil(this.isDestroyed))
+      .subscribe((msg) => {
+        if (msg.message?.toLowerCase()?.includes('success')) {
+          this.listOfFriends = [];
+          this.listOfAllUsers = [];
+          this.lazyLoadedUsers = [];
+          this.lastLoadIndex = 20;
+          this.fetchFriendsOfUser();
+          this.fetchAllUsers();
+        }
+      });
   }
 }

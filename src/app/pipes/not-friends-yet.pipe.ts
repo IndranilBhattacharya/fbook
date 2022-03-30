@@ -1,18 +1,15 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { Friend } from '../interfaces/friend';
+import { UserDetail } from '../interfaces/user-detail';
 
 @Pipe({
   name: 'notFriendsYet',
 })
 export class NotFriendsYetPipe implements PipeTransform {
-  transform(value: Friend[], arg: string | undefined): Friend[] {
+  transform(value: UserDetail[], arg: Friend[]): UserDetail[] {
     if (arg) {
-      return value.filter(
-        (user) =>
-          (user?.userId !== arg && user?.friendId !== arg) ||
-          (user?.userId === arg &&
-            (user?.status?.includes('unfriend') ||
-              !user?.status?.includes('friend')))
+      return value?.filter(
+        (user) => !arg?.map((argUser) => argUser.friendId)?.includes(user._id)
       );
     }
     return [];

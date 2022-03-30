@@ -1,6 +1,15 @@
-<div class="card inline-grid w-full my-2" *ngIf="networkDetail?._id">
+<div
+  class="card inline-grid w-full my-2"
+  [ngClass]="
+    (networkDetail?.gender | lowercase) === 'male'
+      ? 'border-l-2 border-l-sky-200 border-solid'
+      : (networkDetail?.gender | lowercase) === 'female'
+      ? 'border-l-2 border-l-pink-200 border-solid'
+      : ''
+  "
+>
   <div class="flex items-center w-full">
-    <div class="flex items-center gap-5">
+    <div class="flex items-center w-full gap-5">
       <img
         *ngIf="networkImgUrl && networkImgUrl !== 'no_image'"
         [src]="networkImgUrl"
@@ -11,7 +20,7 @@
         *ngIf="networkImgUrl === 'no_image'"
         class="w-10 md:w-14 xl:w-20 aspect-square rounded-full animate-pulse bg-slate-200 shadow"
       ></div>
-      <div class="flex flex-col">
+      <div class="flex flex-col max-w-[17rem]">
         <div
           class="w-full h-fit font-bold text-xs md:text-base xl:text-lg truncate text-slate-600 py-1"
         >
@@ -21,15 +30,32 @@
               (networkDetail?.lastName || "" | titlecase)
           }}
         </div>
-        <div class="w-full h-fit text-[0.5rem] md:text-sm">
-          {{
-            (networkDetail?.gender || "skip" | lowercase) === "male"
-              ? "👨🏻"
-              : (networkDetail?.gender || "skip" | lowercase) === "female"
-              ? "👧🏻"
-              : "🍀"
-          }}
+        <div class="w-full h-fit">
+          <rmx-icon
+            name="men-fill"
+            class="text-sky-300"
+            *ngIf="(networkDetail?.gender | lowercase) === 'male'; else women"
+          ></rmx-icon>
+          <ng-template #women
+            ><rmx-icon
+              name="women-fill"
+              class="text-pink-300"
+              *ngIf="
+                (networkDetail?.gender | lowercase) === 'female';
+                else no_gender
+              "
+            ></rmx-icon
+          ></ng-template>
+          <ng-template #no_gender>🍀</ng-template>
         </div>
+      </div>
+      <div class="ml-auto flex items-center justify-end">
+        <button
+          (click)="onChangeRelation()"
+          class="flex items-center justify-center rounded-full bg-sky-100 text-sky-400 hover:text-sky-500 p-3"
+        >
+          <rmx-icon name="user-add-line"></rmx-icon>
+        </button>
       </div>
     </div>
   </div>

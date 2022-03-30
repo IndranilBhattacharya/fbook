@@ -3,6 +3,8 @@ import { UserDetail } from 'src/app/interfaces/user-detail';
 
 const getAuthState = createFeatureSelector<UserDetail>('auth');
 
+export const userId = createSelector(getAuthState, (state) => state._id);
+
 export const photoId = createSelector(getAuthState, (state) => state.photoId);
 
 export const numOfPosts = createSelector(

@@ -6,11 +6,11 @@ import {
   OnDestroy,
   Output,
 } from '@angular/core';
-import { Subject, takeUntil } from 'rxjs';
+import { Observable, Subject, takeUntil } from 'rxjs';
+import { Store } from '@ngrx/store';
 import { UserDetail } from '../../../interfaces/user-detail';
 import { FileService } from '../../../services/file.service';
-import { Friend } from '../../../interfaces/friend';
-import { UserDataService } from '../../../services/user-data.service';
+import { AppState } from '../../../interfaces/app-state';
 @Component({
   selector: 'app-network-detail',
   templateUrl: './network-detail.component.html',
@@ -18,33 +18,23 @@ import { UserDataService } from '../../../services/user-data.service';
 })
 export class NetworkDetailComponent implements AfterViewInit, OnDestroy {
   isDestroyed = new Subject();
-  @Input() userInformation!: Friend;
+  @Input('userInformation') networkDetail!: UserDetail;
   @Output() onFriendStatusChange = new EventEmitter();
   networkImgUrl: string = 'no_image';
-  networkDetail!: UserDetail;
+  authInfo$!: Observable<UserDetail>;
 
   constructor(
-    private _userDataService: UserDataService,
+    private store: Store<AppState>,
     private _fileService: FileService
   ) {}
 
   ngAfterViewInit(): void {
-    this.fetchUserInfo();
+    this.authInfo$ = this.store.select('auth');
+    this.fetchUserProfileImg(this.networkDetail?.photoId);
   }
 
   ngOnDestroy(): void {
     this.isDestroyed.next(true);
-  }
-
-  fetchUserInfo() {
-    this.userInformation?.friendId &&
-      this._userDataService
-        .getUserById(this.userInformation?.friendId)
-        .pipe(takeUntil(this.isDestroyed))
-        .subscribe((userData) => {
-          this.networkDetail = { ...userData };
-          userData?.photoId && this.fetchUserProfileImg(userData?.photoId);
-        });
   }
 
   fetchUserProfileImg(photoId: string) {
@@ -60,5 +50,11 @@ export class NetworkDetailComponent implements AfterViewInit, OnDestroy {
             });
         });
       });
+  }
+
+  onChangeRelation() {
+    this.onFriendStatusChange.emit({
+      userInfo: this.networkDetail,
+    });
   }
 }
