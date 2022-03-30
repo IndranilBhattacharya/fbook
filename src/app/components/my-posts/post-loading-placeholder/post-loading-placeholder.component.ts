@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'app-post-loading-placeholder',
   template: `
-    <div class="card w-full">
+    <div class="card w-full shadow-none">
       <div class="flex flex-col w-full">
         <div
           class="h-2 animate-pulse bg-slate-200 rounded w-9/12 py-1 mb-3"

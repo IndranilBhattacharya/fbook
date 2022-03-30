@@ -2,7 +2,10 @@
   <div
     class="flex flex-col gap-2 text-slate-500 fixed left-[5vw] top-16 bottom-0 pt-12 items-center w-[20vw] h-full"
   >
-    <div class="relative group w-[20vw] h-[20vw]" *ngIf="userProfileImgUrl">
+    <div
+      class="relative group w-[20vw] h-[20vw] mb-4"
+      *ngIf="userProfileImgUrl"
+    >
       <input
         type="file"
         #postImg
@@ -12,36 +15,38 @@
         hidden
       />
       <label
-        class="absolute inset-0 bg-transparent flex justify-end items-end pb-2 pr-2 z-10"
+        class="absolute inset-0 bg-transparent flex justify-end items-end pb-2 pr-2 cursor-pointer z-10"
         for="postImgUpload"
       >
         <rmx-icon
           name="pencil-line"
-          class="!hidden group-hover:!block h-7 w-7 bg-white rounded-full text-slate-500 text-base p-1"
+          class="!hidden group-hover:!block h-7 w-7 bg-white rounded-full text-slate-500 text-base shadow-2xl p-1"
         ></rmx-icon>
       </label>
       <img
         [src]="userProfileImgUrl"
-        class="w-full h-full group-hover:brightness-75 rounded-2xl mb-6 shadow-xl"
+        class="w-full h-full group-hover:brightness-75 rounded-2xl shadow-xl"
         alt=""
       />
     </div>
     <div
       *ngIf="!userProfileImgUrl"
-      class="w-[20vw] h-[20vw] rounded-2xl animate-pulse bg-slate-200 mb-4 shadow-xl"
+      class="w-[20vw] h-[20vw] rounded-2xl animate-pulse bg-slate-200 mb-4"
     ></div>
     <div
-      class="w-full flex flex-col flex-wrap overflow-clip items-start p-info mt-5 mb-3"
+      class="w-full flex flex-col flex-wrap overflow-clip items-start p-info mt-2 mb-3"
     >
       <div
-        class="w-full font-bold text-sm md:text-lg xl:text-2xl truncate text-zinc-700"
+        class="w-full flex flex-wrap font-bold text-sm md:text-lg xl:text-2xl text-zinc-700"
         *ngIf="(userInfo$ | async)?.firstName || (userInfo$ | async)?.lastName"
       >
-        {{
-          ((userInfo$ | async)?.firstName | titlecase) +
-            " " +
-            ((userInfo$ | async)?.lastName | titlecase)
-        }}
+        <span class="inline-block truncate mr-3">{{
+          (userInfo$ | async)?.firstName | titlecase
+        }}</span>
+
+        <span class="inline-block truncate">{{
+          (userInfo$ | async)?.lastName | titlecase
+        }}</span>
       </div>
       <div
         class="h-2 animate-pulse bg-slate-200 rounded w-9/12 mb-3"
