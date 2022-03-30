@@ -11,7 +11,7 @@ import { Post } from '../../../interfaces/post';
 })
 export class PostDetailComponent implements OnInit, OnDestroy {
   isDestroyed = new Subject();
-  @Input('postData') postData!: Post;
+  @Input() postData!: Post;
   postText: FormControl = new FormControl('');
   postImgUrl: string = 'no_image';
 
@@ -21,7 +21,7 @@ export class PostDetailComponent implements OnInit, OnDestroy {
     this.postText.setValue(this.postData?.post || '');
     const postImgID = this.postData.postImageId;
     if (postImgID) {
-      this.fetchUserProfileImg(postImgID);
+      this.fetchPostImage(postImgID);
     } else {
       this.postImgUrl = '';
     }
@@ -31,9 +31,9 @@ export class PostDetailComponent implements OnInit, OnDestroy {
     this.isDestroyed.next(true);
   }
 
-  fetchUserProfileImg(photoId: string) {
+  fetchPostImage(photoId: string) {
     this._fileService
-      .getUserProfileImg(photoId)
+      .getImage(photoId)
       .pipe(takeUntil(this.isDestroyed))
       .subscribe((imgUrl$) => {
         imgUrl$.pipe(takeUntil(this.isDestroyed)).subscribe((loader) => {

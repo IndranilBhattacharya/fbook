@@ -33,6 +33,9 @@ import { environment } from 'src/environments/environment';
 import { TrimPipe } from './pipes/trim.pipe';
 import { TimeAgoPipe } from './pipes/time-ago.pipe';
 import { PostLoadingPlaceholderComponent } from './components/my-posts/post-loading-placeholder/post-loading-placeholder.component';
+import { NetworkDetailComponent } from './components/my-networks/network-detail/network-detail.component';
+import { NotFriendsYetPipe } from './pipes/not-friends-yet.pipe';
+import { FriendsPipe } from './pipes/friends.pipe';
 
 @NgModule({
   declarations: [
@@ -52,6 +55,9 @@ import { PostLoadingPlaceholderComponent } from './components/my-posts/post-load
     TrimPipe,
     TimeAgoPipe,
     PostLoadingPlaceholderComponent,
+    NetworkDetailComponent,
+    NotFriendsYetPipe,
+    FriendsPipe,
   ],
   imports: [
     BrowserModule,

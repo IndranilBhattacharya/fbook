@@ -9,7 +9,7 @@ import { environment } from '../../environments/environment';
 export class FileService {
   constructor(private readonly _http: HttpClient) {}
 
-  getUserProfileImg(photoId: string) {
+  getImage(photoId: string) {
     const url = `${environment.serviceUrl}files/${photoId}`;
     return this._http.get(url, { responseType: 'blob' }).pipe(
       map((imgBlob) => {

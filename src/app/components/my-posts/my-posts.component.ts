@@ -57,11 +57,18 @@ export class MyPostsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit(): void {
+    this.observerRootScroll();
+  }
+
+  ngOnDestroy(): void {
+    this.isDestroyed.next(true);
+  }
+
+  observerRootScroll() {
     const postCreationCardElem = this.renderer.selectRootElement(
       document.getElementById('card_creation_elem'),
       true
     );
-
     this.store
       .select('rootScrollTop')
       .pipe(takeUntil(this.isDestroyed))
@@ -79,10 +86,6 @@ export class MyPostsComponent implements OnInit, AfterViewInit, OnDestroy {
         }
         this.prevScrollTop = scrollInfo.rootScrollTop;
       });
-  }
-
-  ngOnDestroy(): void {
-    this.isDestroyed.next(true);
   }
 
   onPost() {

@@ -1,3 +1,5 @@
-::ng-deep app-my-posts {
+::ng-deep app-my-posts,
+::ng-deep app-my-networks,
+::ng-deep app-my-friends {
   @apply w-full h-full;
 }

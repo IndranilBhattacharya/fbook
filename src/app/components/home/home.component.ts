@@ -60,7 +60,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   fetchUserProfileImg(photoId: string) {
     this._fileService
-      .getUserProfileImg(photoId)
+      .getImage(photoId)
       .pipe(takeUntil(this.isDestroyed))
       .subscribe((imgUrl$) => {
         imgUrl$.pipe(takeUntil(this.isDestroyed)).subscribe((loader) => {

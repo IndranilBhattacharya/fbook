@@ -1,0 +1,36 @@
+<div class="card inline-grid w-full my-2" *ngIf="networkDetail?._id">
+  <div class="flex items-center w-full">
+    <div class="flex items-center gap-5">
+      <img
+        *ngIf="networkImgUrl && networkImgUrl !== 'no_image'"
+        [src]="networkImgUrl"
+        class="w-10 md:w-14 xl:w-20 aspect-square object-cover rounded-full shadow-xl"
+        alt=""
+      />
+      <div
+        *ngIf="networkImgUrl === 'no_image'"
+        class="w-10 md:w-14 xl:w-20 aspect-square rounded-full animate-pulse bg-slate-200 shadow"
+      ></div>
+      <div class="flex flex-col">
+        <div
+          class="w-full h-fit font-bold text-xs md:text-base xl:text-lg truncate text-slate-600 py-1"
+        >
+          {{
+            (networkDetail?.firstName || "" | titlecase) +
+              " " +
+              (networkDetail?.lastName || "" | titlecase)
+          }}
+        </div>
+        <div class="w-full h-fit text-[0.5rem] md:text-sm">
+          {{
+            (networkDetail?.gender || "skip" | lowercase) === "male"
+              ? "👨🏻"
+              : (networkDetail?.gender || "skip" | lowercase) === "female"
+              ? "👧🏻"
+              : "🍀"
+          }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
