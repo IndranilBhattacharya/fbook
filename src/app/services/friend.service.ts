@@ -12,13 +12,15 @@ import { ResponseMsg } from '../interfaces/response-msg';
 export class FriendService {
   constructor(private readonly _http: HttpClient) {}
 
-  getAllFriends(id: string): Observable<Friend[]> {
+  getEntireFriendsList(): Observable<Friend[]> {
     const url = `${environment.serviceUrl}friends`;
-    return this._http
-      .get<Friend[]>(url)
-      .pipe(
-        map((friendRequest) => friendRequest.filter((req) => req.userId === id))
-      );
+    return this._http.get<Friend[]>(url);
+  }
+
+  getAllFriends(id: string): Observable<Friend[]> {
+    return this.getEntireFriendsList().pipe(
+      map((friendRequest) => friendRequest.filter((req) => req.userId === id))
+    );
   }
 
   getMyNumOfFriends(myId: string): Observable<number> {

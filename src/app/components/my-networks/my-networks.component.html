@@ -19,7 +19,10 @@
       </div>
     </div>
   </div>
-  <div class="columns-md w-full pb-6" *ngIf="lazyLoadedUsers.length > 0">
+  <div
+    class="columns-md w-full pb-6"
+    *ngIf="lazyLoadedUsers && lazyLoadedUsers.length > 0"
+  >
     <app-network-detail
       *ngFor="let user of lazyLoadedUsers | notFriendsYet: listOfFriends"
       (onFriendStatusChange)="onUpdateFriend($event)"

@@ -4,33 +4,33 @@ import {
   EventEmitter,
   Input,
   OnDestroy,
+  OnInit,
   Output,
 } from '@angular/core';
-import { Observable, Subject, takeUntil } from 'rxjs';
-import { Store } from '@ngrx/store';
+import { Subject, takeUntil } from 'rxjs';
 import { UserDetail } from '../../../interfaces/user-detail';
 import { FileService } from '../../../services/file.service';
-import { AppState } from '../../../interfaces/app-state';
+import { Friend } from 'src/app/interfaces/friend';
 @Component({
   selector: 'app-network-detail',
   templateUrl: './network-detail.component.html',
   styleUrls: ['./network-detail.component.scss'],
 })
-export class NetworkDetailComponent implements AfterViewInit, OnDestroy {
+export class NetworkDetailComponent implements OnInit, OnDestroy {
   isDestroyed = new Subject();
   isRequestSent: boolean = false;
   @Input('userInformation') networkDetail!: UserDetail;
+  @Input() loggedInUserId: string = '';
+  @Input() listOfFriends: Friend[] | null = null;
+  @Input() myRequest: boolean | null = false;
+  @Input() pendingRequest: boolean | null = false;
+  @Input() actionRequired: boolean | null = true;
   @Output() onFriendStatusChange = new EventEmitter();
   networkImgUrl: string = 'no_image';
-  authInfo$!: Observable<UserDetail>;
 
-  constructor(
-    private store: Store<AppState>,
-    private _fileService: FileService
-  ) {}
+  constructor(private _fileService: FileService) {}
 
-  ngAfterViewInit(): void {
-    this.authInfo$ = this.store.select('auth');
+  ngOnInit(): void {
     this.fetchUserProfileImg(this.networkDetail?.photoId);
   }
 
@@ -53,9 +53,22 @@ export class NetworkDetailComponent implements AfterViewInit, OnDestroy {
       });
   }
 
-  onChangeRelation() {
+  onChangeRelation(targetStatus: string) {
+    const requestId = this.listOfFriends
+      ?.filter(
+        (f) =>
+          (this.myRequest &&
+            f.userId === this.loggedInUserId &&
+            f.friendId === this.networkDetail?._id) ||
+          (this.pendingRequest &&
+            f.userId === this.networkDetail?._id &&
+            f.friendId === this.loggedInUserId)
+      )
+      ?.map((r) => r._id)[0];
     this.onFriendStatusChange.emit({
       userInfo: this.networkDetail,
+      targetStatus,
+      requestId,
     });
     this.isRequestSent = true;
   }

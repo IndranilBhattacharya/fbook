@@ -102,11 +102,11 @@ export class MyNetworksComponent implements OnInit, AfterViewInit, OnDestroy {
       });
   }
 
-  onUpdateFriend(e: { userInfo: UserDetail }) {
+  onUpdateFriend(e: { userInfo: UserDetail; targetStatus: string }) {
     const createFriendPayload = {
       userId: this.loggedInUserId,
       friendId: e.userInfo._id,
-      status: 'Request Pending',
+      status: e?.targetStatus,
     } as CreateFriend;
     this._friendService
       .sendFriendRequest(createFriendPayload)

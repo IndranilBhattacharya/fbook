@@ -36,6 +36,7 @@ import { PostLoadingPlaceholderComponent } from './components/my-posts/post-load
 import { NetworkDetailComponent } from './components/my-networks/network-detail/network-detail.component';
 import { NotFriendsYetPipe } from './pipes/not-friends-yet.pipe';
 import { FriendsPipe } from './pipes/friends.pipe';
+import { PendingFriendsPipe } from './pipes/pending-friends.pipe';
 
 @NgModule({
   declarations: [
@@ -58,6 +59,7 @@ import { FriendsPipe } from './pipes/friends.pipe';
     NetworkDetailComponent,
     NotFriendsYetPipe,
     FriendsPipe,
+    PendingFriendsPipe,
   ],
   imports: [
     BrowserModule,
