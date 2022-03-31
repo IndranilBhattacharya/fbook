@@ -55,11 +55,15 @@
 
     &.nav-link {
       @include default-link;
-      @apply text-inherit hover:text-sky-600;
+      @apply relative text-inherit hover:text-sky-600;
     }
 
     &.active-link {
-      @apply bg-sky-100 text-sky-600 px-3 py-3 scale-107 rounded-xl font-bold;
+      @apply relative bg-sky-100 text-sky-600 px-3 py-3 scale-107 rounded-xl font-bold;
+    }
+
+    &.active-link .pending-requests {
+      @apply translate-x-1/2 -translate-y-[15%];
     }
   }
 }
