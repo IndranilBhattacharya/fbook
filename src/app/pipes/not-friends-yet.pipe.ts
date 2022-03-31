@@ -9,7 +9,9 @@ export class NotFriendsYetPipe implements PipeTransform {
   transform(value: UserDetail[], arg: Friend[]): UserDetail[] {
     if (arg) {
       return value?.filter(
-        (user) => !arg?.map((argUser) => argUser.friendId)?.includes(user._id)
+        (user) =>
+          !arg?.map((argUser) => argUser.friendId)?.includes(user._id) &&
+          !arg?.map((argUser) => argUser.userId)?.includes(user._id)
       );
     }
     return [];

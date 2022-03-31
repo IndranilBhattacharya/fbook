@@ -89,16 +89,27 @@ export class MyNetworksComponent implements OnInit, AfterViewInit, OnDestroy {
         ];
         this.lastLoadIndex = 20;
         const tempAllUserList = [...this.listOfAllUsers];
-        this.lazyLoadedUsers = tempAllUserList.splice(0, this.lastLoadIndex);
+        this.lazyLoadedUsers = [
+          ...tempAllUserList.splice(0, this.lastLoadIndex),
+        ];
       });
   }
 
   fetchFriendsOfUser() {
     this._friendService
-      .getAllFriends(this.loggedInUserId)
+      .getEntireFriendsList()
       .pipe(takeUntil(this.isDestroyed))
       .subscribe((friendList) => {
-        this.listOfFriends = [...friendList];
+        this.listOfFriends = [
+          ...friendList.filter(
+            (f) =>
+              (f?.friendId === this.loggedInUserId ||
+                f?.userId === this.loggedInUserId) &&
+              ((f?.status?.toLowerCase()?.includes('friend') &&
+                !f?.status?.toLowerCase()?.includes('unfriend')) ||
+                f?.status?.toLowerCase()?.includes('pending'))
+          ),
+        ];
       });
   }
 
@@ -114,6 +125,7 @@ export class MyNetworksComponent implements OnInit, AfterViewInit, OnDestroy {
       .subscribe((msg) => {
         if (msg.message?.toLowerCase()?.includes('success')) {
           this._toastService.default('Friend request sent! 🤝🏻');
+          this.prevScrollTop = 0;
           this.fetchFriendsOfUser();
           this.fetchAllUsers();
           this._authService.updateUserPendingRequests(this.loggedInUserId);

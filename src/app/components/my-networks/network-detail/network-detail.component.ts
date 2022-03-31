@@ -57,12 +57,13 @@ export class NetworkDetailComponent implements OnInit, OnDestroy {
     const requestId = this.listOfFriends
       ?.filter(
         (f) =>
-          (this.myRequest &&
+          ((this.myRequest &&
             f.userId === this.loggedInUserId &&
             f.friendId === this.networkDetail?._id) ||
-          (this.pendingRequest &&
-            f.userId === this.networkDetail?._id &&
-            f.friendId === this.loggedInUserId)
+            (this.pendingRequest &&
+              f.userId === this.networkDetail?._id &&
+              f.friendId === this.loggedInUserId)) &&
+          f?.status?.toLowerCase()?.includes('pending')
       )
       ?.map((r) => r._id)[0];
     this.onFriendStatusChange.emit({

@@ -47,4 +47,12 @@ export class FriendService {
     const url = `${environment.serviceUrl}friends/createrequest`;
     return this._http.post<ResponseMsg>(url, payload);
   }
+
+  updateFriendRequest(
+    requestId: string,
+    payload: CreateFriend
+  ): Observable<{}> {
+    const url = `${environment.serviceUrl}friends/${requestId}`;
+    return this._http.put<{}>(url, payload);
+  }
 }

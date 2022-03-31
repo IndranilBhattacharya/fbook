@@ -90,22 +90,27 @@ export class MyFriendsComponent implements OnInit, OnDestroy {
     targetStatus: string;
     requestId: string;
   }) {
-    const updateFriendPayload = {
-      userId: this.loggedInUserId,
-      friendId: e.userInfo._id,
+    let updateFriendPayload = {
+      userId:
+        e?.targetStatus === 'Cancelled Request'
+          ? this.loggedInUserId
+          : e?.userInfo?._id,
+      friendId:
+        e?.targetStatus === 'Cancelled Request'
+          ? e?.userInfo?._id
+          : this.loggedInUserId,
       status: e?.targetStatus,
     } as CreateFriend;
     console.log(e);
-    /*this._friendService
-      .sendFriendRequest(createFriendPayload)
+    this._friendService
+      .updateFriendRequest(e?.requestId, updateFriendPayload)
       .pipe(takeUntil(this.isDestroyed))
-      .subscribe((msg) => {
-        if (msg.message?.toLowerCase()?.includes('success')) {
-          this._toastService.default('Friend request sent! 🤝🏻');
-          this.fetchFriendsOfUser();
-          this.fetchAllUsers();
-          this._authService.updateUserPendingRequests(this.loggedInUserId);
-        }
-      });*/
+      .subscribe(() => {
+        this._toastService.default('Status has been updated 📜');
+        this.fetchFriendsOfUser();
+        this.fetchAllUsers();
+        this._authService.updateUserPendingRequests(this.loggedInUserId);
+        this._authService.updateUserFriends(this.loggedInUserId);
+      });
   }
 }
