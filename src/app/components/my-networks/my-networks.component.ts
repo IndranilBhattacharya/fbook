@@ -9,7 +9,7 @@ import { FriendService } from '../../services/friend.service';
 import { UserDataService } from '../../services/user-data.service';
 import { userId } from '../../core/selectors/user-info.selector';
 import { CreateFriend } from '../../interfaces/create-friend';
-import { AuthenticationService } from 'src/app/services/authentication.service';
+import { AuthenticationService } from '../../services/authentication.service';
 
 @Component({
   selector: 'app-my-networks',
