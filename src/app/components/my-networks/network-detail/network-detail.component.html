@@ -1,12 +1,13 @@
 <div
-  class="card inline-grid py-4 w-full my-2"
-  [ngClass]="
-    (networkDetail?.gender | lowercase) === 'male'
-      ? 'border-l-4 border-l-sky-200 border-solid'
-      : (networkDetail?.gender | lowercase) === 'female'
-      ? 'border-l-4 border-l-pink-200 border-solid'
-      : ''
-  "
+  class="card py-4 my-2"
+  [ngClass]="{
+    'border-l-4 border-l-sky-200 border-solid':
+      (networkDetail?.gender | lowercase) === 'male',
+    'border-l-4 border-l-pink-200 border-solid':
+      (networkDetail?.gender | lowercase) === 'female',
+    'flex !w-full md:!w-[30rem]': actionRequired && listOfFriends,
+    'inline-grid w-full': !actionRequired || !listOfFriends
+  }"
   *ngIf="!isRequestSent"
 >
   <div class="flex items-center w-full">
