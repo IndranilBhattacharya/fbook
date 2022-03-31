@@ -1,5 +1,5 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { UserDetail } from 'src/app/interfaces/user-detail';
+import { UserDetail } from '../../interfaces/user-detail';
 
 const getAuthState = createFeatureSelector<UserDetail>('auth');
 
@@ -15,4 +15,9 @@ export const numOfPosts = createSelector(
 export const numOfFriends = createSelector(
   getAuthState,
   (state) => state.numOfFriends
+);
+
+export const numOfPendingRequest = createSelector(
+  getAuthState,
+  (state) => state.numOfPendingRequest
 );

@@ -1,14 +1,15 @@
 import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Subject, takeUntil, throttleTime } from 'rxjs';
+import { ToastService } from 'angular-toastify';
 import { AppState } from '../../interfaces/app-state';
 import { UserDetail } from '../../interfaces/user-detail';
 import { Friend } from '../../interfaces/friend';
 import { FriendService } from '../../services/friend.service';
 import { UserDataService } from '../../services/user-data.service';
 import { userId } from '../../core/selectors/user-info.selector';
-import { CreateFriend } from 'src/app/interfaces/create-friend';
-import { ToastService } from 'angular-toastify';
+import { CreateFriend } from '../../interfaces/create-friend';
+import { AuthenticationService } from 'src/app/services/authentication.service';
 
 @Component({
   selector: 'app-my-networks',
@@ -26,6 +27,7 @@ export class MyNetworksComponent implements OnInit, AfterViewInit, OnDestroy {
 
   constructor(
     private store: Store<AppState>,
+    private _authService: AuthenticationService,
     private _toastService: ToastService,
     private _userData: UserDataService,
     private _friendService: FriendService
@@ -114,6 +116,7 @@ export class MyNetworksComponent implements OnInit, AfterViewInit, OnDestroy {
           this._toastService.default('Friend request sent! 🤝🏻');
           this.fetchFriendsOfUser();
           this.fetchAllUsers();
+          this._authService.updateUserPendingRequests(this.loggedInUserId);
         }
       });
   }

@@ -1,9 +1,9 @@
 <div class="w-full h-full flex flex-col pt-6">
   <div
-    class="flex gap-2 w-full pb-6"
+    class="flex flex-wrap md:flex-nowrap gap-2 w-full pb-6"
     *ngIf="!lazyLoadedUsers || lazyLoadedUsers.length === 0"
   >
-    <div class="card inline-grid w-full" *ngFor="let i of [0, 1]">
+    <div class="card w-full md:w-1/2" *ngFor="let i of [0, 1]">
       <div class="flex items-center w-full">
         <div class="flex items-center w-full gap-5">
           <div

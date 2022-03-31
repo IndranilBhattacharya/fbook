@@ -22,3 +22,8 @@ export const updateUserNumFriends = createAction(
   `${preActionText}_user_number_of_friends`,
   props<{ val: number }>()
 );
+
+export const updateUserPendingRequests = createAction(
+  `${preActionText}_user_number_of_pending_requests`,
+  props<{ val: number }>()
+);

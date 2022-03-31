@@ -15,4 +15,5 @@ export interface UserDetail {
   token: string;
   numOfPosts: number;
   numOfFriends: number;
+  numOfPendingRequest: number;
 }

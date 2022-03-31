@@ -35,7 +35,7 @@
   </a>
   <a
     href="#"
-    class="group nav-link"
+    class="group nav-link relative"
     routerLink="/my-friends"
     routerLinkActive="active-link"
   >
@@ -44,6 +44,9 @@
       name="user-4-fill"
     ></rmx-icon>
     <span class="hidden group-hover:inline-block">Friends</span>
+    <span class="pending-requests" *ngIf="numOfPendingRequests$ | async"
+      >{{ numOfPendingRequests$ | async }}
+    </span>
   </a>
   <a
     href="#"

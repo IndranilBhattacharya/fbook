@@ -22,11 +22,20 @@ export class FriendService {
   }
 
   getMyNumOfFriends(myId: string): Observable<number> {
-    return this.getAllFriends('').pipe(
+    return this.getAllFriends(myId).pipe(
       map(
         (friendList) =>
-          friendList?.filter(
-            (f) => f._id === myId && f.status.includes('friend')
+          friendList?.filter((f) => f?.status?.includes('friend'))?.length
+      )
+    );
+  }
+
+  getMyPendingRequests(myId: string): Observable<number> {
+    return this.getAllFriends(myId).pipe(
+      map(
+        (friendList) =>
+          friendList?.filter((f) =>
+            f?.status?.toLowerCase()?.includes('pending')
           )?.length
       )
     );

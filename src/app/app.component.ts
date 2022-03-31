@@ -107,6 +107,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
         this.store.dispatch(updateUserData({ val: userDetail }));
         this._authService.updateUserPosts(userDetail._id);
         this._authService.updateUserFriends(userDetail._id);
+        this._authService.updateUserPendingRequests(userDetail._id);
       });
   }
 

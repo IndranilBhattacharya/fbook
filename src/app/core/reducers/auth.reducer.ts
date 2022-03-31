@@ -4,6 +4,7 @@ import {
   updateUserData,
   updateUserNumFriends,
   updateUserNumPosts,
+  updateUserPendingRequests,
   updateUserPhoto,
 } from '../actions/auth.actions';
 
@@ -20,6 +21,9 @@ const _reducerHandler = createReducer(
   }),
   on(updateUserNumFriends, (state, action) => {
     return { ...state, numOfFriends: action.val };
+  }),
+  on(updateUserPendingRequests, (state, action) => {
+    return { ...state, numOfPendingRequest: action.val };
   })
 );
 

@@ -1,11 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable, takeWhile } from 'rxjs';
-import { environment } from 'src/environments/environment';
+import { map, Observable, takeWhile } from 'rxjs';
+import { environment } from '../../environments/environment';
 import {
   updateUserNumFriends,
   updateUserNumPosts,
+  updateUserPendingRequests,
 } from '../core/actions/auth.actions';
 import { AppState } from '../interfaces/app-state';
 import { AuthUser } from '../interfaces/auth-user';
@@ -59,5 +60,14 @@ export class AuthenticationService implements OnDestroy {
       .getMyNumOfFriends(_id)
       .pipe(takeWhile(() => this.isSeriveAlive))
       .subscribe((val) => this.store.dispatch(updateUserNumFriends({ val })));
+  }
+
+  updateUserPendingRequests(_id: string) {
+    this._friendService
+      .getMyPendingRequests(_id)
+      .pipe(takeWhile(() => this.isSeriveAlive))
+      .subscribe((val) =>
+        this.store.dispatch(updateUserPendingRequests({ val }))
+      );
   }
 }

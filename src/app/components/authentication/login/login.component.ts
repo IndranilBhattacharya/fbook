@@ -5,8 +5,8 @@ import { Store } from '@ngrx/store';
 import { ToastService } from 'angular-toastify';
 import { LocalStorageService } from 'ngx-webstorage';
 import { catchError, Subject, takeUntil } from 'rxjs';
-import { updateUserData } from 'src/app/core/actions/auth.actions';
-import { AppState } from 'src/app/interfaces/app-state';
+import { updateUserData } from '../../../core/actions/auth.actions';
+import { AppState } from '../../../interfaces/app-state';
 import { AuthenticationService } from '../../../services/authentication.service';
 
 @Component({
@@ -57,11 +57,15 @@ export class LoginComponent implements OnDestroy {
         .subscribe((userInformation) => {
           this.showAuthSpinner = false;
           if (userInformation?.token) {
-            this._localStorageService.store('authToken', userInformation.token);
-            this._localStorageService.store('userId', userInformation._id);
+            this._localStorageService.store(
+              'authToken',
+              userInformation?.token
+            );
+            this._localStorageService.store('userId', userInformation?._id);
             this.store.dispatch(updateUserData({ val: userInformation }));
-            this._authService.updateUserPosts(userInformation._id);
-            this._authService.updateUserFriends(userInformation._id);
+            this._authService.updateUserPosts(userInformation?._id);
+            this._authService.updateUserFriends(userInformation?._id);
+            this._authService.updateUserPendingRequests(userInformation?._id);
             this.router.navigateByUrl('/');
           } else {
             this.showInvalidToast();

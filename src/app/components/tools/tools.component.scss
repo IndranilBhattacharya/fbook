@@ -10,3 +10,8 @@
     @apply text-sky-600 after:block;
   }
 }
+
+.pending-requests {
+  @apply absolute top-0 right-0 translate-x-[110%] -translate-y-[78%] 
+text-white bg-sky-600 rounded-full flex items-center justify-center px-[0.45rem] text-[0.5rem] font-semibold;
+}
