@@ -1,12 +1,13 @@
 <div
-  class="card inline-grid w-full my-2"
+  class="card inline-grid py-4 w-full my-2"
   [ngClass]="
     (networkDetail?.gender | lowercase) === 'male'
-      ? 'border-l-2 border-l-sky-200 border-solid'
+      ? 'border-l-4 border-l-sky-200 border-solid'
       : (networkDetail?.gender | lowercase) === 'female'
-      ? 'border-l-2 border-l-pink-200 border-solid'
+      ? 'border-l-4 border-l-pink-200 border-solid'
       : ''
   "
+  *ngIf="!isRequestSent"
 >
   <div class="flex items-center w-full">
     <div class="flex items-center w-full gap-5">

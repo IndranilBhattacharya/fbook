@@ -18,6 +18,7 @@ import { AppState } from '../../../interfaces/app-state';
 })
 export class NetworkDetailComponent implements AfterViewInit, OnDestroy {
   isDestroyed = new Subject();
+  isRequestSent: boolean = false;
   @Input('userInformation') networkDetail!: UserDetail;
   @Output() onFriendStatusChange = new EventEmitter();
   networkImgUrl: string = 'no_image';
@@ -56,5 +57,6 @@ export class NetworkDetailComponent implements AfterViewInit, OnDestroy {
     this.onFriendStatusChange.emit({
       userInfo: this.networkDetail,
     });
+    this.isRequestSent = true;
   }
 }
