@@ -3,6 +3,10 @@ import { UserDetail } from '../../interfaces/user-detail';
 
 const preActionText = 'auth_update';
 
+export const resetUserData = createAction(
+  `${preActionText}_reset_user_details`
+);
+
 export const updateUserData = createAction(
   `${preActionText}_user_details`,
   props<{ val: UserDetail }>()

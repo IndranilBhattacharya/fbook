@@ -20,6 +20,7 @@ export class MyFriendsComponent implements OnInit, OnDestroy {
   isDestroyed = new Subject();
   listOfFriends: Friend[] | null = [];
   listOfAllUsers: UserDetail[] = [];
+  friendListAccepted: Friend[] = [];
   friendListForMyRequest: string[] = [];
   friendListForPendingRequest: string[] = [];
   loggedInUserId: string = '';
@@ -82,6 +83,15 @@ export class MyFriendsComponent implements OnInit, OnDestroy {
             )
             ?.map((f) => f.userId),
         ];
+        this.friendListAccepted = [
+          ...friendList?.filter(
+            (friend) =>
+              friend?.status?.toLowerCase()?.includes('friend') &&
+              !friend?.status?.toLowerCase()?.includes('unfriend') &&
+              (friend?.friendId === this.loggedInUserId ||
+                friend?.userId === this.loggedInUserId)
+          ),
+        ];
       });
   }
 
@@ -101,7 +111,6 @@ export class MyFriendsComponent implements OnInit, OnDestroy {
           : this.loggedInUserId,
       status: e?.targetStatus,
     } as CreateFriend;
-    console.log(e);
     this._friendService
       .updateFriendRequest(e?.requestId, updateFriendPayload)
       .pipe(takeUntil(this.isDestroyed))

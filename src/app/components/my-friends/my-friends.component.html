@@ -27,10 +27,9 @@
   <h3
     class="text-zinc-400 text-base pb-4"
     *ngIf="
-      listOfAllUsers &&
-      listOfFriends &&
-      listOfAllUsers.length > 0 &&
-      listOfFriends.length > 0
+      (listOfAllUsers | pendingFriends: friendListForMyRequest).length +
+        (listOfAllUsers | pendingFriends: friendListForPendingRequest).length >
+      0
     "
   >
     Pending Requests
@@ -67,9 +66,9 @@
     >
     </app-network-detail>
   </div>
-  <!-- <h3
-    class="text-zinc-400 text-base mt-3"
-    *ngIf="(listOfAllUsers | friends: listOfFriends || []).length > 0"
+  <h3
+    class="text-zinc-400 text-base mt-4 pb-4"
+    *ngIf="(listOfAllUsers | friends: friendListAccepted).length > 0"
   >
     Friends
   </h3>
@@ -83,12 +82,11 @@
     "
   >
     <app-network-detail
-      *ngFor="let user of listOfAllUsers | friends: listOfFriends"
-      (onFriendStatusChange)="onUpdateFriend($event)"
+      *ngFor="let user of listOfAllUsers | friends: friendListAccepted"
       [userInformation]="user"
-      [listOfFriends]="listOfFriends"
+      [loggedInUserId]="loggedInUserId"
       [actionRequired]="false"
     >
     </app-network-detail>
-  </div>-->
+  </div>
 </div>

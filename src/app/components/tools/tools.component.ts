@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { LocalStorageService } from 'ngx-webstorage';
 import { Observable } from 'rxjs';
+import { resetUserData } from 'src/app/core/actions/auth.actions';
 import { numOfPendingRequest } from '../../core/selectors/user-info.selector';
 import { AppState } from '../../interfaces/app-state';
 
@@ -31,6 +32,7 @@ export class ToolsComponent implements OnInit {
   onLogOut() {
     this._localStorageService.clear('authToken');
     this._localStorageService.clear('userId');
+    this.store.dispatch(resetUserData());
     this.router.navigateByUrl('/auth');
   }
 }

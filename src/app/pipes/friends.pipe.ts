@@ -8,15 +8,10 @@ import { UserDetail } from '../interfaces/user-detail';
 export class FriendsPipe implements PipeTransform {
   transform(value: UserDetail[], arg: Friend[]): UserDetail[] {
     if (arg) {
-      return value?.filter((user) =>
-        arg
-          ?.filter(
-            (friend) =>
-              !friend?.status?.toLowerCase()?.includes('unfriend') &&
-              friend?.status?.toLowerCase()?.includes('friend')
-          )
-          ?.map((argUser) => argUser.friendId)
-          ?.includes(user._id)
+      return value?.filter(
+        (user) =>
+          arg?.map((argUser) => argUser.friendId)?.includes(user._id) ||
+          arg?.map((argUser) => argUser.userId)?.includes(user._id)
       );
     }
     return [];

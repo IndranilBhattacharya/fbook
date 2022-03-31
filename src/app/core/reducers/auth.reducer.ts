@@ -1,15 +1,20 @@
 import { Action, createReducer, on } from '@ngrx/store';
 import { UserDetail } from '../../interfaces/user-detail';
 import {
+  resetUserData,
   updateUserData,
   updateUserNumFriends,
   updateUserNumPosts,
   updateUserPendingRequests,
   updateUserPhoto,
 } from '../actions/auth.actions';
+import { defaultAuthInfo } from '../init-states/auth.initial';
 
 const _reducerHandler = createReducer(
-  {} as UserDetail,
+  defaultAuthInfo,
+  on(resetUserData, () => {
+    return defaultAuthInfo;
+  }),
   on(updateUserData, (state, action) => {
     return { ...state, ...action.val };
   }),

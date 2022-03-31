@@ -1,6 +1,6 @@
 export interface UserDetail {
-  createdDate: Date;
-  dob: Date;
+  createdDate: string;
+  dob: string;
   email: string;
   firstName: string;
   gender: string;

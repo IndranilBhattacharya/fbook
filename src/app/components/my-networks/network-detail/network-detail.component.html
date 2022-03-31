@@ -53,32 +53,35 @@
           <ng-template #no_gender>🍀</ng-template>
         </div>
       </div>
-      <div class="ml-auto flex gap-6 items-center justify-end">
+      <div
+        class="ml-auto flex gap-6 items-center justify-end"
+        *ngIf="actionRequired"
+      >
         <button
           (click)="onChangeRelation('Request Pending')"
           class="send-request"
-          *ngIf="actionRequired && !listOfFriends"
+          *ngIf="!listOfFriends"
         >
           <rmx-icon name="user-add-line"></rmx-icon>
         </button>
         <button
           (click)="onChangeRelation('You are friend')"
           class="accept-request"
-          *ngIf="actionRequired && listOfFriends && pendingRequest"
+          *ngIf="listOfFriends && pendingRequest"
         >
           <rmx-icon name="check-fill"></rmx-icon>
         </button>
         <button
           (click)="onChangeRelation('Rejected Request')"
           class="reject-request"
-          *ngIf="actionRequired && listOfFriends && pendingRequest"
+          *ngIf="listOfFriends && pendingRequest"
         >
           <rmx-icon name="close-line"></rmx-icon>
         </button>
         <button
           (click)="onChangeRelation('Cancelled Request')"
           class="cancel-request"
-          *ngIf="actionRequired && listOfFriends && myRequest"
+          *ngIf="listOfFriends && myRequest"
         >
           <rmx-icon name="close-line"></rmx-icon>
         </button>

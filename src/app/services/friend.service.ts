@@ -17,27 +17,28 @@ export class FriendService {
     return this._http.get<Friend[]>(url);
   }
 
-  getAllFriends(id: string): Observable<Friend[]> {
-    return this.getEntireFriendsList().pipe(
-      map((friendRequest) => friendRequest.filter((req) => req.userId === id))
-    );
-  }
-
   getMyNumOfFriends(myId: string): Observable<number> {
-    return this.getAllFriends(myId).pipe(
+    return this.getEntireFriendsList().pipe(
       map(
         (friendList) =>
-          friendList?.filter((f) => f?.status?.includes('friend'))?.length
+          friendList?.filter(
+            (f) =>
+              f?.status?.includes('friend') &&
+              !f?.status?.includes('unfriend') &&
+              (f.userId === myId || f.friendId === myId)
+          )?.length
       )
     );
   }
 
   getMyPendingRequests(myId: string): Observable<number> {
-    return this.getAllFriends(myId).pipe(
+    return this.getEntireFriendsList().pipe(
       map(
         (friendList) =>
-          friendList?.filter((f) =>
-            f?.status?.toLowerCase()?.includes('pending')
+          friendList?.filter(
+            (f) =>
+              f?.status?.toLowerCase()?.includes('pending') &&
+              (f.userId === myId || f.friendId === myId)
           )?.length
       )
     );
