@@ -15,6 +15,8 @@ import {
   RiMenFill,
   RiWomenFill,
   RiCheckFill,
+  RiProfileLine,
+  RiKey2Line,
 } from 'angular-remix-icon';
 
 export const iconsConfig = {
@@ -34,4 +36,6 @@ export const iconsConfig = {
   RiMenFill,
   RiWomenFill,
   RiCheckFill,
+  RiProfileLine,
+  RiKey2Line,
 };

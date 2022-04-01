@@ -1,11 +1,10 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { DatePipe } from '@angular/common';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Store } from '@ngrx/store';
 import { ToastService } from 'angular-toastify';
-import { catchError, Subject, takeUntil, takeWhile } from 'rxjs';
-import { position } from '../../../core/actions/toast.actions';
-import { AppState } from '../../../interfaces/app-state';
+import { catchError, Subject, takeUntil } from 'rxjs';
+import { UserDetail } from '../../../interfaces/user-detail';
 import { RegisterUser } from '../../../interfaces/register-user';
 import { ResponseMsg } from '../../../interfaces/response-msg';
 import { AuthenticationService } from '../../../services/authentication.service';
@@ -19,7 +18,9 @@ export class RegisterComponent implements OnInit, OnDestroy {
   isDestroyed = new Subject();
   isSubmitted: boolean = false;
   showSpinner: boolean = false;
+  showSaveSpinner: boolean = false;
   maxDob: Date = new Date();
+  @Input() userProfileData!: UserDetail | null | any;
 
   registrationGroup: FormGroup = this.formBuilder.group({
     firstName: ['', [Validators.required, Validators.pattern('[a-zA-Z]*')]],
@@ -33,12 +34,35 @@ export class RegisterComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     private formBuilder: FormBuilder,
+    private datePipe: DatePipe,
     private _toastService: ToastService,
     private _authService: AuthenticationService
   ) {}
 
   ngOnInit(): void {
     this.maxDob.setFullYear(this.maxDob.getFullYear() - 18);
+    this.userProfileData && this.fetchUserInformation();
+  }
+
+  fetchUserInformation() {
+    this.registrationGroupControls['firstName'].setValue(
+      this.userProfileData?.firstName ?? ''
+    );
+    this.registrationGroupControls['lastName'].setValue(
+      this.userProfileData?.firstName ?? ''
+    );
+    this.registrationGroupControls['email'].setValue(
+      this.userProfileData?.email ?? ''
+    );
+    this.registrationGroupControls['dob'].setValue(
+      this.datePipe.transform(this.userProfileData?.dob, 'yyyy-MM-dd') ?? ''
+    );
+    this.registrationGroupControls['gender'].setValue(
+      this.userProfileData?.gender ?? ''
+    );
+    this.registrationGroupControls['password'].setValue(
+      this.userProfileData?.password ?? ''
+    );
   }
 
   ngOnDestroy(): void {

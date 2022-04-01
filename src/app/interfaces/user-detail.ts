@@ -4,6 +4,10 @@ export interface UserDetail {
   email: string;
   firstName: string;
   gender: string;
+  city: string;
+  country: string;
+  pincode: string;
+  profession: string;
   id: string;
   isActive: boolean;
   isAdmin: boolean;

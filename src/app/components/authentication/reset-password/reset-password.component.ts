@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastService } from 'angular-toastify';
-import { catchError, Subject, takeUntil, takeWhile } from 'rxjs';
+import { catchError, Subject, takeUntil } from 'rxjs';
 import { panIn } from '../../../animations/pan-in.animation';
 import { panOut } from '../../../animations/pan-out.animation';
 import { UserDetail } from '../../../interfaces/user-detail';

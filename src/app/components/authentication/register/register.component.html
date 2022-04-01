@@ -1,5 +1,5 @@
 <div class="card w-full">
-  <h2 class="text-zinc-400 font-semibold mb-6">
+  <h2 class="text-zinc-400 font-semibold mb-6" *ngIf="!userProfileData">
     Register for <span class="font-extrabold text-sky-600">fbook</span>
   </h2>
   <form
@@ -228,7 +228,7 @@
         </div>
       </label>
     </div>
-    <label class="block">
+    <label class="block" *ngIf="!userProfileData">
       <span class="block text-sm font-medium text-slate-700">Password</span>
       <input
         type="password"
@@ -267,9 +267,13 @@
       </div>
     </label>
     <div class="w-full flex flex-col justify-center items-center pt-3 pb-3">
-      <button class="btn-primary w-5/12">
+      <button class="btn-primary w-5/12" *ngIf="!userProfileData">
         <div class="spinner-light" *ngIf="showSpinner"></div>
         Sign Up
+      </button>
+      <button class="btn-primary w-5/12" *ngIf="userProfileData">
+        <div class="spinner-light" *ngIf="showSaveSpinner"></div>
+        Save
       </button>
     </div>
   </form>
