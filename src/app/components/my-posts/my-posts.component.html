@@ -3,7 +3,7 @@
     class="card dynamic-card-post z-10 flex flex-col items-center h-fit gap-3 duration-700 ease-in-out"
     id="card_creation_elem"
   >
-    <quill-editor class="w-full" [formControl]="post"> </quill-editor>
+    <quill-editor class="w-full bg-sky-50" [formControl]="post"> </quill-editor>
     <div class="relative group w-2/5 aspect-video" *ngIf="postImgUrl">
       <img
         [src]="postImgUrl"

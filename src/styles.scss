@@ -59,7 +59,7 @@
     }
 
     &.active-link {
-      @apply relative bg-sky-100 text-sky-600 px-3 py-3 scale-107 rounded-xl font-bold;
+      @apply relative bg-sky-100 text-sky-600 px-3 py-3 scale-107 rounded-xl shadow-md font-bold;
     }
 
     &.active-link .pending-requests {
@@ -79,7 +79,7 @@ quill-editor {
 
 @layer components {
   .card {
-    @apply w-fit h-fit px-5 py-8 bg-slate-50 rounded-md border border-slate-200 shadow-md;
+    @apply w-fit h-fit px-5 py-8 bg-slate-50/75 rounded-md border border-gray-200/80 backdrop-blur-sm shadow-md;
   }
 
   .text-input {

@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { ToastService } from 'angular-toastify';
-import { LocalStorageService } from 'ngx-webstorage';
+import { LocalStorageService, SessionStorage } from 'ngx-webstorage';
 import { catchError, Subject, takeUntil } from 'rxjs';
 import { updateUserData } from '../../../core/actions/auth.actions';
 import { AppState } from '../../../interfaces/app-state';
@@ -15,6 +15,8 @@ import { AuthenticationService } from '../../../services/authentication.service'
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnDestroy {
+  @SessionStorage()
+  lastLocation!: string;
   isDestroyed = new Subject();
   isSubmitted: boolean = false;
   showAuthSpinner: boolean = false;
@@ -66,7 +68,9 @@ export class LoginComponent implements OnDestroy {
             this._authService.updateUserPosts(userInformation?._id);
             this._authService.updateUserFriends(userInformation?._id);
             this._authService.updateUserPendingRequests(userInformation?._id);
-            this.router.navigateByUrl('/');
+            this.router.navigateByUrl(
+              !this.lastLocation ? '/' : this.lastLocation
+            );
           } else {
             this.showInvalidToast();
           }

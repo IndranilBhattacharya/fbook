@@ -6,9 +6,10 @@ import {
   OnInit,
   Renderer2,
 } from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { LocalStorage } from 'ngx-webstorage';
-import { catchError, Observable, Subject, takeUntil } from 'rxjs';
+import { LocalStorage, SessionStorageService } from 'ngx-webstorage';
+import { catchError, filter, Observable, Subject, takeUntil } from 'rxjs';
 import { updateUserData } from './core/actions/auth.actions';
 import { updateScrollTop } from './core/actions/root-scroll.actions';
 import {
@@ -50,9 +51,11 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
   toasticonLibrary$!: Observable<'material' | 'font-awesome' | 'none'>;
 
   constructor(
+    private router: Router,
     private renderer: Renderer2,
     public location: Location,
     private store: Store<AppState>,
+    private _sessionStorageService: SessionStorageService,
     private _userDataService: UserDataService,
     private _authService: AuthenticationService
   ) {}
@@ -61,6 +64,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
     this.fetchToastConfig();
     this.fetchUserDetail();
     this.observeInterceptor();
+    this.observerAndStoreUrl();
   }
 
   ngOnDestroy(): void {
@@ -124,5 +128,18 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
       .subscribe((userDetail) => {
         userDetail?._id === 'unauthorized' && (this.showAppLoadSpinner = false);
       });
+  }
+
+  observerAndStoreUrl() {
+    this.router.events
+      .pipe(
+        filter((event) => event instanceof NavigationEnd),
+        takeUntil(this.isDestroyed)
+      )
+      .subscribe(
+        (e: any) =>
+          !e?.url?.toLowerCase()?.includes('auth') &&
+          this._sessionStorageService.store('lastLocation', e.url)
+      );
   }
 }
