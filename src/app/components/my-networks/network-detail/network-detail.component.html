@@ -1,12 +1,13 @@
 <div
-  class="card py-4 my-2"
+  class="card py-4"
   [ngClass]="{
     'border-l-4 border-l-sky-200 border-solid':
       (networkDetail?.gender | lowercase) === 'male',
     'border-l-4 border-l-pink-200 border-solid':
       (networkDetail?.gender | lowercase) === 'female',
-    'flex !w-full md:!w-[30rem]': actionRequired && listOfFriends,
-    'inline-grid w-full': !actionRequired || !listOfFriends
+    'grid !w-full md:!w-[30rem] !my-2 md:!m-0 ':
+      actionRequired && listOfFriends,
+    'inline-grid my-2 w-full': !actionRequired || !listOfFriends
   }"
   *ngIf="!isRequestSent"
 >
