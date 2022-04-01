@@ -103,7 +103,7 @@ quill-editor {
   }
 
   .btn-secondary {
-    @apply flex justify-center items-center bg-slate-50 text-blue-500 text-base font-semibold px-5 py-2 border border-blue-200 rounded shadow-md shadow-blue-300/30
+    @apply flex justify-center items-center bg-slate-50 text-blue-500 text-base font-semibold px-5 py-2 border border-blue-200 rounded shadow shadow-blue-300/30
      hover:text-blue-700 focus:outline-none active:translate-y-0.5 active:shadow-none;
   }
 

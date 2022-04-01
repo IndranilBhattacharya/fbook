@@ -10,17 +10,17 @@
         type="file"
         #postImg
         accept=".png,.jpg,.jpeg"
-        id="postImgUpload"
+        id="userImgUpload"
         (change)="updateProfileImg($event)"
         hidden
       />
       <label
         class="absolute inset-0 bg-transparent flex justify-end items-end pb-2 pr-2 cursor-pointer z-10"
-        for="postImgUpload"
+        for="userImgUpload"
       >
         <rmx-icon
           name="pencil-line"
-          class="!hidden group-hover:!block h-7 w-7 bg-white rounded-full text-slate-500 text-base shadow-2xl p-1"
+          class="!hidden group-hover:!block h-7 w-7 bg-white rounded-full text-slate-500 text-base drop-shadow-lg p-1"
         ></rmx-icon>
       </label>
       <img
