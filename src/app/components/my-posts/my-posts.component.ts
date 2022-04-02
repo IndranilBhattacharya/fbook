@@ -10,7 +10,7 @@ import {
 import { FormControl } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { ToastService } from 'angular-toastify';
-import { catchError, Subject, takeUntil } from 'rxjs';
+import { catchError, sampleTime, Subject, takeUntil } from 'rxjs';
 import { AppState } from 'src/app/interfaces/app-state';
 import { Post } from 'src/app/interfaces/post';
 import { UserDetail } from 'src/app/interfaces/user-detail';
@@ -33,7 +33,6 @@ export class MyPostsComponent implements OnInit, AfterViewInit, OnDestroy {
   authInfo!: UserDetail;
   allPosts: Post[] = [];
   prevScrollTop: number = 0;
-  setPaddingTopOfPost: boolean = true;
 
   @ViewChild('postImg') postImgElement!: ElementRef;
 
@@ -71,15 +70,13 @@ export class MyPostsComponent implements OnInit, AfterViewInit, OnDestroy {
     );
     this.store
       .select('rootScrollTop')
-      .pipe(takeUntil(this.isDestroyed))
+      .pipe(sampleTime(500), takeUntil(this.isDestroyed))
       .subscribe((scrollInfo) => {
         if (scrollInfo.rootScrollTop > this.prevScrollTop) {
-          this.setPaddingTopOfPost = false;
           this.renderer.removeClass(postCreationCardElem, 'dynamic-card-post');
           this.renderer.removeClass(postCreationCardElem, 'slide-in-top');
           this.renderer.addClass(postCreationCardElem, 'hidden');
         } else {
-          this.setPaddingTopOfPost = true;
           this.renderer.removeClass(postCreationCardElem, 'hidden');
           this.renderer.addClass(postCreationCardElem, 'slide-in-top');
           this.renderer.addClass(postCreationCardElem, 'dynamic-card-post');

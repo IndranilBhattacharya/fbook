@@ -47,17 +47,15 @@
     </div>
   </div>
   <div
-    class="flex w-full gap-4 pb-6"
+    class="flex w-full gap-4 pt-[16rem] md:pt-[13.5rem] pb-6"
     *ngIf="showLoadPostSpinner"
-    [ngClass]="setPaddingTopOfPost ? '!pt-[16rem] md:!pt-[13.5rem]' : 'pt-6'"
   >
     <app-post-loading-placeholder
       *ngFor="let usersPost of [0, 1]"
     ></app-post-loading-placeholder>
   </div>
   <div
-    class="columns-md w-full pb-6 duration-300 ease-in-out"
-    [ngClass]="setPaddingTopOfPost ? '!pt-[16rem] md:!pt-[13.5rem]' : 'pt-6'"
+    class="columns-md w-full pb-6 duration-300 pt-[16rem] md:pt-[13.5rem] ease-in-out"
   >
     <app-post-detail
       *ngFor="let usersPost of allPosts"
