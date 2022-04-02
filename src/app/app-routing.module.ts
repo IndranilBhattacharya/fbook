@@ -9,6 +9,7 @@ import { MyFriendsComponent } from './components/my-friends/my-friends.component
 import { MyNetworksComponent } from './components/my-networks/my-networks.component';
 import { MyPostsComponent } from './components/my-posts/my-posts.component';
 import { SettingsComponent } from './components/settings/settings.component';
+import { AuthGuardService as AuthGuard } from './services/auth-guard.service';
 
 const routes: Routes = [
   { path: '', redirectTo: 'my-posts', pathMatch: 'full' },
@@ -20,6 +21,12 @@ const routes: Routes = [
       { path: 'my-friends', component: MyFriendsComponent },
       { path: 'my-networks', component: MyNetworksComponent },
       { path: 'settings', component: SettingsComponent },
+      {
+        path: 'users',
+        loadChildren: () =>
+          import('./components/users/users.module').then((m) => m.UsersModule),
+        canActivate: [AuthGuard],
+      },
     ],
   },
   { path: 'auth', redirectTo: 'auth/login', pathMatch: 'full' },
@@ -32,7 +39,6 @@ const routes: Routes = [
       { path: 'reset-password', component: ResetPasswordComponent },
     ],
   },
-  { path: 'components/users', loadChildren: () => import('./components/users/users.module').then(m => m.UsersModule) },
   { path: '**', component: HomeComponent },
 ];
 

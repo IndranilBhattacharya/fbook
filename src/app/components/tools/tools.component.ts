@@ -4,6 +4,7 @@ import { Store } from '@ngrx/store';
 import { LocalStorageService } from 'ngx-webstorage';
 import { Observable } from 'rxjs';
 import { resetUserData } from 'src/app/core/actions/auth.actions';
+import { UserDetail } from 'src/app/interfaces/user-detail';
 import { numOfPendingRequest } from '../../core/selectors/user-info.selector';
 import { AppState } from '../../interfaces/app-state';
 
@@ -13,6 +14,7 @@ import { AppState } from '../../interfaces/app-state';
   styleUrls: ['./tools.component.scss'],
 })
 export class ToolsComponent implements OnInit {
+  authInfo$!: Observable<UserDetail>;
   numOfPendingRequests$!: Observable<number>;
 
   constructor(
@@ -22,6 +24,7 @@ export class ToolsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.authInfo$ = this.store.select('auth');
     this.numOfPendingRequests$ = this.store.select(numOfPendingRequest);
   }
 
