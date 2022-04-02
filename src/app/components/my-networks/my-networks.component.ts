@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Subject, takeUntil, throttleTime } from 'rxjs';
+import { Subject, takeUntil, takeWhile, throttleTime } from 'rxjs';
 import { ToastService } from 'angular-toastify';
 import { AppState } from '../../interfaces/app-state';
 import { UserDetail } from '../../interfaces/user-detail';
@@ -17,6 +17,7 @@ import { AuthenticationService } from '../../services/authentication.service';
   styleUrls: ['./my-networks.component.scss'],
 })
 export class MyNetworksComponent implements OnInit, AfterViewInit, OnDestroy {
+  isAlive: boolean = true;
   isDestroyed = new Subject();
   listOfFriends: Friend[] = [];
   listOfAllUsers: UserDetail[] = [];
@@ -50,6 +51,7 @@ export class MyNetworksComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.isDestroyed.next(true);
+    this.isAlive = false;
   }
 
   observerRootScroll() {
@@ -121,7 +123,7 @@ export class MyNetworksComponent implements OnInit, AfterViewInit, OnDestroy {
     } as CreateFriend;
     this._friendService
       .sendFriendRequest(createFriendPayload)
-      .pipe(takeUntil(this.isDestroyed))
+      .pipe(takeWhile(() => this.isAlive))
       .subscribe((msg) => {
         if (msg.message?.toLowerCase()?.includes('success')) {
           this._toastService.default('Friend request sent! 🤝🏻');

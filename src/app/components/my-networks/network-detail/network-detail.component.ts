@@ -1,5 +1,4 @@
 import {
-  AfterViewInit,
   Component,
   EventEmitter,
   Input,
@@ -10,7 +9,7 @@ import {
 import { Subject, takeUntil } from 'rxjs';
 import { UserDetail } from '../../../interfaces/user-detail';
 import { FileService } from '../../../services/file.service';
-import { Friend } from 'src/app/interfaces/friend';
+import { Friend } from '../../../interfaces/friend';
 @Component({
   selector: 'app-network-detail',
   templateUrl: './network-detail.component.html',

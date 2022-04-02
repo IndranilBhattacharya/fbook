@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { ToastService } from 'angular-toastify';
-import { Subject, takeUntil } from 'rxjs';
+import { Subject, takeUntil, takeWhile } from 'rxjs';
 import { userId } from '../../core/selectors/user-info.selector';
 import { AppState } from '../../interfaces/app-state';
 import { CreateFriend } from '../../interfaces/create-friend';
@@ -17,6 +17,7 @@ import { UserDataService } from '../../services/user-data.service';
   styleUrls: ['./my-friends.component.scss'],
 })
 export class MyFriendsComponent implements OnInit, OnDestroy {
+  isAlive: boolean = true;
   isDestroyed = new Subject();
   listOfFriends: Friend[] | null = [];
   listOfAllUsers: UserDetail[] = [];
@@ -46,6 +47,7 @@ export class MyFriendsComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.isDestroyed.next(true);
+    this.isAlive = false;
   }
 
   fetchAllUsers() {
@@ -113,7 +115,7 @@ export class MyFriendsComponent implements OnInit, OnDestroy {
     } as CreateFriend;
     this._friendService
       .updateFriendRequest(e?.requestId, updateFriendPayload)
-      .pipe(takeUntil(this.isDestroyed))
+      .pipe(takeWhile(() => this.isAlive))
       .subscribe(() => {
         this._toastService.default('Status has been updated 📜');
         this.fetchFriendsOfUser();
