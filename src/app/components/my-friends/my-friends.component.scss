@@ -1,0 +1,21 @@
+.grid__pending-requests {
+  @apply grid grid-flow-row md:grid-flow-col grid-rows-[auto_auto] 
+    min-h-[10rem] md:min-h-[13.5rem] lg:min-h-[17.5rem] 
+    overflow-x-auto overflow-y-auto md:overflow-y-hidden gap-x-6 pr-12;
+
+  &::-webkit-scrollbar {
+    @apply h-3;
+  }
+
+  &::-webkit-scrollbar-track {
+    @apply bg-sky-100;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    @apply bg-sky-500 rounded-md;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    @apply bg-sky-600;
+  }
+}

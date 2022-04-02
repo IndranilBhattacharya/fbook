@@ -32,6 +32,7 @@ const routes: Routes = [
       { path: 'reset-password', component: ResetPasswordComponent },
     ],
   },
+  { path: 'components/users', loadChildren: () => import('./components/users/users.module').then(m => m.UsersModule) },
   { path: '**', component: HomeComponent },
 ];
 
