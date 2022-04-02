@@ -17,6 +17,7 @@ import {
   RiCheckFill,
   RiProfileLine,
   RiKey2Line,
+  RiMapPin5Line,
 } from 'angular-remix-icon';
 
 export const iconsConfig = {
@@ -38,4 +39,5 @@ export const iconsConfig = {
   RiCheckFill,
   RiProfileLine,
   RiKey2Line,
+  RiMapPin5Line,
 };

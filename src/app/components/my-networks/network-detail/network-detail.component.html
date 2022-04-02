@@ -1,9 +1,9 @@
 <div
   class="card py-4"
   [ngClass]="{
-    'border-l-4 border-l-sky-200 border-solid':
+    '!border-l-[5px] border-l-sky-200 border-solid':
       (networkDetail?.gender | lowercase) === 'male',
-    'border-l-4 border-l-pink-200 border-solid':
+    'border-l-[5px] border-l-pink-200 border-solid':
       (networkDetail?.gender | lowercase) === 'female',
     'grid !w-full md:!w-[30rem] !my-2 md:!m-0 ':
       actionRequired && listOfFriends,
@@ -36,23 +36,38 @@
               (networkDetail?.lastName || "" | titlecase)
           }}
         </div>
-        <div class="w-full h-fit">
+        <div class="w-full h-fit flex items-center gap-5">
           <rmx-icon
             name="men-fill"
-            class="text-sky-300"
+            class="text-sky-300 scale-75"
             *ngIf="(networkDetail?.gender | lowercase) === 'male'; else women"
           ></rmx-icon>
           <ng-template #women
             ><rmx-icon
               name="women-fill"
-              class="text-pink-300"
+              class="text-pink-300 scale-75"
               *ngIf="
                 (networkDetail?.gender | lowercase) === 'female';
                 else no_gender
               "
             ></rmx-icon
           ></ng-template>
-          <ng-template #no_gender>🍀</ng-template>
+          <ng-template #no_gender class="scale-75">🍀</ng-template>
+          <!--<div class="mx-3 text-slate-400/80" *ngIf="networkDetail?.country">
+            •
+          </div>-->
+          <div
+            class="flex items-end text-slate-400/90 text-sm w-max"
+            *ngIf="networkDetail?.country"
+          >
+            <rmx-icon
+              name="map-pin-5-line"
+              class="scale-75 text-sky-300"
+            ></rmx-icon>
+            <span class="inline-block truncate max-w-[20ch]">{{
+              networkDetail?.country
+            }}</span>
+          </div>
         </div>
       </div>
       <div

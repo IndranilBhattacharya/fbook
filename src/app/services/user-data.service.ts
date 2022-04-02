@@ -34,4 +34,10 @@ export class UserDataService {
     const url = `${environment.serviceUrl}users/updateuserphotoId`;
     return this._http.post<{}>(url, payload);
   }
+
+  updateUserData(payload: UserDetail, userId: string) {
+    console.log(payload);
+    const url = `${environment.serviceUrl}users/${userId}`;
+    return this._http.put<{}>(url, payload);
+  }
 }
