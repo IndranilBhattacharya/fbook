@@ -12,6 +12,7 @@ import { appReducer } from './core/app.reducers';
 import { NgxWebstorageModule } from 'ngx-webstorage';
 import { QuillModule } from 'ngx-quill';
 import { quillConfiguration } from './constants/quill.config';
+import { TooltipModule } from 'ng2-tooltip-directive';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -37,6 +38,7 @@ import { NetworkDetailComponent } from './components/my-networks/network-detail/
 import { NotFriendsYetPipe } from './pipes/not-friends-yet.pipe';
 import { FriendsPipe } from './pipes/friends.pipe';
 import { PendingFriendsPipe } from './pipes/pending-friends.pipe';
+import { defaultToolTipConfig } from './constants/tooltip.config';
 
 @NgModule({
   declarations: [
@@ -68,11 +70,13 @@ import { PendingFriendsPipe } from './pipes/pending-friends.pipe';
     AppRoutingModule,
     ReactiveFormsModule,
     AngularToastifyModule,
+    TooltipModule,
     StoreModule.forRoot(appReducer),
     StoreDevtoolsModule.instrument({ logOnly: environment.production }),
     NgxWebstorageModule.forRoot(),
     RemixIconModule.configure(iconsConfig),
     QuillModule.forRoot(quillConfiguration),
+    TooltipModule.forRoot(defaultToolTipConfig),
   ],
   providers: [
     ToastService,

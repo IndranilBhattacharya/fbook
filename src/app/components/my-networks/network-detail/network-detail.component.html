@@ -53,9 +53,6 @@
             ></rmx-icon
           ></ng-template>
           <ng-template #no_gender class="scale-75">🍀</ng-template>
-          <!--<div class="mx-3 text-slate-400/80" *ngIf="networkDetail?.country">
-            •
-          </div>-->
           <div
             class="flex items-end text-slate-400/90 text-sm w-max"
             *ngIf="networkDetail?.country"
@@ -76,28 +73,32 @@
       >
         <button
           (click)="onChangeRelation('Request Pending')"
-          class="send-request"
+          class="acceptive"
+          tooltip="Add Friend"
           *ngIf="!listOfFriends"
         >
           <rmx-icon name="user-add-line"></rmx-icon>
         </button>
         <button
           (click)="onChangeRelation('You are friend')"
-          class="accept-request"
+          class="acceptive"
+          tooltip="Accept Request"
           *ngIf="listOfFriends && pendingRequest"
         >
           <rmx-icon name="check-fill"></rmx-icon>
         </button>
         <button
           (click)="onChangeRelation('Rejected Request')"
-          class="reject-request"
+          class="rejective"
+          tooltip="Reject Request"
           *ngIf="listOfFriends && pendingRequest"
         >
           <rmx-icon name="close-line"></rmx-icon>
         </button>
         <button
           (click)="onChangeRelation('Cancelled Request')"
-          class="cancel-request"
+          class="rejective"
+          tooltip="Cancel Request"
           *ngIf="listOfFriends && myRequest"
         >
           <rmx-icon name="close-line"></rmx-icon>

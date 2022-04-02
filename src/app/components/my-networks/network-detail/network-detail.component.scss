@@ -1,33 +1,9 @@
 @use "./base-action-style";
 
-.send-request {
+.acceptive {
   @include base-action-style.acceptive-style;
-
-  &::after {
-    @apply content-['Add_Friend'];
-  }
 }
 
-.accept-request {
-  @include base-action-style.acceptive-style;
-
-  &::after {
-    @apply content-['Accept_Request'];
-  }
-}
-
-.reject-request {
+.rejective {
   @include base-action-style.rejective-style;
-
-  &::after {
-    @apply content-['Reject_Request'];
-  }
-}
-
-.cancel-request {
-  @include base-action-style.rejective-style;
-
-  &::after {
-    @apply content-['Cancel_Request'];
-  }
 }

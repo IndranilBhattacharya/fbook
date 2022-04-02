@@ -1,32 +1,13 @@
 @mixin base-action-style {
   @apply relative flex items-center justify-center rounded-full shadow-md p-3 z-10;
-
-  &::after {
-    @apply absolute hidden w-max left-0 top-1/2 -translate-x-[110%] -translate-y-1/2 px-4 py-2 
-      border rounded shadow;
-  }
-
-  &:hover {
-    @apply after:block;
-  }
 }
 
 @mixin acceptive-style {
   @include base-action-style;
-
   @apply bg-sky-100 text-sky-400 hover:text-sky-500;
-
-  &::after {
-    @apply bg-slate-50 text-slate-700 border-slate-200;
-  }
 }
 
 @mixin rejective-style {
   @include base-action-style;
-
   @apply bg-pink-100 text-pink-400 hover:text-pink-500;
-
-  &::after {
-    @apply bg-slate-50 text-slate-700 border-slate-200;
-  }
 }
