@@ -73,15 +73,6 @@
           >
             Last Name is required
           </p>
-          <p
-            *ngIf="
-              registrationGroupControls['lastName'].errors &&
-              registrationGroupControls['lastName'].errors['pattern']
-            "
-            class="invalid-msg"
-          >
-            Please provide a valid Last Name
-          </p>
         </div>
       </label>
     </div>
