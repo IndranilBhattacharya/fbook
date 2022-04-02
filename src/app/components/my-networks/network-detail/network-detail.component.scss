@@ -1,31 +1,7 @@
-@mixin acceptive-style {
-  @apply relative flex items-center justify-center rounded-full shadow-md bg-sky-100 text-sky-400 hover:text-sky-500 p-3 z-10;
-
-  &::after {
-    @apply absolute hidden w-max left-0 top-1/2 -translate-x-[110%] -translate-y-1/2 px-4 py-2 bg-slate-50 text-slate-700 
-        border border-slate-200 rounded shadow;
-  }
-
-  &:hover {
-    @apply after:block;
-  }
-}
-
-@mixin rejective-style {
-  @apply relative flex items-center justify-center rounded-full shadow-md bg-pink-100 text-pink-400 hover:text-pink-500 p-3 z-10;
-
-  &::after {
-    @apply absolute hidden w-max left-0 top-1/2 -translate-x-[110%] -translate-y-1/2 px-4 py-2 bg-slate-50 text-slate-700 
-        border border-slate-200 rounded shadow;
-  }
-
-  &:hover {
-    @apply after:block;
-  }
-}
+@use "./base-action-style";
 
 .send-request {
-  @include acceptive-style;
+  @include base-action-style.acceptive-style;
 
   &::after {
     @apply content-['Add_Friend'];
@@ -33,7 +9,7 @@
 }
 
 .accept-request {
-  @include acceptive-style;
+  @include base-action-style.acceptive-style;
 
   &::after {
     @apply content-['Accept_Request'];
@@ -41,7 +17,7 @@
 }
 
 .reject-request {
-  @include rejective-style;
+  @include base-action-style.rejective-style;
 
   &::after {
     @apply content-['Reject_Request'];
@@ -49,7 +25,7 @@
 }
 
 .cancel-request {
-  @include rejective-style;
+  @include base-action-style.rejective-style;
 
   &::after {
     @apply content-['Cancel_Request'];
