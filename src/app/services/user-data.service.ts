@@ -11,9 +11,15 @@ import { UserIdPhotoId } from '../interfaces/user-id-photo-id';
 export class UserDataService {
   constructor(private readonly _http: HttpClient) {}
 
-  getAllUsers(): Observable<UserDetail[]> {
+  getEntireUserList(): Observable<UserDetail[]> {
     const url = `${environment.serviceUrl}users`;
     return this._http.get<UserDetail[]>(url);
+  }
+
+  getAllUsers(): Observable<UserDetail[]> {
+    return this.getEntireUserList().pipe(
+      map((user) => user.filter((u) => u.isActive))
+    );
   }
 
   getUserById(userId: string): Observable<UserDetail> {

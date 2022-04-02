@@ -24,13 +24,15 @@ export class NetworkDetailComponent implements OnInit, OnDestroy {
   @Input() myRequest: boolean | null = false;
   @Input() pendingRequest: boolean | null = false;
   @Input() actionRequired: boolean | null = true;
+  @Input() forAdmin: boolean = false;
   @Output() onFriendStatusChange = new EventEmitter();
+  @Output() onUserDeActivate = new EventEmitter();
   networkImgUrl: string = 'no_image';
 
   constructor(private _fileService: FileService) {}
 
   ngOnInit(): void {
-    this.fetchUserProfileImg(this.networkDetail?.photoId);
+    !this.forAdmin && this.fetchUserProfileImg(this.networkDetail?.photoId);
   }
 
   ngOnDestroy(): void {
@@ -71,5 +73,9 @@ export class NetworkDetailComponent implements OnInit, OnDestroy {
       requestId,
     });
     this.isRequestSent = true;
+  }
+
+  onDeActivate() {
+    this.onUserDeActivate.emit({ userId: this.networkDetail?._id });
   }
 }

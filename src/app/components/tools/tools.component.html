@@ -61,6 +61,7 @@
     <span class="hidden group-hover:inline-block">Settings</span>
   </a>
   <a
+    *ngIf="(authInfo$ | async)?.isAdmin"
     href="#"
     class="group nav-link"
     routerLink="/users"

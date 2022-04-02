@@ -14,13 +14,13 @@
   <div class="flex items-center w-full">
     <div class="flex items-center w-full gap-5">
       <img
-        *ngIf="networkImgUrl && networkImgUrl !== 'no_image'"
+        *ngIf="!forAdmin && networkImgUrl && networkImgUrl !== 'no_image'"
         [src]="networkImgUrl"
         class="w-10 md:w-14 xl:w-20 aspect-square object-cover rounded-full shadow-xl"
         alt=""
       />
       <div
-        *ngIf="networkImgUrl === 'no_image'"
+        *ngIf="!forAdmin && networkImgUrl === 'no_image'"
         class="w-10 md:w-14 xl:w-20 aspect-square rounded-full animate-pulse bg-slate-200 shadow"
       ></div>
       <div
@@ -69,7 +69,7 @@
       </div>
       <div
         class="ml-auto flex gap-6 items-center justify-end"
-        *ngIf="actionRequired"
+        *ngIf="actionRequired && !forAdmin"
       >
         <button
           (click)="onChangeRelation('Request Pending')"
@@ -102,6 +102,15 @@
           *ngIf="listOfFriends && myRequest"
         >
           <rmx-icon name="close-line"></rmx-icon>
+        </button>
+      </div>
+      <div class="ml-auto flex items-center justify-end" *ngIf="forAdmin">
+        <button
+          (click)="onDeActivate()"
+          class="rejective"
+          tooltip="De-activate"
+        >
+          <rmx-icon name="forbid-2-line"></rmx-icon>
         </button>
       </div>
     </div>

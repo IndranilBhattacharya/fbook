@@ -30,7 +30,7 @@ export class MyNetworksComponent implements OnInit, AfterViewInit, OnDestroy {
     private store: Store<AppState>,
     private _authService: AuthenticationService,
     private _toastService: ToastService,
-    private _userData: UserDataService,
+    private _userDataService: UserDataService,
     private _friendService: FriendService
   ) {}
 
@@ -82,7 +82,7 @@ export class MyNetworksComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   fetchAllUsers() {
-    this._userData
+    this._userDataService
       .getAllUsers()
       .pipe(takeUntil(this.isDestroyed))
       .subscribe((userList) => {

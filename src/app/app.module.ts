@@ -30,15 +30,15 @@ import { MyFriendsComponent } from './components/my-friends/my-friends.component
 import { MyNetworksComponent } from './components/my-networks/my-networks.component';
 import { SettingsComponent } from './components/settings/settings.component';
 import { PostDetailComponent } from './components/my-posts/post-detail/post-detail.component';
-import { environment } from 'src/environments/environment';
+import { environment } from '../environments/environment';
 import { TrimPipe } from './pipes/trim.pipe';
 import { TimeAgoPipe } from './pipes/time-ago.pipe';
 import { PostLoadingPlaceholderComponent } from './components/my-posts/post-loading-placeholder/post-loading-placeholder.component';
-import { NetworkDetailComponent } from './components/my-networks/network-detail/network-detail.component';
 import { NotFriendsYetPipe } from './pipes/not-friends-yet.pipe';
 import { FriendsPipe } from './pipes/friends.pipe';
 import { PendingFriendsPipe } from './pipes/pending-friends.pipe';
 import { defaultToolTipConfig } from './constants/tooltip.config';
+import { SharedComponentsModule } from './middlewares/shared-components/shared-components.module';
 
 @NgModule({
   declarations: [
@@ -58,12 +58,12 @@ import { defaultToolTipConfig } from './constants/tooltip.config';
     TrimPipe,
     TimeAgoPipe,
     PostLoadingPlaceholderComponent,
-    NetworkDetailComponent,
     NotFriendsYetPipe,
     FriendsPipe,
     PendingFriendsPipe,
   ],
   imports: [
+    SharedComponentsModule,
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,

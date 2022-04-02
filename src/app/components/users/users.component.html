@@ -1,1 +1,12 @@
-<p>users works!</p>
+<div
+  class="columns-md w-full pb-6"
+  *ngIf="listOfAllUsers && listOfAllUsers.length > 0"
+>
+  <app-network-detail
+    *ngFor="let user of listOfAllUsers"
+    (onUserDeActivate)="deActivateUser($event)"
+    [userInformation]="user"
+    [forAdmin]="true"
+  >
+  </app-network-detail>
+</div>
