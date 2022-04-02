@@ -33,4 +33,114 @@
   <div class="w-full pt-16 pb-6" *ngIf="defaultSettingsView === 'profile'">
     <app-register [userProfileData]="authInfo$ | async"></app-register>
   </div>
+  <div class="w-full pt-16 pb-6" *ngIf="defaultSettingsView === 'password'">
+    <div class="card w-full overflow-x-hidden">
+      <form
+        class="flex flex-col gap-3"
+        (ngSubmit)="onPasswordReset()"
+        [formGroup]="passwordGroup"
+        [equalValidator]="['password', 'confirmPassword']"
+      >
+        <label class="block">
+          <span class="block text-sm font-medium text-slate-700"
+            >New Password</span
+          >
+          <input
+            type="password"
+            class="text-input"
+            formControlName="password"
+            [ngClass]="{
+              'input-invalid':
+                (isPassResetSubmitted ||
+                  passwordGroupControls['password'].touched) &&
+                passwordGroupControls['password'].invalid
+            }"
+          />
+          <div
+            *ngIf="
+              (isPassResetSubmitted ||
+                passwordGroupControls['password'].touched) &&
+              passwordGroupControls['password'].invalid
+            "
+          >
+            <p
+              *ngIf="
+                passwordGroupControls['password'].errors &&
+                passwordGroupControls['password'].errors['required']
+              "
+              class="invalid-msg"
+            >
+              Password is required
+            </p>
+            <p
+              *ngIf="
+                passwordGroupControls['password'].errors &&
+                passwordGroupControls['password'].errors['minlength']
+              "
+              class="invalid-msg"
+            >
+              Password must be at least 6 characters
+            </p>
+          </div>
+        </label>
+        <label class="block">
+          <span class="block text-sm font-medium text-slate-700"
+            >Confirm Password</span
+          >
+          <input
+            type="password"
+            class="text-input"
+            formControlName="confirmPassword"
+            [ngClass]="{
+              'input-invalid':
+                (isPassResetSubmitted ||
+                  passwordGroupControls['confirmPassword'].touched) &&
+                passwordGroupControls['confirmPassword'].invalid
+            }"
+          />
+          <div
+            *ngIf="
+              (isPassResetSubmitted ||
+                passwordGroupControls['confirmPassword'].touched) &&
+              passwordGroupControls['confirmPassword'].invalid
+            "
+          >
+            <p
+              *ngIf="
+                passwordGroupControls['confirmPassword'].errors &&
+                passwordGroupControls['confirmPassword'].errors['required']
+              "
+              class="invalid-msg"
+            >
+              Please confirm your new password
+            </p>
+            <p
+              *ngIf="
+                passwordGroupControls['confirmPassword'].errors &&
+                passwordGroupControls['confirmPassword'].errors['minlength']
+              "
+              class="invalid-msg"
+            >
+              Password must be at least 6 characters
+            </p>
+            <p
+              *ngIf="
+                passwordGroupControls['confirmPassword'].errors &&
+                passwordGroupControls['confirmPassword'].errors['mismatch']
+              "
+              class="invalid-msg"
+            >
+              Password doesn't match
+            </p>
+          </div>
+        </label>
+        <div class="w-full flex justify-center items-center pt-3 pb-3">
+          <button class="btn-primary w-1/4">
+            <div class="spinner-light" *ngIf="showResetPassSpinner"></div>
+            Reset
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
 </div>
