@@ -6,7 +6,6 @@ import {
   OnInit,
   Renderer2,
 } from '@angular/core';
-import { Meta } from '@angular/platform-browser';
 import { NavigationEnd, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { LocalStorage, SessionStorageService } from 'ngx-webstorage';
@@ -52,7 +51,6 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
   toasticonLibrary$!: Observable<'material' | 'font-awesome' | 'none'>;
 
   constructor(
-    private meta: Meta,
     private router: Router,
     private renderer: Renderer2,
     public location: Location,
@@ -60,10 +58,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
     private _sessionStorageService: SessionStorageService,
     private _userDataService: UserDataService,
     private _authService: AuthenticationService
-  ) {
-    const viewport = this.meta.getTag('name=viewport');
-    if (viewport) console.log(viewport.content);
-  }
+  ) {}
 
   ngOnInit(): void {
     this.fetchToastConfig();
