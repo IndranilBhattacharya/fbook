@@ -1,7 +1,14 @@
 import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Subject, takeUntil, takeWhile, throttleTime } from 'rxjs';
+import {
+  debounceTime,
+  Subject,
+  takeUntil,
+  takeWhile,
+  throttleTime,
+} from 'rxjs';
 import { ToastService } from 'angular-toastify';
+import { FormControl } from '@angular/forms';
 import { AppState } from '../../interfaces/app-state';
 import { UserDetail } from '../../interfaces/user-detail';
 import { Friend } from '../../interfaces/friend';
@@ -25,6 +32,8 @@ export class MyNetworksComponent implements OnInit, AfterViewInit, OnDestroy {
   loggedInUserId: string = '';
   prevScrollTop: number = 0;
   lastLoadIndex: number = 20;
+  searchText = new FormControl('');
+  isSearching: boolean = false;
 
   constructor(
     private store: Store<AppState>,
@@ -43,6 +52,7 @@ export class MyNetworksComponent implements OnInit, AfterViewInit, OnDestroy {
         this.fetchFriendsOfUser();
         this.fetchAllUsers();
       });
+    this.observeUserSearch();
   }
 
   ngAfterViewInit(): void {
@@ -54,31 +64,61 @@ export class MyNetworksComponent implements OnInit, AfterViewInit, OnDestroy {
     this.isAlive = false;
   }
 
+  observeUserSearch() {
+    this.searchText.valueChanges
+      .pipe(takeUntil(this.isDestroyed), debounceTime(900))
+      .subscribe((searchText) => {
+        if (searchText) {
+          this.isSearching = true;
+          this.lazyLoadedUsers = [
+            ...this.listOfAllUsers.filter(
+              (u) =>
+                u?.firstName
+                  ?.toLowerCase()
+                  ?.includes(searchText?.toLowerCase()) ||
+                u?.lastName?.toLowerCase()?.includes(searchText?.toLowerCase())
+            ),
+          ];
+        } else {
+          this.isSearching = false;
+          this.prevScrollTop = 0;
+          this.lastLoadIndex = 20;
+          this.lazyLoadedUsers = [];
+          this.lazyLoadUsers();
+        }
+      });
+  }
+
   observerRootScroll() {
     this.store
       .select('rootScrollTop')
-      .pipe(takeUntil(this.isDestroyed), throttleTime(700))
+      .pipe(takeUntil(this.isDestroyed), throttleTime(650))
       .subscribe((scrollInfo) => {
         if (
           scrollInfo.rootScrollTop > this.prevScrollTop &&
-          this.lastLoadIndex < this.listOfAllUsers?.length
+          this.lastLoadIndex < this.listOfAllUsers?.length &&
+          !this.searchText.value
         ) {
-          const allUserArr = [...this.listOfAllUsers];
-          const allUserCount = allUserArr?.length;
-          this.lazyLoadedUsers = [
-            ...this.lazyLoadedUsers,
-            ...allUserArr.splice(
-              this.lastLoadIndex,
-              allUserCount - this.lastLoadIndex > 10 ? 10 : allUserCount
-            ),
-          ];
-          this.lastLoadIndex =
-            allUserCount - this.lastLoadIndex > 10
-              ? this.lastLoadIndex + 10
-              : allUserCount;
+          this.lazyLoadUsers();
           this.prevScrollTop = scrollInfo.rootScrollTop;
         }
       });
+  }
+
+  lazyLoadUsers() {
+    const allUserArr = [...this.listOfAllUsers];
+    const allUserCount = allUserArr?.length;
+    this.lazyLoadedUsers = [
+      ...this.lazyLoadedUsers,
+      ...allUserArr.splice(
+        this.lastLoadIndex,
+        allUserCount - this.lastLoadIndex > 10 ? 10 : allUserCount
+      ),
+    ];
+    this.lastLoadIndex =
+      allUserCount - this.lastLoadIndex > 10
+        ? this.lastLoadIndex + 10
+        : allUserCount;
   }
 
   fetchAllUsers() {

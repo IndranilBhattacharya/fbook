@@ -1,12 +1,29 @@
 <div class="w-full h-full flex flex-col pt-6">
   <div
-    class="flex flex-wrap md:flex-nowrap gap-2 md:gap-0 w-full pb-6"
-    *ngIf="!lazyLoadedUsers || lazyLoadedUsers.length === 0"
+    class="flex flex-wrap md:flex-nowrap gap-2 w-full pb-6"
+    *ngIf="(!lazyLoadedUsers || lazyLoadedUsers.length === 0) && !isSearching"
   >
     <app-network-loading *ngFor="let i of [0, 1]"></app-network-loading>
   </div>
+  <label
+    class="relative block w-full"
+    *ngIf="(lazyLoadedUsers && lazyLoadedUsers.length > 0) || isSearching"
+  >
+    <span class="sr-only">Search</span>
+    <span
+      class="absolute inset-y-0 left-0 flex items-center text-slate-300 text-sm pl-2"
+    >
+      <rmx-icon name="search-2-line"></rmx-icon>
+    </span>
+    <input
+      type="text"
+      class="text-input placeholder:italic placeholder:text-slate-400 pl-11 pr-2 shadow-sm"
+      placeholder="Search fbook..."
+      [formControl]="searchText"
+    />
+  </label>
   <div
-    class="columns-md w-full pb-6"
+    class="columns-md w-full pt-4 pb-6"
     *ngIf="lazyLoadedUsers && lazyLoadedUsers.length > 0"
   >
     <app-network-detail
