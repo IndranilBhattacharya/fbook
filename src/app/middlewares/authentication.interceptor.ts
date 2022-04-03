@@ -6,7 +6,7 @@ import {
   HttpInterceptor,
   HttpErrorResponse,
 } from '@angular/common/http';
-import { catchError, filter, Observable, of, Subject, takeUntil } from 'rxjs';
+import { catchError, filter, Observable, Subject, takeUntil } from 'rxjs';
 import { LocalStorage } from 'ngx-webstorage';
 import { NavigationEnd, Router } from '@angular/router';
 import { Store } from '@ngrx/store';

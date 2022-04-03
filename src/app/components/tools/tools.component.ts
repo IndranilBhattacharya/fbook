@@ -3,8 +3,8 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { LocalStorageService } from 'ngx-webstorage';
 import { Observable } from 'rxjs';
-import { resetUserData } from 'src/app/core/actions/auth.actions';
-import { UserDetail } from 'src/app/interfaces/user-detail';
+import { resetUserData } from '../../core/actions/auth.actions';
+import { UserDetail } from '../../interfaces/user-detail';
 import { numOfPendingRequest } from '../../core/selectors/user-info.selector';
 import { AppState } from '../../interfaces/app-state';
 

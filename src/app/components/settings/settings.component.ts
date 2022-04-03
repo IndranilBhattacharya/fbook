@@ -2,11 +2,11 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { catchError, Observable, takeWhile } from 'rxjs';
+import { ToastService } from 'angular-toastify';
 import { UserDetail } from '../../interfaces/user-detail';
 import { AppState } from '../../interfaces/app-state';
-import { AuthenticationService } from 'src/app/services/authentication.service';
-import { ToastService } from 'angular-toastify';
-import { userId } from 'src/app/core/selectors/user-info.selector';
+import { AuthenticationService } from '../../services/authentication.service';
+import { userId } from '../../core/selectors/user-info.selector';
 
 @Component({
   selector: 'app-settings',

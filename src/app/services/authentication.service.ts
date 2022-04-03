@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { map, Observable, takeWhile } from 'rxjs';
+import { Observable, takeWhile } from 'rxjs';
 import { environment } from '../../environments/environment';
 import {
   updateUserNumFriends,
