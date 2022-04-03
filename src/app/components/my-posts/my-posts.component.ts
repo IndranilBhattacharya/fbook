@@ -122,8 +122,10 @@ export class MyPostsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   fetchAllPosts() {
-    this._postService
-      .getAllPosts()
+    (this.authInfo?.isAdmin
+      ? this._postService.getEntirePostsList()
+      : this._postService.getAllPosts()
+    )
       .pipe(
         takeUntil(this.isDestroyed),
         catchError((err) => {

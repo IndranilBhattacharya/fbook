@@ -13,11 +13,17 @@ import { ResponseMsg } from '../interfaces/response-msg';
 export class PostService {
   constructor(private readonly _http: HttpClient) {}
 
-  getAllPosts(): Observable<Post[]> {
+  getEntirePostsList(): Observable<Post[]> {
     const url = `${environment.serviceUrl}posts`;
     return this._http
       .get<Post[]>(url)
       .pipe(map((posts) => posts.sort((a, b) => sortByDate(a, b))));
+  }
+
+  getAllPosts(): Observable<Post[]> {
+    return this.getEntirePostsList().pipe(
+      map((posts) => posts.filter((p) => p.isActive))
+    );
   }
 
   getMyNumOfPosts(id: string): Observable<number> {

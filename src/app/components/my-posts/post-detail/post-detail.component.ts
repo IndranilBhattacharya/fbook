@@ -23,6 +23,7 @@ export class PostDetailComponent implements OnInit, OnDestroy {
   showUpdateSpinner: boolean = false;
   @Input() postData!: Post;
   @Input() loggedInUserId!: string | null | undefined;
+  @Input() forAdmin: boolean | undefined = false;
   @Output() isPostUpdated = new EventEmitter();
   postText: FormControl = new FormControl('');
   postImgUrl: string = 'no_image';
@@ -118,6 +119,27 @@ export class PostDetailComponent implements OnInit, OnDestroy {
       .subscribe((res) => {
         if (res) {
           this._toastService.warn('Post got removed! 🙃');
+          this.isPostUpdated.emit({ updated: true });
+        }
+      });
+  }
+
+  changePostStatus(toStatus: boolean) {
+    this.showUpdateSpinner = true;
+    this._postService
+      .updatePost({ ...this.postData, isActive: toStatus })
+      .pipe(
+        takeUntil(this.isDestroyed),
+        catchError((err) => {
+          this.showUpdateSpinner = false;
+          throw err;
+        })
+      )
+      .subscribe((res) => {
+        if (res) {
+          this._toastService.info(
+            `Post ${toStatus ? 'activated' : 'deactivated'}`
+          );
           this.isPostUpdated.emit({ updated: true });
         }
       });
