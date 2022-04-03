@@ -1,12 +1,20 @@
-<div
-  class="columns-md w-full pb-6"
-  *ngIf="listOfAllUsers && listOfAllUsers.length > 0"
->
-  <app-network-detail
-    *ngFor="let user of listOfAllUsers"
-    (onUserDeActivate)="deActivateUser($event)"
-    [userInformation]="user"
-    [forAdmin]="true"
+<div class="flex flex-col pt-6">
+  <div
+    class="flex flex-wrap md:flex-nowrap gap-2 w-full pb-6"
+    *ngIf="!listOfAllUsers || listOfAllUsers.length === 0"
   >
-  </app-network-detail>
+    <app-network-loading *ngFor="let i of [0, 1]"></app-network-loading>
+  </div>
+  <div
+    class="columns-md w-full pr-8 md:pr-0 pb-6"
+    *ngIf="listOfAllUsers && listOfAllUsers.length > 0"
+  >
+    <app-network-detail
+      *ngFor="let user of listOfAllUsers"
+      (onUserDeActivate)="deActivateUser($event)"
+      [userInformation]="user"
+      [forAdmin]="true"
+    >
+    </app-network-detail>
+  </div>
 </div>

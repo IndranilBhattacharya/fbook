@@ -7,7 +7,7 @@
       (networkDetail?.gender | lowercase) === 'female',
     'grid !w-full md:!w-[30rem] !my-2 md:!m-0 ':
       actionRequired && listOfFriends,
-    'inline-grid my-2 w-full': !actionRequired || !listOfFriends
+    'inline-grid my-2 w-full': !actionRequired || !listOfFriends || forAdmin
   }"
   *ngIf="!isRequestSent"
 >
@@ -65,6 +65,12 @@
               networkDetail?.country
             }}</span>
           </div>
+          <div
+            class="flex items-center justify-center bg-slate-300 border border-slate-500 text-slate-700 px-2 rounded text-sm w-max"
+            *ngIf="forAdmin && !networkDetail?.isActive"
+          >
+            Inactive
+          </div>
         </div>
       </div>
       <div
@@ -108,10 +114,20 @@
         <button
           (click)="onDeActivate()"
           class="rejective"
+          *ngIf="networkDetail?.isActive && !showStatusSpinner"
           tooltip="De-activate"
         >
           <rmx-icon name="forbid-2-line"></rmx-icon>
         </button>
+        <button
+          (click)="onActivate()"
+          class="acceptive"
+          *ngIf="!networkDetail?.isActive && !showStatusSpinner"
+          tooltip="Re-activate"
+        >
+          <rmx-icon name="arrow-go-back-fill"></rmx-icon>
+        </button>
+        <div class="spinner-dark" *ngIf="showStatusSpinner"></div>
       </div>
     </div>
   </div>

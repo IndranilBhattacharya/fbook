@@ -20,6 +20,7 @@ import {
   RiMapPin5Line,
   RiGroup2Line,
   RiForbid2Line,
+  RiArrowGoBackFill,
 } from 'angular-remix-icon';
 
 export const iconsConfig = {
@@ -44,4 +45,5 @@ export const iconsConfig = {
   RiMapPin5Line,
   RiGroup2Line,
   RiForbid2Line,
+  RiArrowGoBackFill,
 };

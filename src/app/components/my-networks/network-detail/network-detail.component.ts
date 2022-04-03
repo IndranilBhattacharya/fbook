@@ -18,6 +18,7 @@ import { Friend } from '../../../interfaces/friend';
 export class NetworkDetailComponent implements OnInit, OnDestroy {
   isDestroyed = new Subject();
   isRequestSent: boolean = false;
+  showStatusSpinner: boolean = false;
   @Input('userInformation') networkDetail!: UserDetail;
   @Input() loggedInUserId: string = '';
   @Input() listOfFriends: Friend[] | null = null;
@@ -76,6 +77,18 @@ export class NetworkDetailComponent implements OnInit, OnDestroy {
   }
 
   onDeActivate() {
-    this.onUserDeActivate.emit({ userId: this.networkDetail?._id });
+    this.onUserDeActivate.emit({
+      userId: this.networkDetail?._id,
+      isActive: false,
+    });
+    this.showStatusSpinner = true;
+  }
+
+  onActivate() {
+    this.onUserDeActivate.emit({
+      userId: this.networkDetail?._id,
+      isActive: true,
+    });
+    this.showStatusSpinner = true;
   }
 }
