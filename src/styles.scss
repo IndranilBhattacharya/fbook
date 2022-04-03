@@ -77,6 +77,10 @@ quill-editor {
   flex-direction: column !important;
 }
 
+.ql-bubble .ql-editor {
+  padding-left: 0 !important;
+}
+
 @layer components {
   .card {
     @apply w-fit h-fit px-5 py-8 bg-slate-50/75 rounded-md border border-gray-200/80 backdrop-blur-sm shadow-md;

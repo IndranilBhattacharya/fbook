@@ -11,11 +11,12 @@ import { FormControl } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { ToastService } from 'angular-toastify';
 import { catchError, sampleTime, Subject, takeUntil } from 'rxjs';
-import { AppState } from 'src/app/interfaces/app-state';
-import { Post } from 'src/app/interfaces/post';
-import { UserDetail } from 'src/app/interfaces/user-detail';
-import { AuthenticationService } from 'src/app/services/authentication.service';
-import { FileService } from 'src/app/services/file.service';
+import { photoId } from '../../core/selectors/user-info.selector';
+import { AppState } from '../../interfaces/app-state';
+import { Post } from '../../interfaces/post';
+import { UserDetail } from '../../interfaces/user-detail';
+import { AuthenticationService } from '../../services/authentication.service';
+import { FileService } from '../../services/file.service';
 import { PostService } from '../../services/post.service';
 
 @Component({
@@ -52,7 +53,12 @@ export class MyPostsComponent implements OnInit, AfterViewInit, OnDestroy {
       .subscribe((userData) => {
         this.authInfo = { ...userData };
       });
-    this.fetchAllPosts();
+    this.store
+      .select(photoId)
+      .pipe(takeUntil(this.isDestroyed))
+      .subscribe(() => {
+        this.fetchAllPosts();
+      });
   }
 
   ngAfterViewInit(): void {

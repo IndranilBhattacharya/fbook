@@ -11,6 +11,10 @@ import {
 } from '../../core/selectors/user-info.selector';
 import { UserIdPhotoId } from 'src/app/interfaces/user-id-photo-id';
 import { UserDataService } from 'src/app/services/user-data.service';
+import { ToastService } from 'angular-toastify';
+import { updateUserPhoto } from 'src/app/core/actions/auth.actions';
+import { PostService } from 'src/app/services/post.service';
+import { BulkUpdatePost } from 'src/app/interfaces/bulk-update-post';
 
 @Component({
   selector: 'app-home',
@@ -27,8 +31,10 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   constructor(
     private store: Store<AppState>,
+    private _toastService: ToastService,
     private _fileService: FileService,
-    private _userDataService: UserDataService
+    private _userDataService: UserDataService,
+    private _postService: PostService
   ) {}
 
   ngOnInit(): void {
@@ -110,7 +116,22 @@ export class HomeComponent implements OnInit, OnDestroy {
         })
       )
       .subscribe(() => {
+        this._toastService.default('Profile picture updated 🥳');
         this.fetchUserProfileImg(photoId);
+        this.updateBulkPosts(photoId);
+      });
+  }
+
+  updateBulkPosts(newPhotoId: string) {
+    const bulkUpdatePayload = {
+      userId: this.userId,
+      photoId: newPhotoId,
+    } as BulkUpdatePost;
+    this._postService
+      .updatePostsAsBulk(bulkUpdatePayload)
+      .pipe(takeUntil(this.isDestroyed))
+      .subscribe(() => {
+        this.store.dispatch(updateUserPhoto({ val: newPhotoId }));
       });
   }
 }
