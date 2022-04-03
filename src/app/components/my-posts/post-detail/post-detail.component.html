@@ -1,4 +1,4 @@
-<div class="card inline-grid w-full my-2">
+<div class="card relative inline-grid w-full my-2">
   <div class="flex flex-col w-full">
     <div class="flex w-full">
       <img
@@ -47,4 +47,17 @@
       class="w-full aspect-square rounded-md animate-pulse bg-slate-200 shadow"
     ></div>
   </div>
+  <button
+    *ngIf="loggedInUserId === postData?.userId && !showUpdateSpinner"
+    tooltip="Delete Post"
+    placement="top"
+    (click)="deletePost()"
+    class="absolute top-3 right-3 flex justify-center items-center rounded-full text-white bg-red-400 hover:bg-red-500 shadow-2xl"
+  >
+    <rmx-icon name="close-line"></rmx-icon>
+  </button>
+  <div
+    class="spinner-dark absolute top-4 right-3"
+    *ngIf="showUpdateSpinner"
+  ></div>
 </div>

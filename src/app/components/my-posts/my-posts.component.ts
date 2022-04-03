@@ -192,4 +192,10 @@ export class MyPostsComponent implements OnInit, AfterViewInit, OnDestroy {
     this.postImgUrl = '';
     this.renderer.setProperty(this.postImgElement.nativeElement, 'value', '');
   }
+
+  onRefreshPost(e: { updated: boolean }) {
+    if (e.updated) {
+      this.fetchAllPosts();
+    }
+  }
 }

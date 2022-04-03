@@ -60,6 +60,8 @@
     <app-post-detail
       *ngFor="let usersPost of allPosts"
       [postData]="usersPost"
+      [loggedInUserId]="authInfo?._id"
+      (isPostUpdated)="onRefreshPost($event)"
     ></app-post-detail>
   </div>
 </div>

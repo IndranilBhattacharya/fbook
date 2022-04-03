@@ -1,8 +1,17 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { catchError, Observable, Subject, takeUntil } from 'rxjs';
+import { ToastService } from 'angular-toastify';
 import { FileService } from '../../../services/file.service';
 import { Post } from '../../../interfaces/post';
+import { PostService } from '../../../services/post.service';
 
 @Component({
   selector: 'app-post-detail',
@@ -11,12 +20,19 @@ import { Post } from '../../../interfaces/post';
 })
 export class PostDetailComponent implements OnInit, OnDestroy {
   isDestroyed = new Subject();
+  showUpdateSpinner: boolean = false;
   @Input() postData!: Post;
+  @Input() loggedInUserId!: string | null | undefined;
+  @Output() isPostUpdated = new EventEmitter();
   postText: FormControl = new FormControl('');
   postImgUrl: string = 'no_image';
   userImgUrl: string = 'no_image';
 
-  constructor(private _fileService: FileService) {}
+  constructor(
+    private _toastService: ToastService,
+    private _fileService: FileService,
+    private _postService: PostService
+  ) {}
 
   ngOnInit(): void {
     this.postText.setValue(this.postData?.post || '');
@@ -33,7 +49,7 @@ export class PostDetailComponent implements OnInit, OnDestroy {
     if (postImgID) {
       this.fetchPostImage(postImgID);
     } else {
-      this.userImgUrl = '';
+      this.postImgUrl = '';
     }
   }
 
@@ -42,7 +58,7 @@ export class PostDetailComponent implements OnInit, OnDestroy {
     if (userImgID) {
       this.fetchUserImage(userImgID);
     } else {
-      this.postImgUrl = '';
+      this.userImgUrl = '';
     }
   }
 
@@ -86,5 +102,24 @@ export class PostDetailComponent implements OnInit, OnDestroy {
           });
       });
     });
+  }
+
+  deletePost() {
+    this.showUpdateSpinner = true;
+    this._postService
+      .deletePost(this.postData)
+      .pipe(
+        takeUntil(this.isDestroyed),
+        catchError((err) => {
+          this.showUpdateSpinner = false;
+          throw err;
+        })
+      )
+      .subscribe((res) => {
+        if (res) {
+          this._toastService.warn('Post got removed! 🙃');
+          this.isPostUpdated.emit({ updated: true });
+        }
+      });
   }
 }
