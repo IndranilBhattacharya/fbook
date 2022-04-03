@@ -6,6 +6,7 @@ import {
   OnInit,
   Renderer2,
 } from '@angular/core';
+import { Meta } from '@angular/platform-browser';
 import { NavigationEnd, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { LocalStorage, SessionStorageService } from 'ngx-webstorage';
@@ -51,6 +52,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
   toasticonLibrary$!: Observable<'material' | 'font-awesome' | 'none'>;
 
   constructor(
+    private meta: Meta,
     private router: Router,
     private renderer: Renderer2,
     public location: Location,
@@ -61,6 +63,14 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.meta.updateTag({
+      name: 'description',
+      content: `FBook is a prototype developed in angular to replicate very basic functionalities of any social media platform. 
+        I, Indranil Bhattacharya, developed this app just to experiment with different technologies and UI toolkit available out there such as Tailwind, SCSS etc. 
+        with some advanced features provided by Angular such as PWA and Angular Universal for server side rendering. 
+        This is a personal project and not for any commercial use. Please enjoy the app!. 
+        ~ Made with ❤️ in Angular`,
+    });
     this.fetchToastConfig();
     this.fetchUserDetail();
     this.observeInterceptor();
