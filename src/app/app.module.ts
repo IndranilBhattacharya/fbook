@@ -13,6 +13,7 @@ import { NgxWebstorageModule } from 'ngx-webstorage';
 import { QuillModule } from 'ngx-quill';
 import { quillConfiguration } from './constants/quill.config';
 import { TooltipModule } from 'ng2-tooltip-directive';
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -77,6 +78,10 @@ import { SharedComponentsModule } from './middlewares/shared-components/shared-c
     RemixIconModule.configure(iconsConfig),
     QuillModule.forRoot(quillConfiguration),
     TooltipModule.forRoot(defaultToolTipConfig),
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: environment.production,
+      registrationStrategy: 'registerWhenStable:30000',
+    }),
   ],
   providers: [
     ToastService,
