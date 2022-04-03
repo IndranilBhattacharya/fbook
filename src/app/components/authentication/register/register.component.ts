@@ -127,7 +127,6 @@ export class RegisterComponent implements OnInit, OnDestroy {
       !this.showSaveSpinner &&
       this.userProfileData
     ) {
-      console.log(this.registrationGroup.value);
       const profilePayload = { ...this.registrationGroup.value };
       delete profilePayload.password;
       this.showSaveSpinner = true;

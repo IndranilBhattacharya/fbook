@@ -42,7 +42,6 @@ export class UserDataService {
   }
 
   updateUserData(payload: UserDetail, userId: string) {
-    console.log(payload);
     const url = `${environment.serviceUrl}users/${userId}`;
     return this._http.put<{}>(url, payload);
   }
