@@ -31,7 +31,7 @@ import { Component } from '@angular/core';
   styles: [
     `
       ::ng-deep app-post-loading-placeholder {
-        @apply w-full h-full;
+        @apply w-full;
       }
     `,
   ],
